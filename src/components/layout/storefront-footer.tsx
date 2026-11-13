@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl";
+import { CurrentYear } from "./current-year";
 
 export function StorefrontFooter() {
   const t = useTranslations("Storefront");
-  const year = new Date().getFullYear();
 
   return (
     <footer className="mt-20 border-t border-border bg-card">
@@ -27,7 +27,7 @@ export function StorefrontFooter() {
         </nav>
 
         <div className="border-t border-border pt-5 text-xs text-muted-foreground md:col-span-2">
-          © {year} {t("brand")}. {t("copyright")}
+          © <CurrentYear /> {t("brand")}. {t("copyright")}
         </div>
       </div>
     </footer>
