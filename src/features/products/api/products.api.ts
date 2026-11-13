@@ -27,6 +27,22 @@ export const productsApi = {
     return data.data;
   },
 
+  async getProductsByCategory(
+    categoryId: string,
+    filters: ProductFilters,
+    locale: string = "en",
+  ): Promise<ProductListResponse> {
+    const { data } = await api.get<ApiResponse<ProductListResponse>>(
+      `/products/category/${categoryId}`,
+      {
+        params: filters,
+        headers: { "Accept-Language": locale },
+      },
+    );
+
+    return data.data;
+  },
+
   async getProduct(productId: string, locale: string = "en"): Promise<Product> {
     const { data } = await api.get<ApiResponse<{ product: Product }>>(
       `/products/${productId}`,
