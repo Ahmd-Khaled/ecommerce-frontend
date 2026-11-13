@@ -1,6 +1,31 @@
 {
+  "Storefront": {
+    "brand": "Storefront",
+    "home": "Home",
+    "categories": "Categories",
+    "products": "Products",
+    "footerDescription": "Discover useful products, thoughtful collections and everyday essentials in one convenient place.",
+    "copyright": "All rights reserved."
+  },
   "Home": {
     "title": "Welcome to our store",
-    "description": "Our website is coming soon."
+    "description": "Discover our latest products and offers.",
+    "bannerAlt": "Store promotion",
+    "bannerEyebrow": "A better way to shop",
+    "bannerTitle": "Find something you'll love",
+    "explore": "Explore collection",
+    "categoriesTitle": "Shop by category",
+    "latestTitle": "New arrivals",
+    "offersTitle": "Special offers",
+    "bestSellersTitle": "Best sellers",
+    "bestDealEyebrow": "Featured offer",
+    "dealPrice": "Now",
+    "shopDeal": "Shop this deal",
+    "viewAll": "View all",
+    "items": "items",
+    "off": "OFF",
+    "errorTitle": "We couldn't load the store",
+    "errorDescription": "Please check your connection and try again.",
+    "retry": "Try again"
   }
 }
