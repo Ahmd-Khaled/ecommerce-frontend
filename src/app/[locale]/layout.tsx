@@ -7,6 +7,10 @@ import { notFound } from "next/navigation";
 import { Alexandria } from "next/font/google";
 import "../globals.css";
 
+// Locale params are required to render the document-level lang and dir attributes.
+// This route is allowed to resolve them before responding.
+export const instant = false;
+
 export const metadata: Metadata = {
   title: {
     default: "E-commerce Store",
