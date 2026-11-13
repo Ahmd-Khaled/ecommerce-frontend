@@ -1,6 +1,31 @@
 {
+  "Storefront": {
+    "brand": "متجرنا",
+    "home": "الرئيسية",
+    "categories": "التصنيفات",
+    "products": "المنتجات",
+    "footerDescription": "اكتشف منتجات مختارة ومستلزماتك اليومية في مكان واحد.",
+    "copyright": "جميع الحقوق محفوظة."
+  },
   "Home": {
-    "title": "Title",
-    "description": "Description"
+    "title": "مرحباً بك في متجرنا",
+    "description": "اكتشف أحدث المنتجات والعروض.",
+    "bannerAlt": "عرض المتجر",
+    "bannerEyebrow": "تجربة تسوق أفضل",
+    "bannerTitle": "اكتشف ما يناسبك",
+    "explore": "اكتشف المجموعة",
+    "categoriesTitle": "تسوق حسب التصنيف",
+    "latestTitle": "وصل حديثاً",
+    "offersTitle": "عروض مميزة",
+    "bestSellersTitle": "الأكثر مبيعاً",
+    "bestDealEyebrow": "عرض مميز",
+    "dealPrice": "السعر الآن",
+    "shopDeal": "تسوق العرض",
+    "viewAll": "عرض الكل",
+    "items": "منتجات",
+    "off": "خصم",
+    "errorTitle": "تعذر تحميل المتجر",
+    "errorDescription": "يرجى التحقق من الاتصال بالإنترنت والمحاولة مرة أخرى.",
+    "retry": "إعادة المحاولة"
   }
 }
