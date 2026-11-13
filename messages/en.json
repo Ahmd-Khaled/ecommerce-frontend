@@ -26,6 +26,8 @@
     "off": "OFF",
     "errorTitle": "We couldn't load the store",
     "errorDescription": "Please check your connection and try again.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "emptyTitle": "Our store is getting ready",
+    "emptyDescription": "There are no products or collections to show right now. Please check back soon."
   }
 }
