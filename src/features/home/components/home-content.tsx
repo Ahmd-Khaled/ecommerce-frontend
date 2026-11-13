@@ -260,8 +260,27 @@ export function HomeContent() {
     );
   }
 
+  const hasStoreContent =
+    data.banners.length > 0 ||
+    data.categories.length > 0 ||
+    data.latestProducts.length > 0 ||
+    data.bestOffers.length > 0 ||
+    data.bestSellers.length > 0 ||
+    data.bestDeal !== null;
+
   return (
     <main id="home" className="mx-auto w-full max-w-7xl space-y-12 px-4 py-7 sm:space-y-16 sm:px-6 sm:py-10 lg:px-8">
+      {!hasStoreContent ? (
+        <section className="flex min-h-[45vh] flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 px-6 py-14 text-center">
+          <span className="flex size-16 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+            <PackageOpen className="size-8" />
+          </span>
+          <h1 className="mt-5 text-xl font-bold">{t("emptyTitle")}</h1>
+          <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+            {t("emptyDescription")}
+          </p>
+        </section>
+      ) : null}
       {data.banners[0] ? <Banner banner={data.banners[0]} /> : null}
 
       {data.categories.length > 0 ? (
