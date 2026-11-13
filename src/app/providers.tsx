@@ -3,6 +3,7 @@
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { useLocale } from "next-intl";
+import { useTheme } from "next-themes";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 
@@ -12,6 +13,10 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   const locale = useLocale();
+  const { theme } = useTheme();
+
+  const toasterTheme =
+    theme === "light" || theme === "dark" ? theme : "system";
 
   return (
     <ThemeProvider>
@@ -20,7 +25,7 @@ export function Providers({ children }: ProvidersProps) {
         <Toaster
           position={locale === "ar" ? "top-left" : "top-right"}
           dir={locale === "ar" ? "rtl" : "ltr"}
-          theme="system"
+          theme={toasterTheme}
           closeButton
           richColors
           duration={4000}
