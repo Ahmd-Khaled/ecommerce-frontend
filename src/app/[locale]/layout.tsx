@@ -5,7 +5,7 @@ import { getMessages } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Alexandria } from "next/font/google";
-import "./../globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: {
