@@ -2,8 +2,25 @@ import { Providers } from "@/app/providers";
 import { routing } from "@/i18n/routing";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { Alexandria } from "next/font/google";
+import "./../globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "E-commerce Store",
+    template: "%s | E-commerce Store",
+  },
+  description: "Online storefront",
+};
+
+const alexandria = Alexandria({
+  subsets: ["arabic", "latin"],
+  display: "swap",
+  variable: "--font-alexandria",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -20,17 +37,6 @@ export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
-  return (
-    <Suspense fallback={null}>
-      <LocaleContent params={params}>{children}</LocaleContent>
-    </Suspense>
-  );
-}
-
-async function LocaleContent({
-  children,
-  params,
-}: LocaleLayoutProps) {
   const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
@@ -38,26 +44,15 @@ async function LocaleContent({
   }
 
   const direction = locale === "ar" ? "rtl" : "ltr";
-
-  return (
-    <div lang={locale} dir={direction}>
-      <LocaleProviders locale={locale}>{children}</LocaleProviders>
-    </div>
-  );
-}
-
-async function LocaleProviders({
-  children,
-  locale,
-}: {
-  children: React.ReactNode;
-  locale: string;
-}) {
   const messages = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <Providers>{children}</Providers>
-    </NextIntlClientProvider>
+    <html lang={locale} dir={direction} suppressHydrationWarning>
+      <body className={alexandria.variable} suppressHydrationWarning>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }
