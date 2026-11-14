@@ -62,7 +62,7 @@ function BannerCarouselSlider({ banners }: { banners: HomepageBanner[] }) {
           const isActive = index === activeIndex;
           const slide = (
             <>
-              <Image
+              <ImageWithSkeleton
                 src={banner.image}
                 alt={banner.altText || banner.title || t("bannerAlt")}
                 fill
