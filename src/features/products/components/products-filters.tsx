@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 
 interface ProductsFiltersProps {
   locale: string;
+  maxPriceLimit: number;
   labels: {
     filters: string; searchLabel: string; searchPlaceholder: string;
     minPrice: string; maxPrice: string; sortBy: string; newest: string;
@@ -19,8 +20,6 @@ interface ProductsFiltersProps {
   };
 }
 
-const DEFAULT_PRICE_CEILING = 1_000_000;
-
 function getInitialPrice(value: string | undefined, fallback: number) {
   if (value === undefined || value.trim() === "") return fallback;
   const parsed = Number(value);
@@ -28,11 +27,11 @@ function getInitialPrice(value: string | undefined, fallback: number) {
 }
 
 function FilterForm({
-  locale, labels, values, onClose, onApplied,
+  locale, maxPriceLimit, labels, values, onClose, onApplied,
 }: ProductsFiltersProps & { onClose?: () => void; onApplied?: () => void }) {
   const initialMin = getInitialPrice(values.minPrice, 0);
-  const initialMax = getInitialPrice(values.maxPrice, DEFAULT_PRICE_CEILING);
-  const sliderMax = Math.max(DEFAULT_PRICE_CEILING, initialMin, initialMax);
+  const initialMax = getInitialPrice(values.maxPrice, maxPriceLimit);
+  const sliderMax = Math.max(1, maxPriceLimit, initialMin, initialMax);
   const [minPrice, setMinPrice] = useState(Math.min(initialMin, sliderMax));
   const [maxPrice, setMaxPrice] = useState(Math.min(initialMax, sliderMax));
   const safeMaxPrice = Math.max(minPrice, maxPrice);
@@ -159,7 +158,7 @@ function FilterForm({
   );
 }
 
-export function ProductsFilters({ locale, labels, values }: ProductsFiltersProps) {
+export function ProductsFilters({ locale, maxPriceLimit, labels, values }: ProductsFiltersProps) {
   const [isOpen, setIsOpen] = useState(false);
   const hasActiveFilters = Boolean(values.search || values.minPrice || values.maxPrice ||
     values.sortBy !== "createdAt" || values.sortOrder !== "desc");
@@ -182,7 +181,7 @@ export function ProductsFilters({ locale, labels, values }: ProductsFiltersProps
       </div>
 
       <aside className="hidden rounded-2xl border border-border/80 bg-card p-4 shadow-sm shadow-black/[0.025] lg:sticky lg:top-24 lg:block lg:p-5">
-        <FilterForm locale={locale} labels={labels} values={values} />
+        <FilterForm locale={locale} maxPriceLimit={maxPriceLimit} labels={labels} values={values} />
       </aside>
 
       {isOpen ? (
@@ -192,7 +191,7 @@ export function ProductsFilters({ locale, labels, values }: ProductsFiltersProps
           <aside id="mobile-catalog-filter-panel" role="dialog" aria-modal="true"
             aria-label={labels.filters}
             className="absolute inset-y-0 start-0 z-10 w-[min(88vw,380px)] overflow-y-auto border-e border-border bg-card p-5 shadow-2xl">
-            <FilterForm locale={locale} labels={labels} values={values}
+            <FilterForm locale={locale} maxPriceLimit={maxPriceLimit} labels={labels} values={values}
               onClose={() => setIsOpen(false)} onApplied={() => setIsOpen(false)} />
           </aside>
         </div>
