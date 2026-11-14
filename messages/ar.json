@@ -19,7 +19,16 @@
     "searchComingSoon": "البحث في المتجر سيكون متاحاً قريباً",
     "wishlistComingSoon": "قائمة المفضلة ستكون متاحة قريباً",
     "accountComingSoon": "حسابات العملاء ستكون متاحة قريباً",
-    "cartComingSoon": "سلة التسوق ستكون متاحة قريباً"
+    "cartComingSoon": "سلة التسوق ستكون متاحة قريباً",
+    "footerExploreTitle": "استكشف المتجر",
+    "footerShoppingTitle": "تسوق بكل ثقة",
+    "footerHelpTitle": "نحن هنا لمساعدتك",
+    "footerDelivery": "معلومات التوصيل",
+    "footerPayment": "طرق الدفع",
+    "footerReturns": "الاستبدال والدعم",
+    "footerSupport": "خدمة العملاء",
+    "footerHelpDescription": "تصفح مجموعاتنا واكتشف منتجات مختارة لتجعل تجربة التسوق اليومية أسهل.",
+    "backToTop": "العودة إلى الأعلى"
   },
   "Home": {
     "title": "مرحباً بك في متجرنا",
