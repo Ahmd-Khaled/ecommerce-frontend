@@ -28,7 +28,8 @@
     "footerReturns": "الاستبدال والدعم",
     "footerSupport": "خدمة العملاء",
     "footerHelpDescription": "تصفح مجموعاتنا واكتشف منتجات مختارة لتجعل تجربة التسوق اليومية أسهل.",
-    "backToTop": "العودة إلى الأعلى"
+    "backToTop": "العودة إلى الأعلى",
+    "login": "تسجيل الدخول"
   },
   "Home": {
     "title": "مرحباً بك في متجرنا",
@@ -201,6 +202,13 @@
     "signOutAllSuccess": "تم تسجيل الخروج من جميع الأجهزة.",
     "accountLoading": "جارٍ تحميل حسابك...",
     "accountSessionExpired": "جلستك غير نشطة. يرجى تسجيل الدخول.",
-    "accountEyebrow": "حساب العميل"
+    "accountEyebrow": "حساب العميل",
+    "invalidOtpLength": "أدخل أرقام رمز التأكيد الستة كاملة.",
+    "passwordGenerator": "إنشاء كلمة مرور قوية",
+    "generatePassword": "إنشاء كلمة مرور",
+    "copyPassword": "نسخ كلمة المرور",
+    "passwordCopied": "تم نسخ كلمة المرور.",
+    "copyPasswordFailed": "تعذر نسخ كلمة المرور. يرجى نسخها يدوياً.",
+    "passwordGeneratorHint": "أنشئ كلمة مرور قوية وفريدة وسيتم وضعها في حقلي كلمة المرور والتأكيد."
   }
 }
