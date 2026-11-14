@@ -169,15 +169,17 @@ export function ProductGallery({
                 </>
               ) : null}
 
-              <button
-                type="button"
-                onClick={openZoom}
-                aria-label={labels.zoom}
-                className="absolute bottom-3 start-3 inline-flex h-10 items-center gap-2 rounded-full border border-border/70 bg-background/95 px-3 text-xs font-semibold text-foreground shadow-sm backdrop-blur transition hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <ZoomIn className="size-4" />
-                <span className="hidden sm:inline">{labels.zoom}</span>
-              </button>
+              {activeImage ? (
+                <button
+                  type="button"
+                  onClick={openZoom}
+                  aria-label={labels.zoom}
+                  className="absolute bottom-3 start-3 inline-flex h-10 items-center gap-2 rounded-full border border-border/70 bg-background/95 px-3 text-xs font-semibold text-foreground shadow-sm backdrop-blur transition hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <ZoomIn className="size-4" />
+                  <span className="hidden sm:inline">{labels.zoom}</span>
+                </button>
+              ) : null}
 
               {galleryImages.length > 1 ? (
                 <span className="absolute bottom-3 end-3 rounded-full border border-border/60 bg-background/90 px-3 py-1.5 text-[11px] font-semibold tabular-nums text-foreground shadow-sm backdrop-blur">
