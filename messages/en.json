@@ -19,7 +19,16 @@
     "searchComingSoon": "Store search is coming soon",
     "wishlistComingSoon": "Your wishlist is coming soon",
     "accountComingSoon": "Customer accounts are coming soon",
-    "cartComingSoon": "Your shopping bag is coming soon"
+    "cartComingSoon": "Your shopping bag is coming soon",
+    "footerExploreTitle": "Explore the store",
+    "footerShoppingTitle": "Shopping with confidence",
+    "footerHelpTitle": "We're here to help",
+    "footerDelivery": "Delivery information",
+    "footerPayment": "Payment options",
+    "footerReturns": "Returns & support",
+    "footerSupport": "Customer care",
+    "footerHelpDescription": "Explore our collections and discover products selected to make everyday shopping easier.",
+    "backToTop": "Back to top"
   },
   "Home": {
     "title": "Welcome to our store",
