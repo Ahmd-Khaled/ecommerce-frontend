@@ -31,7 +31,7 @@ export function LoginPage() {
       toast.success(t("loginSuccess"));
       const requestedPath = new URLSearchParams(window.location.search).get("redirect");
       const safeRedirect =
-        requestedPath && requestedPath.startsWith("/") && !requestedPath.startsWith("//")
+        requestedPath && requestedPath.startsWith("/") && !requestedPath.startsWith("//") && !requestedPath.includes("\\")
           ? requestedPath
           : "/";
       router.replace(safeRedirect as never);
