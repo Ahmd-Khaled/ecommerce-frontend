@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import {
   Heart,
   Languages,
+  LogIn,
   Menu,
   Moon,
   Search,
@@ -166,9 +167,9 @@ export function StorefrontHeader() {
               title={t("account")}
               className="hidden size-10 rounded-xl sm:inline-flex"
             >
-              <UserRound className="size-[18px]" />
+              {isAuthenticated ? <UserRound className="size-[18px]" /> : <LogIn className="size-[18px]" />}
             </Button>
-            <Button
+            {isAuthenticated ? <Button
               type="button"
               variant="ghost"
               size="icon"
@@ -178,7 +179,7 @@ export function StorefrontHeader() {
               className="relative size-10 rounded-xl"
             >
               <ShoppingBag className="size-[18px]" />
-            </Button>
+            </Button> : null}
             <span className="mx-1 hidden h-6 w-px bg-border sm:block" />
             <Button
               type="button"
@@ -254,7 +255,7 @@ export function StorefrontHeader() {
                 disabled={status === "loading"}
                 className="rounded-xl"
               >
-                <UserRound /> {t("account")}
+                {isAuthenticated ? <UserRound /> : <LogIn />} {isAuthenticated ? t("account") : t("login")}
               </Button>
             </div>
 
