@@ -211,5 +211,31 @@
     "copyPasswordFailed": "Unable to copy the password. Please copy it manually.",
     "passwordGeneratorHint": "Generate a unique, complex password and use it for both password fields.",
     "resendCountdown": "Resend code in {seconds}s"
+  },
+  "Cart": {
+    "eyebrow": "Your basket",
+    "title": "Shopping cart",
+    "itemCount": "{count, plural, one {# item} other {# items}}",
+    "loading": "Loading your cart...",
+    "loadError": "We couldn't load your cart",
+    "loadErrorDescription": "Please check your connection and try again.",
+    "retry": "Try again",
+    "emptyTitle": "Your cart is empty",
+    "emptyDescription": "Discover products you love and add them to your cart.",
+    "continueShopping": "Continue shopping",
+    "summary": "Order summary",
+    "subtotal": "Subtotal",
+    "shippingNote": "Shipping and any applicable fees are calculated during checkout.",
+    "checkoutComingSoon": "Checkout is coming soon",
+    "clearCart": "Clear cart",
+    "removeItem": "Remove item",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "unavailable": "Currently unavailable",
+    "unavailableProduct": "Unavailable product",
+    "noImage": "No image",
+    "itemRemoved": "Item removed from your cart.",
+    "cartCleared": "Your cart has been cleared.",
+    "added": "Product added to your cart."
   }
 }
