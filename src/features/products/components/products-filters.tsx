@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 
-const PRICE_FILTER_MAX = 250_000;
+const PRICE_SLIDER_MAX = 100_000;
 
 interface ProductsFiltersProps {
   locale: string;
@@ -47,9 +47,7 @@ interface ProductsFiltersProps {
 function parsePrice(value: string | undefined, fallback: number) {
   if (value === undefined || value.trim() === "") return fallback;
   const parsed = Number(value);
-  return Number.isFinite(parsed)
-    ? Math.min(PRICE_FILTER_MAX, Math.max(0, parsed))
-    : fallback;
+  return Number.isFinite(parsed) ? Math.max(0, parsed) : fallback;
 }
 
 interface FilterFormProps extends ProductsFiltersProps {
@@ -74,23 +72,29 @@ function FilterForm({
 
   const normalizedMin = Math.min(minPrice, maxPrice);
   const normalizedMax = Math.max(minPrice, maxPrice);
+  const sliderMin = Math.min(normalizedMin, PRICE_SLIDER_MAX);
+  const sliderMax = Math.min(normalizedMax, PRICE_SLIDER_MAX);
   const numberFormat = new Intl.NumberFormat(locale, {
     maximumFractionDigits: 2,
   });
 
   function updateMinPrice(value: string) {
-    const nextValue = Math.min(
-      PRICE_FILTER_MAX,
-      Math.max(0, Number(value) || 0),
-    );
+    const parsed = Number(value);
+    if (value.trim() === "" || !Number.isFinite(parsed)) {
+      setMinPrice(0);
+      return;
+    }
+    const nextValue = Math.max(0, parsed);
     setMinPrice(Math.min(nextValue, maxPrice));
   }
 
   function updateMaxPrice(value: string) {
-    const nextValue = Math.min(
-      PRICE_FILTER_MAX,
-      Math.max(0, Number(value) || 0),
-    );
+    const parsed = Number(value);
+    if (value.trim() === "" || !Number.isFinite(parsed)) {
+      setMaxPrice(minPrice);
+      return;
+    }
+    const nextValue = Math.max(0, parsed);
     setMaxPrice(Math.max(nextValue, minPrice));
   }
 
@@ -160,7 +164,7 @@ function FilterForm({
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={PRICE_FILTER_MAX}
+                max={undefined}
                 step={1}
                 value={normalizedMin}
                 onChange={(event) => updateMinPrice(event.target.value)}
@@ -177,12 +181,12 @@ function FilterForm({
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={PRICE_FILTER_MAX}
+                max={undefined}
                 step={1}
                 value={normalizedMax}
                 onChange={(event) => updateMaxPrice(event.target.value)}
                 aria-label={labels.maxPrice}
-                placeholder={String(PRICE_FILTER_MAX)}
+                placeholder={String(PRICE_SLIDER_MAX)}
                 className="h-10 w-full min-w-0 rounded-xl border border-input bg-background px-2.5 text-xs font-semibold tabular-nums outline-none transition placeholder:text-[10px] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/25"
               />
             </label>
@@ -192,10 +196,10 @@ function FilterForm({
             aria-label={locale === "ar" ? "نطاق السعر" : "Price range"}
             dir="ltr"
             min={0}
-            max={PRICE_FILTER_MAX}
+            max={undefined}
             step={1}
             minStepsBetweenThumbs={0}
-            value={[normalizedMin, normalizedMax]}
+            value={[sliderMin, sliderMax]}
             onValueChange={([nextMin, nextMax]) => {
               setMinPrice(nextMin);
               setMaxPrice(nextMax);
@@ -208,13 +212,13 @@ function FilterForm({
             dir="ltr"
           >
             <span>0</span>
-            <span>{numberFormat.format(PRICE_FILTER_MAX)}</span>
+            <span>{numberFormat.format(PRICE_SLIDER_MAX)}</span>
           </div>
 
           {normalizedMin > 0 ? (
             <input type="hidden" name="minPrice" value={normalizedMin} />
           ) : null}
-          {normalizedMax < PRICE_FILTER_MAX ? (
+          {normalizedMax !== PRICE_SLIDER_MAX ? (
             <input type="hidden" name="maxPrice" value={normalizedMax} />
           ) : null}
         </section>
