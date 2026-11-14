@@ -71,7 +71,7 @@ The quantity selector is interactive and prevents selecting less than 1 or more 
 ## Localization and accessibility
 
 - Labels are in the `ProductDetails` namespace in both locale message files.
-- Dynamic image count labels use next-intl interpolation at the translation call site: `t("imageNumber", { current, total })`.
+- Dynamic image count labels are translated on the server with marker values: `t("imageNumber", { current: "{current}", total: "{total}" })`. The resulting string is serializable across the server/client boundary; the client gallery replaces the markers with the active image numbers.
 - Gallery controls have accessible labels and keyboard focus styles.
 - The zoom viewer has dialog semantics, an accessible close button, Escape handling, and live zoom percentage.
 - Arabic uses the document RTL direction from the locale layout; gallery direction remains intentional for thumbnail flow and image controls.
