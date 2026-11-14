@@ -19,9 +19,27 @@ interface ProductsFiltersProps {
   };
 }
 
+const DEFAULT_PRICE_CEILING = 1_000_000;
+
+function getInitialPrice(value: string | undefined, fallback: number) {
+  if (value === undefined || value.trim() === "") return fallback;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+}
+
 function FilterForm({
   locale, labels, values, onClose, onApplied,
 }: ProductsFiltersProps & { onClose?: () => void; onApplied?: () => void }) {
+  const initialMin = getInitialPrice(values.minPrice, 0);
+  const initialMax = getInitialPrice(values.maxPrice, DEFAULT_PRICE_CEILING);
+  const sliderMax = Math.max(DEFAULT_PRICE_CEILING, initialMin, initialMax);
+  const [minPrice, setMinPrice] = useState(Math.min(initialMin, sliderMax));
+  const [maxPrice, setMaxPrice] = useState(Math.min(initialMax, sliderMax));
+  const safeMaxPrice = Math.max(minPrice, maxPrice);
+  const minPercent = (minPrice / sliderMax) * 100;
+  const maxPercent = (safeMaxPrice / sliderMax) * 100;
+  const numberFormat = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
+
   return (
     <>
       <div className="mb-5 flex items-center justify-between gap-3">
@@ -49,26 +67,66 @@ function FilterForm({
             maxLength={150} placeholder={labels.searchPlaceholder}
             className="h-11 w-full rounded-xl border border-input bg-background px-3 text-sm outline-none transition placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/25" />
         </div>
-        <div className="space-y-3">
+
+        <div className="space-y-4">
           <div>
             <h3 className="text-xs font-semibold">{locale === "ar" ? "نطاق السعر" : "Price range"}</h3>
             <p className="mt-1 text-[11px] text-muted-foreground">
-              {locale === "ar" ? "حدد الحد الأدنى والأعلى للسعر" : "Set your preferred minimum and maximum"}
+              {locale === "ar" ? "اسحب المؤشرات لتحديد نطاق السعر" : "Drag the handles to set your price range"}
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <label className="min-w-0 space-y-1.5">
-              <span className="text-[11px] text-muted-foreground">{labels.minPrice}</span>
-              <input type="number" name="minPrice" min="0" step="any" defaultValue={values.minPrice}
-                placeholder="0" className="h-10 w-full min-w-0 rounded-xl border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/25" />
-            </label>
-            <label className="min-w-0 space-y-1.5">
-              <span className="text-[11px] text-muted-foreground">{labels.maxPrice}</span>
-              <input type="number" name="maxPrice" min="0" step="any" defaultValue={values.maxPrice}
-                placeholder="—" className="h-10 w-full min-w-0 rounded-xl border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/25" />
-            </label>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="min-w-0 rounded-xl bg-muted/60 px-3 py-2.5">
+              <span className="block text-[10px] font-medium text-muted-foreground">{labels.minPrice}</span>
+              <output className="mt-1 block truncate text-sm font-bold tabular-nums text-foreground">
+                {numberFormat.format(minPrice)}
+              </output>
+            </div>
+            <div className="min-w-0 rounded-xl bg-muted/60 px-3 py-2.5">
+              <span className="block text-[10px] font-medium text-muted-foreground">{labels.maxPrice}</span>
+              <output className="mt-1 block truncate text-sm font-bold tabular-nums text-foreground">
+                {numberFormat.format(safeMaxPrice)}
+              </output>
+            </div>
           </div>
+
+          <div className="price-range relative mx-1 h-7" dir="ltr"
+            style={{ background: `linear-gradient(to right, var(--muted) ${minPercent}%, var(--primary) ${minPercent}%, var(--primary) ${maxPercent}%, var(--muted) ${maxPercent}%)` }}>
+            <input
+              aria-label={labels.minPrice}
+              className="price-range-input"
+              type="range"
+              min={0}
+              max={sliderMax}
+              step={1}
+              value={minPrice}
+              onChange={(event) => setMinPrice(Math.min(Number(event.target.value), safeMaxPrice))}
+              style={{ zIndex: minPrice > sliderMax - sliderMax * 0.08 ? 5 : 3 }}
+            />
+            <input
+              aria-label={labels.maxPrice}
+              className="price-range-input"
+              type="range"
+              min={0}
+              max={sliderMax}
+              step={1}
+              value={safeMaxPrice}
+              onChange={(event) => setMaxPrice(Math.max(Number(event.target.value), minPrice))}
+              style={{ zIndex: 4 }}
+            />
+          </div>
+          <div className="flex justify-between text-[10px] tabular-nums text-muted-foreground" dir="ltr">
+            <span>0</span>
+            <span>{numberFormat.format(sliderMax)}</span>
+          </div>
+
+          {minPrice > 0 ? <input type="hidden" name="minPrice" value={minPrice} /> : null}
+          {safeMaxPrice < sliderMax || values.maxPrice ? (
+            <input type="hidden" name="maxPrice" value={safeMaxPrice} />
+          ) : null}
         </div>
+
         <div className="space-y-2">
           <label htmlFor="catalog-sort" className="text-xs font-semibold">{labels.sortBy}</label>
           <select id="catalog-sort" name="sortBy" defaultValue={values.sortBy}
