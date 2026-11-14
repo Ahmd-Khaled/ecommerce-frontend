@@ -8,6 +8,9 @@ function Slider({
   className,
   ...props
 }: React.ComponentProps<typeof SliderPrimitive.Root>) {
+  const thumbCount =
+    props.value?.length ?? props.defaultValue?.length ?? 1;
+
   return (
     <SliderPrimitive.Root
       data-slot="slider"
@@ -27,7 +30,7 @@ function Slider({
           className="absolute h-full rounded-full bg-primary"
         />
       </SliderPrimitive.Track>
-      {props.value?.map((_, index) => (
+      {Array.from({ length: thumbCount }, (_, index) => (
         <SliderPrimitive.Thumb
           key={index}
           data-slot="slider-thumb"
