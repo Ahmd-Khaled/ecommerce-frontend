@@ -4,6 +4,14 @@ import { useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 
 const PRICE_FILTER_MAX = 250_000;
 
@@ -178,36 +186,20 @@ function FilterForm({
             </label>
           </div>
 
-          <div
-            className="price-range relative mx-1 h-7"
+          <Slider
+            aria-label={locale === "ar" ? "نطاق السعر" : "Price range"}
             dir="ltr"
-            style={{
-              background: `linear-gradient(to right, var(--muted) ${minPercent}%, var(--primary) ${minPercent}%, var(--primary) ${maxPercent}%, var(--muted) ${maxPercent}%)`,
+            min={0}
+            max={PRICE_FILTER_MAX}
+            step={1}
+            minStepsBetweenThumbs={0}
+            value={[normalizedMin, normalizedMax]}
+            onValueChange={([nextMin, nextMax]) => {
+              setMinPrice(nextMin);
+              setMaxPrice(nextMax);
             }}
-          >
-            <input
-              aria-label={labels.minPrice}
-              className="price-range-input"
-              type="range"
-              min={0}
-              max={PRICE_FILTER_MAX}
-              step={1}
-              value={normalizedMin}
-              onChange={(event) => updateMinPrice(event.target.value)}
-              style={{ zIndex: normalizedMin > PRICE_FILTER_MAX * 0.92 ? 5 : 3 }}
-            />
-            <input
-              aria-label={labels.maxPrice}
-              className="price-range-input"
-              type="range"
-              min={0}
-              max={PRICE_FILTER_MAX}
-              step={1}
-              value={normalizedMax}
-              onChange={(event) => updateMaxPrice(event.target.value)}
-              style={{ zIndex: 4 }}
-            />
-          </div>
+            className="py-2"
+          />
 
           <div
             className="flex justify-between text-[10px] tabular-nums text-muted-foreground"
@@ -229,16 +221,20 @@ function FilterForm({
           <label htmlFor="catalog-sort" className="text-xs font-semibold">
             {labels.sortBy}
           </label>
-          <select
-            id="catalog-sort"
-            name="sortBy"
-            defaultValue={values.sortBy}
-            className="h-10 w-full rounded-xl border border-input bg-background px-3 text-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/25"
-          >
-            <option value="createdAt">{labels.newest}</option>
-            <option value="price">{labels.price}</option>
-            <option value="name">{labels.name}</option>
-          </select>
+          <Select name="sortBy" defaultValue={values.sortBy}>
+            <SelectTrigger
+              id="catalog-sort"
+              aria-label={labels.sortBy}
+              className="h-10 w-full rounded-xl px-3 text-xs"
+            >
+              <SelectValue placeholder={labels.sortBy} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="createdAt">{labels.newest}</SelectItem>
+              <SelectItem value="price">{labels.price}</SelectItem>
+              <SelectItem value="name">{labels.name}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <fieldset className="space-y-2">
