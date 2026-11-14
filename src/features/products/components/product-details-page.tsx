@@ -197,7 +197,6 @@ export default async function ProductDetailsPage({
                 increaseQuantity: t("increaseQuantity"),
                 addToCart: t("addToCart"),
                 buyNow: t("buyNow"),
-                cartComingSoon: t("cartComingSoon"),
                 checkoutComingSoon: t("checkoutComingSoon"),
                 unavailable: t("outOfStock"),
               }}
