@@ -32,11 +32,6 @@ export const authApi = {
     return data;
   },
 
-  refresh: async () => {
-    const { data } = await api.post<AuthResponse>("/auth/refresh-token");
-    return data;
-  },
-
   profile: async () => {
     const { data } = await api.get<ProfileResponse>("/auth/profile");
     return data;
