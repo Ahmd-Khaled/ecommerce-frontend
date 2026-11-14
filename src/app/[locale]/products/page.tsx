@@ -78,6 +78,12 @@ export default async function ProductsPage({
   const search = firstSearchValue(currentSearchParams.search);
   const minPrice = firstSearchValue(currentSearchParams.minPrice);
   const maxPrice = firstSearchValue(currentSearchParams.maxPrice);
+  const invalidPriceRange =
+    minPrice !== undefined &&
+    minPrice.trim() !== "" &&
+    maxPrice !== undefined &&
+    maxPrice.trim() !== "" &&
+    Number(minPrice) > Number(maxPrice);
   const sortBy = firstSearchValue(currentSearchParams.sortBy) ?? "createdAt";
   const sortOrder = firstSearchValue(currentSearchParams.sortOrder) ?? "desc";
 
@@ -193,6 +199,12 @@ export default async function ProductsPage({
           </Button>
         </div>
       </form>
+
+      {invalidPriceRange ? (
+        <p role="alert" className="-mt-4 mb-6 text-sm font-medium text-destructive">
+          {t("invalidPriceRange")}
+        </p>
+      ) : null}
 
       {products.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
