@@ -44,11 +44,14 @@ All requests use the shared Axios instance at `src/lib/api/axios.ts`, whose base
 
 ## Localization
 
-All authentication UI strings are stored in the `Auth` namespace in `messages/en.json` and `messages/ar.json`. The shared Axios client receives the active locale through `Accept-Language`.
+All authentication UI strings are stored in the `Auth` namespace in `messages/en.json` and `messages/ar.json`. The header also uses the localized `Storefront.login` label for signed-out customers. The shared Axios client receives the active locale through `Accept-Language`.
 
 ## Important behavior
 
 - Registration does not automatically sign the customer in. The backend requires email confirmation before login.
+- The verification page asks the customer to enter their email directly; the registration redirect does not expose the email in the URL.
+- Email verification and password reset use a six-box numeric OTP input. Pasting a six-digit code fills the boxes automatically, and keyboard navigation supports arrow keys and backspace.
+- Registration and password reset include a secure random password generator. Generating a password fills both password fields; the generated value can also be copied with the copy control.
 - The verification page supports resending the code; the backend enforces its own cooldown and hourly limits.
 - Forgot-password success is intentionally generic to avoid revealing whether an email address belongs to an account.
 - Signing out from the current device and signing out from all devices use separate backend endpoints.
