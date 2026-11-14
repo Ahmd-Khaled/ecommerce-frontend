@@ -68,13 +68,15 @@ function buildFilters(params: CatalogSearchParams): ProductFilters {
   const search = firstValue(params.search)?.trim().slice(0, 150);
   const minPrice = parseNonNegativeNumber(firstValue(params.minPrice));
   const maxPrice = parseNonNegativeNumber(firstValue(params.maxPrice));
+  const validPriceRange =
+    minPrice === undefined || maxPrice === undefined || minPrice <= maxPrice;
 
   return {
     page: parsePositiveInteger(firstValue(params.page), 1),
     limit: DEFAULT_PAGE_SIZE,
     ...(search ? { search } : {}),
-    ...(minPrice !== undefined ? { minPrice } : {}),
-    ...(maxPrice !== undefined ? { maxPrice } : {}),
+    ...(validPriceRange && minPrice !== undefined ? { minPrice } : {}),
+    ...(validPriceRange && maxPrice !== undefined ? { maxPrice } : {}),
     sortBy,
     sortOrder,
   };
