@@ -134,7 +134,7 @@ export function ProductCard({
           ) : null}
         </div>
 
-        <div className="mt-auto grid grid-cols-[1fr_auto] gap-2 pt-3">
+        <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
           <Button
             type="button"
             size="sm"
@@ -147,15 +147,16 @@ export function ProductCard({
           </Button>
           <Button
             type="button"
-            size="icon"
+            size="sm"
             variant="outline"
             onClick={handleBuyNow}
             disabled={!isAvailable}
             aria-label={locale === "ar" ? "اشتر الآن" : "Buy now"}
             title={locale === "ar" ? "اشتر الآن" : "Buy now"}
-            className="size-9 rounded-xl sm:size-10"
+            className="h-9 min-w-0 gap-1.5 rounded-xl px-2 text-[11px] font-semibold sm:h-10 sm:gap-2 sm:px-3 sm:text-xs"
           >
-            <Zap className="size-4" />
+            <Zap className="size-3.5 shrink-0" />
+            <span className="truncate">{locale === "ar" ? "اشتر الآن" : "Buy now"}</span>
           </Button>
         </div>
 
