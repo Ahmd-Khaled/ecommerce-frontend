@@ -68,7 +68,7 @@ export function StorefrontHeader() {
               type="button"
               variant="ghost"
               size="icon"
-              className="size-10 shrink-0 rounded-xl md:hidden"
+              className="size-10 shrink-0 rounded-xl lg:hidden"
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-label={mobileMenuOpen ? t("closeMenu") : t("openMenu")}
               aria-expanded={mobileMenuOpen}
@@ -156,7 +156,6 @@ export function StorefrontHeader() {
               className="relative size-10 rounded-xl"
             >
               <ShoppingBag className="size-[18px]" />
-              <span className="absolute end-1 top-1 size-2 rounded-full bg-primary ring-2 ring-background" />
             </Button>
             <span className="mx-1 hidden h-6 w-px bg-border sm:block" />
             <Button
@@ -185,7 +184,7 @@ export function StorefrontHeader() {
         </div>
 
         {mobileMenuOpen ? (
-          <div className="border-t border-border bg-background px-4 py-4 shadow-xl md:hidden">
+          <div className="border-t border-border bg-background px-4 py-4 shadow-xl lg:hidden">
             <form onSubmit={handleSearch} className="mb-4 flex h-11 items-center gap-2 rounded-xl border border-border bg-muted/60 px-3">
               <Search className="size-4 shrink-0 text-muted-foreground" />
               <input
