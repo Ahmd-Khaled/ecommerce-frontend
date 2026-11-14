@@ -113,5 +113,27 @@
     "invalidPriceRange": "يجب ألا يكون الحد الأدنى للسعر أكبر من الحد الأقصى.",
     "filters": "الفلاتر",
     "closeFilters": "إغلاق الفلاتر"
+  },
+  "ProductDetails": {
+    "breadcrumbLabel": "مسار التنقل",
+    "home": "الرئيسية",
+    "allProducts": "جميع المنتجات",
+    "productImages": "صور المنتج",
+    "previousImage": "الصورة السابقة",
+    "nextImage": "الصورة التالية",
+    "imageNumber": "الصورة {current} من {total}",
+    "discount": "خصم {percentage}%",
+    "sku": "رمز المنتج",
+    "availability": "التوفر",
+    "inStock": "متوفر بالمخزون",
+    "outOfStock": "غير متوفر",
+    "description": "وصف المنتج",
+    "quantity": "الكمية",
+    "decreaseQuantity": "تقليل الكمية",
+    "increaseQuantity": "زيادة الكمية",
+    "addToCart": "أضف إلى السلة",
+    "buyNow": "اشتر الآن",
+    "cartComingSoon": "ميزة سلة التسوق قيد التجهيز",
+    "checkoutComingSoon": "إتمام الشراء سيكون متاحاً قريباً"
   }
 }
