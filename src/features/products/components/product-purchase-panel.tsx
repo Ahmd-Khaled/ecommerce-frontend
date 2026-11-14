@@ -59,9 +59,15 @@ export function ProductPurchasePanel({ locale, productId, slug, stock, labels }:
     if (!Number.isSafeInteger(requestedQuantity) || requestedQuantity < 1) return;
 
     handledIntent.current = true;
-    void addItem.mutateAsync({ productId, quantity: Math.min(requestedQuantity, stock) })
+    window.history.replaceState(window.history.state, "", window.location.pathname);
+
+    if (stock < 1) {
+      toast.error(labels.unavailable);
+      return;
+    }
+
+    void addItem.mutateAsync({ productId, quantity: requestedQuantity })
       .then(() => {
-        window.history.replaceState(window.history.state, "", window.location.pathname);
         toast.success(t("added"));
       })
       .catch((error: unknown) => toast.error(apiErrorMessage(error)));
