@@ -1,0 +1,55 @@
+# Customer Authentication
+
+The storefront customer authentication feature is implemented under `src/features/auth`. It uses the existing backend auth routes and keeps access credentials in memory only.
+
+## Routes
+
+| Route | Purpose |
+| --- | --- |
+| `/[locale]/login` | Customer email/password login |
+| `/[locale]/register` | Customer registration |
+| `/[locale]/verify-email` | Email OTP verification and resend |
+| `/[locale]/forgot-password` | Request a password-reset OTP |
+| `/[locale]/reset-password` | Verify reset OTP and set a new password |
+| `/[locale]/account` | Current customer session and sign-out actions |
+
+Each `page.tsx` is a small route entry that imports the feature component.
+
+## Backend API
+
+All requests use the shared Axios instance at `src/lib/api/axios.ts`, whose base URL is `/api/v1`. Next.js rewrites this path to `NEXT_PUBLIC_API_URL`. Requests include credentials so the browser sends the backend's HttpOnly refresh cookie.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| POST | `/auth/register` | Create an unverified customer account |
+| POST | `/auth/confirm-email` | Confirm the email using `email` and `otp` |
+| POST | `/auth/resend-confirm-email` | Request another email confirmation code |
+| POST | `/auth/login` | Sign in using `email` and `password` |
+| POST | `/auth/refresh-token` | Rotate refresh token and issue a new access token |
+| GET | `/auth/profile` | Retrieve the authenticated customer profile |
+| POST | `/auth/logout` | Revoke the current device session |
+| POST | `/auth/logout-all` | Invalidate all customer sessions |
+| PATCH | `/auth/forgot-password` | Request a password-reset OTP |
+| PATCH | `/auth/reset-password` | Reset password using email, OTP and new password |
+
+## Token handling
+
+- The backend sets `refreshToken` as an HttpOnly cookie scoped to `/api/v1/auth`; JavaScript never reads the refresh token.
+- The login and refresh responses return an access token and the `user` token scheme. The frontend sends `Authorization: user <accessToken>`.
+- The access token is held in module memory and is not persisted in localStorage or sessionStorage.
+- On initial load, the auth provider calls the refresh endpoint and then retrieves the profile.
+- A shared refresh promise prevents simultaneous 401 responses or React Strict Mode effect replay from rotating the same refresh cookie concurrently.
+- A 401 from a protected request triggers one refresh attempt and retries that request once. Public auth endpoints and the refresh endpoint are excluded from this interceptor.
+- The auth provider exposes `user`, `status`, `login`, `register`, `logout`, `logoutAll`, and `refreshProfile` through `useAuth()`.
+
+## Localization
+
+All authentication UI strings are stored in the `Auth` namespace in `messages/en.json` and `messages/ar.json`. The shared Axios client receives the active locale through `Accept-Language`.
+
+## Important behavior
+
+- Registration does not automatically sign the customer in. The backend requires email confirmation before login.
+- The verification page supports resending the code; the backend enforces its own cooldown and hourly limits.
+- Forgot-password success is intentionally generic to avoid revealing whether an email address belongs to an account.
+- Signing out from the current device and signing out from all devices use separate backend endpoints.
+- Backend validation remains authoritative for password and OTP requirements; the frontend performs basic required-field and password-match checks only.
