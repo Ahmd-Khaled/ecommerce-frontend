@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ImageWithSkeleton } from "@/components/storefront/image-with-skeleton";
 import { ArrowLeft, ArrowRight, BadgeCheck, PackageOpen } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
