@@ -26,6 +26,8 @@ Sections:
 
 The details layout uses a single column on smaller screens and a two-column gallery/summary layout on large screens. Width constraints, wrapping, and compact mobile spacing prevent the product title, SKU, prices, and action buttons from forcing horizontal overflow.
 
+4. **Related products** — when the current product has a category ID, the page loads products from that category, excludes the current product, and displays up to four recommendations in the shared responsive product-card grid. The section is omitted when no related products are available or the related request fails.
+
 ## API fetching
 
 **API module:** `src/features/products/api/product-details.server.ts`
@@ -77,6 +79,7 @@ The quantity selector is interactive and prevents selecting less than 1 or more 
 - `src/app/[locale]/products/[slug]/page.tsx`
 - `src/app/[locale]/products/[slug]/loading.tsx`
 - `src/features/products/components/product-details-page.tsx`
+- `src/features/products/components/related-products.tsx`
 - `src/features/products/components/product-gallery.tsx`
 - `src/features/products/components/product-purchase-panel.tsx`
 - `src/features/products/components/product-details-skeleton.tsx`
