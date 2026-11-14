@@ -25,6 +25,7 @@ interface ProductCardProps {
   currency: string;
   currencyExponent: number;
   locale: string;
+  priority?: boolean;
 }
 
 export function ProductCard({
@@ -32,6 +33,7 @@ export function ProductCard({
   currency,
   currencyExponent,
   locale,
+  priority = false,
 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const image = product.images?.[0];
@@ -80,6 +82,8 @@ export function ProductCard({
               src={image}
               alt={product.name}
               fill
+              priority={priority}
+              loading={priority ? "eager" : "lazy"}
               unoptimized
               sizes="(max-width: 640px) 48vw, (max-width: 1024px) 30vw, 260px"
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
