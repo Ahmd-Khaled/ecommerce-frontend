@@ -122,7 +122,7 @@ Browser requests use the same-origin `/api/v1` path. `next.config.ts` rewrites i
 The customer auth endpoints are:
 
 | Method | Endpoint | Purpose |
-|---|---| 
+|---|---|---|---|
 | POST | `/auth/register` | Register with first name, last name, email, password and confirmation |
 | POST | `/auth/confirm-email` | Confirm an email using email and OTP |
 | POST | `/auth/resend-confirm-email` | Resend the email confirmation code |
