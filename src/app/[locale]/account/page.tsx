@@ -1,5 +1,1 @@
-import { AccountPage } from "@/features/auth/components/account-page";
-
-export default function Page() {
-  return <AccountPage />;
-}
+export { AccountPage as default } from "@/features/auth/components/account-page";
