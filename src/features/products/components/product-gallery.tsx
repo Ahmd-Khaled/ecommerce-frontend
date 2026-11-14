@@ -20,7 +20,7 @@ interface ProductGalleryProps {
     imageAlt: string;
     previousImage: string;
     nextImage: string;
-    imageNumber: (current: number, total: number) => string;
+    imageNumber: string;
     zoom: string;
     closeZoom: string;
     zoomIn: string;
@@ -112,7 +112,9 @@ export function ProductGallery({
                     key={`${image}-${index}`}
                     type="button"
                     onClick={() => setActiveIndex(index)}
-                    aria-label={labels.imageNumber(index + 1, galleryImages.length)}
+                    aria-label={labels.imageNumber
+                      .replace("{current}", String(index + 1))
+                      .replace("{total}", String(galleryImages.length))}
                     aria-pressed={isActive}
                     className={`relative size-[4.25rem] shrink-0 overflow-hidden rounded-xl border bg-muted/40 transition sm:size-[4.75rem] lg:size-[4.5rem] ${isActive ? "border-primary ring-2 ring-primary/20" : "border-border/70 hover:border-primary/50"}`}
                   >
@@ -183,7 +185,9 @@ export function ProductGallery({
 
               {galleryImages.length > 1 ? (
                 <span className="absolute bottom-3 end-3 rounded-full border border-border/60 bg-background/90 px-3 py-1.5 text-[11px] font-semibold tabular-nums text-foreground shadow-sm backdrop-blur">
-                  {labels.imageNumber(activeIndex + 1, galleryImages.length)}
+                  {labels.imageNumber
+                    .replace("{current}", String(activeIndex + 1))
+                    .replace("{total}", String(galleryImages.length))}
                 </span>
               ) : null}
             </div>
