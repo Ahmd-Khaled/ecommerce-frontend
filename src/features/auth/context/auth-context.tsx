@@ -11,7 +11,7 @@ import {
 } from "react";
 import { useLocale } from "next-intl";
 
-import { api, setAccessToken } from "@/lib/api/axios";
+import { api, refreshAccessToken, setAccessToken } from "@/lib/api/axios";
 import { authApi } from "@/features/auth/api/auth.api";
 import type {
   Customer,
@@ -48,14 +48,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     async function restoreSession() {
       try {
-        const refreshResponse = await authApi.refresh();
-        const accessToken = refreshResponse.tokens?.accessToken;
+        const accessToken = await refreshAccessToken();
 
         if (!accessToken) {
-          throw new Error("The refresh response did not include an access token.");
+          throw new Error("No active customer session was found.");
         }
-
-        setAccessToken(accessToken);
 
         const profileResponse = await authApi.profile();
 
