@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PackageCheck, PackageX } from "lucide-react";
 import { ProductGallery } from "@/features/products/components/product-gallery";
+import { RelatedProducts } from "@/features/products/components/related-products";
 import { ProductPurchasePanel } from "@/features/products/components/product-purchase-panel";
 import {
   getProductBySlug,
@@ -50,7 +51,7 @@ export default async function ProductDetailsPage({
 
   if (!data) notFound();
 
-  const { product, currency, currencyExponent } = data;
+  const { product, relatedProducts, currency, currencyExponent } = data;
   const categoryName =
     typeof product.category === "object"
       ? product.category?.name
@@ -202,6 +203,15 @@ export default async function ProductDetailsPage({
           </div>
         </section>
       </div>
+
+      <RelatedProducts
+        products={relatedProducts}
+        currency={currency}
+        currencyExponent={currencyExponent}
+        locale={locale}
+        title={t("relatedProductsTitle")}
+        viewAllLabel={t("viewAllRelatedProducts")}
+      />
     </main>
   );
 }
