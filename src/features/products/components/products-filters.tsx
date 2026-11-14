@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -126,7 +127,7 @@ function FilterForm({
           <label htmlFor="catalog-search" className="text-xs font-semibold">
             {labels.searchLabel}
           </label>
-          <input
+          <Input
             id="catalog-search"
             type="search"
             name="search"
@@ -154,7 +155,7 @@ function FilterForm({
               <span className="block text-[10px] font-medium text-muted-foreground">
                 {labels.minPrice}
               </span>
-              <input
+              <Input
                 type="number"
                 inputMode="numeric"
                 min={0}
@@ -171,7 +172,7 @@ function FilterForm({
               <span className="block text-[10px] font-medium text-muted-foreground">
                 {labels.maxPrice}
               </span>
-              <input
+              <Input
                 type="number"
                 inputMode="numeric"
                 min={0}
