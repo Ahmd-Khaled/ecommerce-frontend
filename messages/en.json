@@ -28,7 +28,8 @@
     "footerReturns": "Returns & support",
     "footerSupport": "Customer care",
     "footerHelpDescription": "Explore our collections and discover products selected to make everyday shopping easier.",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "login": "Sign in"
   },
   "Home": {
     "title": "Welcome to our store",
@@ -201,6 +202,13 @@
     "signOutAllSuccess": "You have been signed out from all devices.",
     "accountLoading": "Loading your account...",
     "accountSessionExpired": "Your session is not active. Please sign in.",
-    "accountEyebrow": "Customer account"
+    "accountEyebrow": "Customer account",
+    "invalidOtpLength": "Enter all 6 digits of the verification code.",
+    "passwordGenerator": "Strong password generator",
+    "generatePassword": "Generate password",
+    "copyPassword": "Copy password",
+    "passwordCopied": "Password copied to clipboard.",
+    "copyPasswordFailed": "Unable to copy the password. Please copy it manually.",
+    "passwordGeneratorHint": "Generate a unique, complex password and use it for both password fields."
   }
 }
