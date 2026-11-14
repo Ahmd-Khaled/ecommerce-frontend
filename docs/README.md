@@ -17,7 +17,7 @@ This folder is the maintained technical guide for the public customer-facing sto
 |---|---|---|
 | `/[locale]` | Store homepage | [Homepage](pages/HOME.md) |
 | `/[locale]/products` | Product catalog, filters, and pagination | [Product catalog](pages/PRODUCT_CATALOG.md) |
-| `/[locale]/products/[slug]` | Product details, gallery, zoom, and purchase controls | [Product details](pages/PRODUCT_DETAILS.md) |
+| `/[locale]/products/[slug]` | Product details, gallery, related products, and purchase controls | [Product details](pages/PRODUCT_DETAILS.md) |
 
 The route `page.tsx` files should remain thin: import and export the feature page component. Put page composition and data orchestration in the matching feature folder.
 
