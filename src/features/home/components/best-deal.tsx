@@ -56,7 +56,7 @@ export async function BestDeal({
         </div>
 
         <Link
-          href={\`/products/\${product.slug}\`}
+          href={`/products/${product.slug}`}
           className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-bold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:shadow-xl sm:text-sm"
         >
           {t("shopDeal")}
