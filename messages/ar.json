@@ -110,6 +110,8 @@
     "page": "صفحة",
     "of": "من",
     "productCountLabel": "منتج",
-    "invalidPriceRange": "يجب ألا يكون الحد الأدنى للسعر أكبر من الحد الأقصى."
+    "invalidPriceRange": "يجب ألا يكون الحد الأدنى للسعر أكبر من الحد الأقصى.",
+    "filters": "الفلاتر",
+    "closeFilters": "إغلاق الفلاتر"
   }
 }
