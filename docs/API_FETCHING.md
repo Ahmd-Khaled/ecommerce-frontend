@@ -140,6 +140,26 @@ The auth provider restores a session by refreshing the access token and then loa
 
 The active locale is sent through `Accept-Language`. The registration redirect to `/verify-email` intentionally does not include the email address in its query string; customers enter it on the verification screen. The email verification and password-reset screens collect a six-digit OTP. See [Customer authentication](pages/AUTHENTICATION.md) for the UI routes, context API and session lifecycle.
 
+## Customer cart (authenticated browser requests)
+
+**Feature:** `src/features/cart/`
+
+The customer cart uses the shared Axios client and the following USER-only endpoints:
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/cart` | Read the current customer's cart |
+| POST | `/cart/items` | Add or increment a product line: `{ productId, quantity? }` |
+| PATCH | `/cart/items/:productId` | Set the line quantity: `{ quantity }` |
+| DELETE | `/cart/items/:productId` | Remove a product line |
+| DELETE | `/cart/clear` | Remove all cart lines |
+
+The response data contains `items`, `totalItems`, `subtotal`, `subtotalMinor`, `currency`, `currencyExponent`, and `version`. Active product lines include current product details, availability, `unitPriceMinor`, `subtotal`, and `subtotalMinor`. Deleted/inactive products remain as unavailable minimal lines with zero subtotal.
+
+Cart data is held in TanStack Query under a customer-scoped key. Successful mutations replace that customer's cached cart from the response. Cart display values remain major currency units; checkout must use the minor-unit confirmation fields and reviewed cart version. Stock checks on add/increase are advisory and do not reserve inventory.
+
+See [Customer cart](pages/CART.md) for page behavior and verification scenarios.
+
 ## Adding a new endpoint
 
 1. Confirm the endpoint, access rules, query parameters, and response envelope in the backend API documentation or implementation.
