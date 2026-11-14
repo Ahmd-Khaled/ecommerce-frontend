@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ImageWithSkeleton } from "@/components/storefront/image-with-skeleton";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
