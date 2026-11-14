@@ -1,4 +1,5 @@
 import { Providers } from "@/app/providers";
+import { StorefrontLayout } from "@/components/layout/storefront-layout";
 import { routing } from "@/i18n/routing";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -7,12 +8,16 @@ import { notFound } from "next/navigation";
 import { Alexandria } from "next/font/google";
 import "../globals.css";
 
+// Locale params are required to render the document-level lang and dir attributes.
+// This route is allowed to resolve them before responding.
+export const instant = false;
+
 export const metadata: Metadata = {
   title: {
-    default: "E-commerce Store",
-    template: "%s | E-commerce Store",
+    default: "Storefront",
+    template: "%s | Storefront",
   },
-  description: "Online storefront",
+  description: "Discover products, collections and everyday essentials.",
 };
 
 const alexandria = Alexandria({
@@ -50,7 +55,9 @@ export default async function LocaleLayout({
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <body className={alexandria.variable} suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers>{children}</Providers>
+          <Providers>
+            <StorefrontLayout>{children}</StorefrontLayout>
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>
