@@ -85,7 +85,7 @@ export function ProductCard({ product, currency, currencyExponent, locale, prior
           <span className="text-sm font-bold tracking-tight text-foreground sm:text-base">{price}</span>
           {comparePrice ? <span className="text-[11px] text-muted-foreground line-through sm:text-xs">{comparePrice}</span> : null}
         </div>
-        <div className="mt-auto grid grid-cols-2 gap-1.5 pt-3 sm:gap-2">
+        <div className="mt-auto grid grid-cols-1 gap-1.5 pt-3 min-[380px]:grid-cols-2 sm:gap-2">
           <Button type="button" size="sm" onClick={handleCart} disabled={!isAvailable} className={actionButtonClass}>
             <ShoppingBag className="size-3 shrink-0 sm:size-3.5" />
             <span className="whitespace-nowrap">{locale === "ar" ? "أضف للسلة" : "Add to cart"}</span>
