@@ -164,7 +164,6 @@ function FilterForm({
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={undefined}
                 step={1}
                 value={normalizedMin}
                 onChange={(event) => updateMinPrice(event.target.value)}
@@ -181,7 +180,6 @@ function FilterForm({
                 type="number"
                 inputMode="numeric"
                 min={0}
-                max={undefined}
                 step={1}
                 value={normalizedMax}
                 onChange={(event) => updateMaxPrice(event.target.value)}
