@@ -12,6 +12,10 @@ type ProductDetailsResponse = {
   product: Product;
 };
 
+type ProductListResponse = {
+  products: Product[];
+};
+
 type HomepageCurrency = {
   currency: string;
   currencyExponent: number;
@@ -19,6 +23,7 @@ type HomepageCurrency = {
 
 export type ProductDetailsPageData = {
   product: Product;
+  relatedProducts: Product[];
   currency: string;
   currencyExponent: number;
 };
@@ -33,7 +38,7 @@ async function request<T>(path: string, locale: string): Promise<T | null> {
 
   try {
     const response = await fetch(
-      `${apiBaseUrl.replace(/\/+$/, "")}${path}`,
+      `${apiBaseUrl.replace(/\\/+$/, "")}${path}`,
       {
         method: "GET",
         headers: {
@@ -73,19 +78,43 @@ export async function getProductBySlug(
   return data?.product ?? null;
 }
 
+async function getRelatedProducts(
+  product: Product,
+  locale: string,
+): Promise<Product[]> {
+  const categoryId =
+    typeof product.category === "string"
+      ? product.category
+      : product.category?._id;
+
+  if (!categoryId) return [];
+
+  const data = await request<ProductListResponse>(
+    `/products/category/${encodeURIComponent(categoryId)}?page=1&limit=8&sortBy=createdAt&sortOrder=desc`,
+    locale,
+  );
+
+  return (data?.products ?? [])
+    .filter((relatedProduct) => relatedProduct._id !== product._id)
+    .slice(0, 4);
+}
+
 export async function getProductDetailsPageData(
   slug: string,
   locale: string,
 ): Promise<ProductDetailsPageData | null> {
-  const [product, currencyData] = await Promise.all([
-    getProductBySlug(slug, locale),
-    request<HomepageCurrency>("/home?view=desktop&limit=1", locale),
-  ]);
+  const product = await getProductBySlug(slug, locale);
 
   if (!product) return null;
 
+  const [currencyData, relatedProducts] = await Promise.all([
+    request<HomepageCurrency>("/home?view=desktop&limit=1", locale),
+    getRelatedProducts(product, locale),
+  ]);
+
   return {
     product,
+    relatedProducts,
     currency: currencyData?.currency ?? "EGP",
     currencyExponent: currencyData?.currencyExponent ?? 2,
   };
