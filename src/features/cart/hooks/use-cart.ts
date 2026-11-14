@@ -25,27 +25,42 @@ export function useCart() {
   });
 
   function updateCache(cart: CartResponse) {
-    queryClient.setQueryData(queryKey, cart);
+    queryClient.setQueryData<CartResponse>(queryKey, (current) =>
+      !current || cart.version >= current.version ? cart : current,
+    );
   }
+
+  const cancelCartQuery = () => queryClient.cancelQueries({ queryKey });
+  const reconcileCart = () => {
+    void queryClient.invalidateQueries({ queryKey });
+  };
 
   const addItem = useMutation({
     mutationFn: (payload: AddCartItemPayload) => cartApi.addItem(payload),
+    onMutate: cancelCartQuery,
     onSuccess: updateCache,
+    onError: reconcileCart,
   });
 
   const updateItem = useMutation({
     mutationFn: (payload: UpdateCartItemPayload) => cartApi.updateItem(payload),
+    onMutate: cancelCartQuery,
     onSuccess: updateCache,
+    onError: reconcileCart,
   });
 
   const removeItem = useMutation({
     mutationFn: (productId: string) => cartApi.removeItem(productId),
+    onMutate: cancelCartQuery,
     onSuccess: updateCache,
+    onError: reconcileCart,
   });
 
   const clearCart = useMutation({
     mutationFn: cartApi.clearCart,
+    onMutate: cancelCartQuery,
     onSuccess: updateCache,
+    onError: reconcileCart,
   });
 
   return {
