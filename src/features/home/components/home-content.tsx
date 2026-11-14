@@ -428,7 +428,7 @@ export function HomeContent() {
 
       {data.banners.length > 1 ? (
         <section className="grid gap-4 sm:grid-cols-2">
-          {data.banners.slice(1, 3).map((banner, index) => {
+          {data.banners.slice(1, 3).map((banner) => {
             const promo = (
               <>
                 <Image
