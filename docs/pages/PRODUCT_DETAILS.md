@@ -64,7 +64,7 @@ Prices are formatted with `formatMajorMoney` from `src/utils/formatCurrency.ts`,
 
 ## Purchase integration status
 
-The quantity selector is interactive and prevents selecting less than 1 or more than available stock. Add-to-cart and Buy now currently display localized “coming soon” toast messages; they are placeholders until cart and checkout APIs are integrated. Do not document these controls as completing an order.
+The quantity selector is interactive and prevents selecting less than 1 or more than available stock. Add-to-cart and Buy now currently display localized “available through the authenticated cart” toast messages; they are placeholders until cart and checkout APIs are integrated. Do not document these controls as completing an order.
 
 ## Localization and accessibility
 
