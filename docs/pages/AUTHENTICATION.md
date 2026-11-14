@@ -52,7 +52,7 @@ All authentication UI strings are stored in the `Auth` namespace in `messages/en
 - The verification page asks the customer to enter their email directly; the registration redirect does not expose the email in the URL.
 - Email verification and password reset use a six-box numeric OTP input. Pasting a six-digit code fills the boxes automatically, and keyboard navigation supports arrow keys and backspace.
 - Registration and password reset include a secure random password generator. Generating a password fills both password fields; the generated value can also be copied with the copy control.
-- The verification page supports resending the code; the backend enforces its own cooldown and hourly limits.
+- The verification page shows a 60-second countdown before the resend action is enabled and restarts the countdown after a successful resend. The backend remains authoritative for cooldown and hourly rate limits.
 - Forgot-password success is intentionally generic to avoid revealing whether an email address belongs to an account.
 - Signing out from the current device and signing out from all devices use separate backend endpoints.
 - Backend validation remains authoritative for password and OTP requirements; the frontend performs basic required-field and password-match checks only.
