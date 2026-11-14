@@ -109,6 +109,7 @@
     "next": "التالي",
     "page": "صفحة",
     "of": "من",
-    "productCountLabel": "منتج"
+    "productCountLabel": "منتج",
+    "invalidPriceRange": "يجب ألا يكون الحد الأدنى للسعر أكبر من الحد الأقصى."
   }
 }
