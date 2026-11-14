@@ -137,6 +137,8 @@
     "checkoutComingSoon": "Quick checkout is coming soon",
     "fullscreen": "View full screen",
     "closeFullscreen": "Close full-screen image",
-    "thumbnails": "Product image thumbnails"
+    "thumbnails": "Product image thumbnails",
+    "relatedProductsTitle": "Related products",
+    "viewAllRelatedProducts": "View all"
   }
 }
