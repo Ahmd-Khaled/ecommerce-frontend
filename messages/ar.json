@@ -76,6 +76,7 @@
     "nextSlide": "الشريحة التالية",
     "slideNavigation": "التنقل بين الشرائح",
     "goToSlide": "انتقل إلى الشريحة {number}",
-    "slideStatus": "الشريحة {current} من {total}"
+    "slideStatus": "الشريحة {current} من {total}",
+    "shoppingBenefits": "مميزات التسوق"
   }
 }
