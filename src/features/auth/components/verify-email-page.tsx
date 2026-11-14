@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -21,6 +21,15 @@ function VerifyEmailForm() {
   const [otp, setOtp] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [resendCountdown, setResendCountdown] = useState(60);
+
+  useEffect(() => {
+    if (resendCountdown <= 0) return;
+    const timer = window.setInterval(() => {
+      setResendCountdown((current) => Math.max(0, current - 1));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [resendCountdown]);
 
   async function handleVerify(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -52,6 +61,7 @@ function VerifyEmailForm() {
 
     try {
       await authApi.resendVerification({ email: email.trim().toLowerCase() });
+      setResendCountdown(60);
       toast.success(t("resendSuccess"));
     } catch (error) {
       toast.error(apiErrorMessage(error));
@@ -88,9 +98,9 @@ function VerifyEmailForm() {
           {isVerifying ? <LoaderCircle className="size-4 animate-spin" /> : null}
           {isVerifying ? t("verifying") : t("verifyEmail")}
         </Button>
-        <Button type="button" variant="outline" disabled={isResending} onClick={handleResend} className="h-11 w-full rounded-xl">
+        <Button type="button" variant="outline" disabled={isResending || resendCountdown > 0} onClick={handleResend} className="h-11 w-full rounded-xl">
           {isResending ? <LoaderCircle className="size-4 animate-spin" /> : null}
-          {isResending ? t("sendingCode") : t("resendCode")}
+          {isResending ? t("sendingCode") : resendCountdown > 0 ? t("resendCountdown", { seconds: resendCountdown }) : t("resendCode")}
         </Button>
       </form>
     </AuthCard>
