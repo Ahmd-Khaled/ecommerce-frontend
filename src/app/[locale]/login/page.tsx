@@ -1,5 +1,1 @@
-import { LoginPage } from "@/features/auth/components/login-page";
-
-export default function Page() {
-  return <LoginPage />;
-}
+export { LoginPage as default } from "@/features/auth/components/login-page";
