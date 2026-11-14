@@ -44,6 +44,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [locale]);
 
   useEffect(() => {
+    const handleSessionExpired = () => {
+      setUser(null);
+      setStatus("unauthenticated");
+    };
+
+    window.addEventListener("storefront:session-expired", handleSessionExpired);
+
+    return () => {
+      window.removeEventListener("storefront:session-expired", handleSessionExpired);
+    };
+  }, []);
+
+  useEffect(() => {
     let active = true;
 
     async function restoreSession() {
