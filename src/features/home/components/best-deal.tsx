@@ -67,7 +67,7 @@ export async function BestDeal({
       <div className="relative min-h-52 overflow-hidden sm:min-h-[22rem]">
         <div className="absolute inset-0 bg-gradient-to-l from-transparent to-primary/[0.06]" />
         {product.images[0] ? (
-          <Image
+          <ImageWithSkeleton
             src={product.images[0]}
             alt={product.name}
             fill
