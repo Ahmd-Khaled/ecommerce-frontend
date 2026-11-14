@@ -10,7 +10,11 @@ import { TrustStrip } from "./trust-strip";
 export async function HomeContent() {
   const locale = await getLocale();
   const t = await getTranslations("Home");
-  const data = await getHomepageData(locale);
+  const [desktopData, mobileData] = await Promise.all([
+    getHomepageData(locale, "desktop"),
+    getHomepageData(locale, "mobile"),
+  ]);
+  const data = desktopData ?? mobileData;
 
   if (!data) {
     return (
@@ -57,7 +61,7 @@ export async function HomeContent() {
         </section>
       ) : null}
 
-      <BannerCarousel banners={data.banners} />
+      <BannerCarousel banners={data.banners} mobileBanners={mobileData?.banners ?? []} />
 
       <TrustStrip />
 
