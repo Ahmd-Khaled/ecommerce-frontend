@@ -59,7 +59,7 @@ export default async function ProductsPage({ params, searchParams }: ProductsPag
       <ProductsHeader eyebrow={t("eyebrow")} title={t("title")} description={t("description")}
         productCount={data.pagination.total} productCountLabel={t("productCountLabel")} />
       <div className="grid min-w-0 grid-cols-1 items-start gap-5 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-7 xl:grid-cols-[280px_minmax(0,1fr)]">
-        <ProductsFilters locale={locale} maxPriceLimit={data.maxCatalogPrice}
+        <ProductsFilters locale={locale}
           values={{ search, minPrice, maxPrice, sortBy, sortOrder }}
           labels={{
             filters: t("filters"), searchLabel: t("searchLabel"), searchPlaceholder: t("searchPlaceholder"),
