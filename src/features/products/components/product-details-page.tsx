@@ -69,13 +69,15 @@ export default async function ProductDetailsPage({
           currencyExponent,
         })
       : null;
-  const discountPercentage = comparePrice
-    ? Math.round(
-        ((product.compareAtPrice! - product.price) /
-          product.compareAtPrice!) *
-          100,
-      )
-    : 0;
+  const discountPercentage =
+    product.compareAtPrice !== undefined &&
+    product.compareAtPrice > product.price
+      ? Math.round(
+          ((product.compareAtPrice - product.price) /
+            product.compareAtPrice) *
+            100,
+        )
+      : 0;
   const isAvailable = product.stock > 0;
 
   return (
