@@ -64,7 +64,9 @@ Prices are formatted with `formatMajorMoney` from `src/utils/formatCurrency.ts`,
 
 ## Purchase integration status
 
-The quantity selector is interactive and prevents selecting less than 1 or more than available stock. Add-to-cart and Buy now currently display localized “available through the authenticated cart” toast messages; they are placeholders until cart and checkout APIs are integrated. Do not document these controls as completing an order.
+The quantity selector is interactive and prevents selecting less than 1 or more than available stock. Add-to-cart calls the authenticated cart API. Signed-out customers are redirected to login with the product ID and selected quantity preserved; after successful login, the customer returns to this product and the pending add is submitted once. Successful additions update the customer-scoped TanStack Query cart cache and show a localized confirmation. Backend validation remains authoritative for stock and quantity limits.
+
+Buy now remains a placeholder until the reviewed checkout and saved-address flow is implemented; it does not create an order or collect payment.
 
 ## Localization and accessibility
 
