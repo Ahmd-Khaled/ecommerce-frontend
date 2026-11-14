@@ -1,6 +1,6 @@
 # API fetching reference
 
-This document describes how the storefront currently retrieves public backend data. Keep it synchronized with the feature API modules.
+This document describes how the storefront retrieves public backend data and calls authenticated customer endpoints. Keep it synchronized with the feature API modules.
 
 ## Shared request contract
 
@@ -112,6 +112,33 @@ formatMajorMoney(amount, {
 ```
 
 Do not assume all currencies have two fraction digits. Do not divide major-unit prices by 100 again.
+
+## Customer authentication (browser requests)
+
+**Shared client:** `src/lib/api/axios.ts`
+
+Browser requests use the same-origin `/api/v1` path. `next.config.ts` rewrites it to the configured `NEXT_PUBLIC_API_URL`, and the Axios client uses `withCredentials: true` so the browser includes the backend-managed refresh cookie.
+
+The customer auth endpoints are:
+
+| Method | Endpoint | Purpose |
+|---|---| 
+| POST | `/auth/register` | Register with first name, last name, email, password and confirmation |
+| POST | `/auth/confirm-email` | Confirm an email using email and OTP |
+| POST | `/auth/resend-confirm-email` | Resend the email confirmation code |
+| POST | `/auth/login` | Sign in using email and password |
+| POST | `/auth/refresh-token` | Rotate the HttpOnly refresh cookie and return a new access token |
+| GET | `/auth/profile` | Read the current customer profile |
+| POST | `/auth/logout` | Revoke the current device session |
+| POST | `/auth/logout-all` | Invalidate all sessions for the customer |
+| PATCH | `/auth/forgot-password` | Request a password reset code |
+| PATCH | `/auth/reset-password` | Reset the password using email, OTP and new password |
+
+The backend expects `Authorization: user <accessToken>`. The refresh token is never exposed to JavaScript: the backend sets it as an HttpOnly cookie scoped to `/api/v1/auth`. The access token is held in module memory and is not written to localStorage or sessionStorage.
+
+The auth provider restores a session by refreshing the access token and then loading `/auth/profile`. A shared refresh promise prevents duplicate refresh-token rotation. Protected API calls that receive a 401 may refresh once and retry once; public auth endpoints and the refresh endpoint are excluded.
+
+The active locale is sent through `Accept-Language`. See [Customer authentication](pages/AUTHENTICATION.md) for the UI routes, context API and session lifecycle.
 
 ## Adding a new endpoint
 
