@@ -135,11 +135,8 @@
     "buyNow": "Buy now",
     "cartComingSoon": "Shopping cart is coming soon",
     "checkoutComingSoon": "Quick checkout is coming soon",
-    "zoom": "Zoom image",
-    "closeZoom": "Close zoom viewer",
-    "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out",
-    "resetZoom": "Reset zoom",
+    "fullscreen": "View full screen",
+    "closeFullscreen": "Close full-screen image",
     "thumbnails": "Product image thumbnails"
   }
 }
