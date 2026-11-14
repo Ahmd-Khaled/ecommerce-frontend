@@ -6,7 +6,9 @@ import { useState } from "react";
 type ImageWithSkeletonProps = {
   src: ImageProps["src"];
   alt: string;
+  fill?: true;
   sizes?: string;
+  loading?: ImageProps["loading"];
   priority?: boolean;
   unoptimized?: boolean;
   className?: string;
@@ -29,6 +31,7 @@ function ImageWithSkeletonContent({
   src,
   alt,
   sizes,
+  loading,
   priority = false,
   unoptimized = false,
   className = "object-cover",
@@ -42,6 +45,7 @@ function ImageWithSkeletonContent({
           src={src}
           alt={alt}
           fill
+          loading={loading}
           priority={priority}
           unoptimized={unoptimized}
           sizes={sizes}
