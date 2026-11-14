@@ -74,7 +74,7 @@ export default async function ProductsPage({
     );
   }
 
-  const { products, pagination, categories, currency, currencyExponent } = data;
+  const { products, pagination, currency, currencyExponent } = data;
   const search = firstSearchValue(currentSearchParams.search);
   const minPrice = firstSearchValue(currentSearchParams.minPrice);
   const maxPrice = firstSearchValue(currentSearchParams.maxPrice);
@@ -104,23 +104,6 @@ export default async function ProductsPage({
           </p>
         </div>
       </header>
-
-      {categories.length > 0 ? (
-        <nav
-          aria-label={t("browseCategories")}
-          className="mb-7 flex gap-2 overflow-x-auto pb-2"
-        >
-          {categories.map((category) => (
-            <Link
-              key={category._id}
-              href={`/categories/${category.slug}`}
-              className="shrink-0 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold transition hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
-            >
-              {category.name}
-            </Link>
-          ))}
-        </nav>
-      ) : null}
 
       <form
         method="get"
