@@ -100,7 +100,7 @@ export function ProductCard({ product, currency, currencyExponent, locale, prior
           <span className="text-sm font-bold tracking-tight text-foreground sm:text-base">{price}</span>
           {comparePrice ? <span className="text-[11px] text-muted-foreground line-through sm:text-xs">{comparePrice}</span> : null}
         </div>
-        <ProductCardActions locale={locale} isAvailable={isAvailable} isAddingToCart={addItem.isPending} onAddToCart={handleCart} onBuyNow={handleBuyNow} />
+        <ProductCardActions locale={locale} isAvailable={isAvailable} isAddingToCart={addItem.isPending} isDisabled={status === "loading"} onAddToCart={handleCart} onBuyNow={handleBuyNow} />
         <div className="mt-3 flex items-center gap-1.5 border-t border-border/70 pt-2.5 text-[10px] text-muted-foreground">
           <PackageCheck className="size-3.5 shrink-0" />
           <span>{isAvailable ? locale === "ar" ? "متوفر" : "In stock" : locale === "ar" ? "غير متوفر حالياً" : "Currently unavailable"}</span>
