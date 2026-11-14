@@ -137,6 +137,8 @@
     "checkoutComingSoon": "إتمام الشراء سيكون متاحاً قريباً",
     "fullscreen": "عرض الصورة بملء الشاشة",
     "closeFullscreen": "إغلاق عرض ملء الشاشة",
-    "thumbnails": "صور المنتج المصغرة"
+    "thumbnails": "صور المنتج المصغرة",
+    "relatedProductsTitle": "منتجات ذات صلة",
+    "viewAllRelatedProducts": "عرض الكل"
   }
 }
