@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useState, type FormEvent } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, type FormEvent } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -12,19 +11,24 @@ import { authApi } from "@/features/auth/api/auth.api";
 import { apiErrorMessage } from "@/lib/api/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { OtpInput } from "@/features/auth/components/otp-input";
 import { Link } from "@/i18n/navigation";
 
 function VerifyEmailForm() {
   const t = useTranslations("Auth");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [email, setEmail] = useState(searchParams.get("email") ?? "");
+  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
 
   async function handleVerify(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (otp.length !== 6) {
+      toast.error(t("invalidOtpLength"));
+      return;
+    }
+
     setIsVerifying(true);
 
     try {
@@ -78,7 +82,7 @@ function VerifyEmailForm() {
         </div>
         <div className="space-y-2">
           <label htmlFor="verify-otp" className="text-xs font-semibold">{t("verificationCode")}</label>
-          <Input id="verify-otp" type="text" inputMode="numeric" autoComplete="one-time-code" required maxLength={10} value={otp} onChange={(event) => setOtp(event.target.value.replace(/\s/g, ""))} placeholder={t("verificationCodePlaceholder")} className="h-12 rounded-xl text-center text-lg font-bold tracking-[0.35em]" />
+          <OtpInput value={otp} onChange={setOtp} label={t("verificationCode")} />
         </div>
         <Button type="submit" disabled={isVerifying} className="h-11 w-full rounded-xl font-bold">
           {isVerifying ? <LoaderCircle className="size-4 animate-spin" /> : null}
@@ -94,15 +98,5 @@ function VerifyEmailForm() {
 }
 
 export function VerifyEmailPage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="flex flex-1 items-center justify-center px-4 py-16 text-sm text-muted-foreground">
-          Loading...
-        </main>
-      }
-    >
-      <VerifyEmailForm />
-    </Suspense>
-  );
+  return <VerifyEmailForm />;
 }
