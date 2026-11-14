@@ -131,3 +131,22 @@ select {
 [dir="ltr"] {
   text-align: left;
 }
+
+
+/* Storefront horizontal rails */
+.home-product-rail,
+.home-category-rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.home-product-rail::-webkit-scrollbar,
+.home-category-rail::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-product-rail {
+    scroll-behavior: auto;
+  }
+}
