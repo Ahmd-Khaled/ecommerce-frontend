@@ -55,7 +55,7 @@ export function StorefrontHeader() {
     setMobileMenuOpen(false);
   }
 
-  function openCart() {
+  function showComingSoon(feature: string) {\n    toast.info(feature);\n  }\n\n  function openCart() {
     if (!isAuthenticated) return;
     router.push("/cart");
     setMobileMenuOpen(false);
