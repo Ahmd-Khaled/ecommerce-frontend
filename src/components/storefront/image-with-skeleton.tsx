@@ -34,6 +34,7 @@ function ImageWithSkeletonContent({
   unoptimized = false,
   className = "object-cover",
 }: ImageWithSkeletonProps) {
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   return (
@@ -47,15 +48,18 @@ function ImageWithSkeletonContent({
           priority={priority}
           unoptimized={unoptimized}
           sizes={sizes}
+          onLoad={() => setHasLoaded(true)}
           onError={() => setHasError(true)}
           className={`relative z-10 opacity-100 ${className}`}
         />
       ) : null}
 
-      <span
-        aria-hidden="true"
-        className="image-skeleton-shimmer absolute inset-0 z-0 block"
-      />
+      {!hasLoaded && !hasError ? (
+        <span
+          aria-hidden="true"
+          className="image-skeleton-shimmer absolute inset-0 z-0 block"
+        />
+      ) : null}
     </span>
   );
 }
