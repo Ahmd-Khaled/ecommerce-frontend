@@ -52,7 +52,7 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
+    <html lang={locale} dir={direction} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={alexandria.variable} suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
