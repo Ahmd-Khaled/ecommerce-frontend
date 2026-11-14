@@ -30,6 +30,7 @@ export function StorefrontHeader() {
 
   function toggleLocale() {
     router.replace(pathname, { locale: isArabic ? "en" : "ar" });
+    setMobileMenuOpen(false);
   }
 
   function toggleTheme() {
@@ -40,6 +41,7 @@ export function StorefrontHeader() {
     event.preventDefault();
     if (!searchValue.trim()) return;
     toast.info(t("searchComingSoon"));
+    setMobileMenuOpen(false);
   }
 
   function showComingSoon(feature: string) {
@@ -61,7 +63,16 @@ export function StorefrontHeader() {
         </div>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 shadow-sm shadow-slate-950/[0.025] backdrop-blur-2xl">
+      {mobileMenuOpen ? (
+        <button
+          type="button"
+          aria-label={t("closeMenu")}
+          onClick={() => setMobileMenuOpen(false)}
+          className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 bg-slate-950/35 backdrop-blur-[2px] lg:hidden"
+        />
+      ) : null}
+
+      <header className="sticky top-0 z-50 border-b border-border/80 bg-background/90 shadow-sm shadow-slate-950/[0.025] backdrop-blur-2xl">
         <div className="mx-auto flex h-[4.5rem] max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <Button
@@ -72,9 +83,11 @@ export function StorefrontHeader() {
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-label={mobileMenuOpen ? t("closeMenu") : t("openMenu")}
               aria-expanded={mobileMenuOpen}
+              aria-controls="storefront-mobile-menu"
             >
               {mobileMenuOpen ? <X /> : <Menu />}
             </Button>
+
             <Link
               href="/"
               className="flex min-w-0 items-center gap-2.5 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -184,8 +197,14 @@ export function StorefrontHeader() {
         </div>
 
         {mobileMenuOpen ? (
-          <div className="border-t border-border bg-background px-4 py-4 shadow-xl lg:hidden">
-            <form onSubmit={handleSearch} className="mb-4 flex h-11 items-center gap-2 rounded-xl border border-border bg-muted/60 px-3">
+          <div
+            id="storefront-mobile-menu"
+            className="absolute inset-x-0 top-full z-50 border-t border-border bg-background px-4 py-4 shadow-2xl shadow-slate-950/15 lg:hidden"
+          >
+            <form
+              onSubmit={handleSearch}
+              className="mb-4 flex h-11 items-center gap-2 rounded-xl border border-border bg-muted/60 px-3"
+            >
               <Search className="size-4 shrink-0 text-muted-foreground" />
               <input
                 value={searchValue}
@@ -198,6 +217,7 @@ export function StorefrontHeader() {
                 {t("search")}
               </Button>
             </form>
+
             <nav className="grid grid-cols-3 gap-2">
               {navigation.map((item) => (
                 <Link
@@ -210,12 +230,29 @@ export function StorefrontHeader() {
                 </Link>
               ))}
             </nav>
+
             <div className="mt-3 grid grid-cols-2 gap-2 sm:hidden">
-              <Button variant="outline" onClick={() => showComingSoon(t("wishlistComingSoon"))} className="rounded-xl">
+              <Button
+                variant="outline"
+                onClick={() => showComingSoon(t("wishlistComingSoon"))}
+                className="rounded-xl"
+              >
                 <Heart /> {t("wishlist")}
               </Button>
-              <Button variant="outline" onClick={() => showComingSoon(t("accountComingSoon"))} className="rounded-xl">
+              <Button
+                variant="outline"
+                onClick={() => showComingSoon(t("accountComingSoon"))}
+                className="rounded-xl"
+              >
                 <UserRound /> {t("account")}
+              </Button>
+            </div>
+
+            <div className="mt-3 flex items-center justify-between border-t border-border pt-3 lg:hidden">
+              <span className="text-xs text-muted-foreground">{t("supportLine")}</span>
+              <Button variant="ghost" size="sm" onClick={toggleLocale} className="rounded-lg">
+                <Languages className="size-4" />
+                {isArabic ? "English" : "العربية"}
               </Button>
             </div>
           </div>
