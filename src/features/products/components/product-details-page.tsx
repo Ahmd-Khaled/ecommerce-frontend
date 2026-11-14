@@ -188,6 +188,8 @@ export default async function ProductDetailsPage({
           <div className="mt-7">
             <ProductPurchasePanel
               locale={locale}
+              productId={product._id}
+              slug={product.slug}
               stock={product.stock}
               labels={{
                 quantity: t("quantity"),
