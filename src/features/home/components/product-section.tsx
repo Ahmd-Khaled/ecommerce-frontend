@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { ProductCard } from "@/components/storefront/product-card";
 import type { HomepageProduct } from "../types/home.types";
 
@@ -61,13 +62,13 @@ export function ProductSection({
           </p>
         </div>
 
-        <a
+        <Link
           href={href}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-[11px] font-semibold transition hover:border-primary/40 hover:text-primary sm:px-4 sm:text-xs"
         >
           {viewAllLabel}
           <ArrowRight className="size-3.5 rtl:rotate-180" />
-        </a>
+        </Link>
       </div>
 
       {products.length > 3 ? (
