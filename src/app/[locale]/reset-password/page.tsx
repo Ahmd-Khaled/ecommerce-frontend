@@ -1,5 +1,1 @@
-import { ResetPasswordPage } from "@/features/auth/components/reset-password-page";
-
-export default function Page() {
-  return <ResetPasswordPage />;
-}
+export { ResetPasswordPage as default } from "@/features/auth/components/reset-password-page";
