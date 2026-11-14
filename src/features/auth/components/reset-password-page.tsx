@@ -13,6 +13,8 @@ import { apiErrorMessage } from "@/lib/api/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
+import { OtpInput } from "@/features/auth/components/otp-input";
+import { PasswordGenerator } from "@/features/auth/components/password-generator";
 
 function ResetPasswordForm() {
   const t = useTranslations("Auth");
@@ -27,6 +29,11 @@ function ResetPasswordForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (otp.length !== 6) {
+      toast.error(t("invalidOtpLength"));
+      return;
+    }
 
     if (newPassword !== confirmPassword) {
       toast.error(t("passwordsDoNotMatch"));
@@ -70,8 +77,12 @@ function ResetPasswordForm() {
         </div>
         <div className="space-y-2">
           <label htmlFor="reset-otp" className="text-xs font-semibold">{t("verificationCode")}</label>
-          <Input id="reset-otp" type="text" inputMode="numeric" autoComplete="one-time-code" required maxLength={10} value={otp} onChange={(event) => setOtp(event.target.value.replace(/\s/g, ""))} placeholder={t("verificationCodePlaceholder")} className="h-11 rounded-xl text-center font-bold tracking-[0.3em]" />
+          <OtpInput value={otp} onChange={setOtp} label={t("verificationCode")} />
         </div>
+        <PasswordGenerator onGenerate={(generated) => {
+          setNewPassword(generated);
+          setConfirmPassword(generated);
+        }} />
         <div className="space-y-2">
           <label htmlFor="reset-password" className="text-xs font-semibold">{t("newPassword")}</label>
           <div className="relative">
