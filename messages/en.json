@@ -209,6 +209,7 @@
     "copyPassword": "Copy password",
     "passwordCopied": "Password copied to clipboard.",
     "copyPasswordFailed": "Unable to copy the password. Please copy it manually.",
-    "passwordGeneratorHint": "Generate a unique, complex password and use it for both password fields."
+    "passwordGeneratorHint": "Generate a unique, complex password and use it for both password fields.",
+    "resendCountdown": "Resend code in {seconds}s"
   }
 }
