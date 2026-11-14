@@ -29,7 +29,12 @@ export function LoginPage() {
     try {
       await login({ email: email.trim().toLowerCase(), password });
       toast.success(t("loginSuccess"));
-      router.replace("/");
+      const requestedPath = new URLSearchParams(window.location.search).get("redirect");
+      const safeRedirect =
+        requestedPath && requestedPath.startsWith("/") && !requestedPath.startsWith("//")
+          ? requestedPath
+          : "/";
+      router.replace(safeRedirect as never);
     } catch (error) {
       toast.error(apiErrorMessage(error));
     } finally {
