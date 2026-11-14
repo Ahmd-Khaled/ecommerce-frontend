@@ -21,7 +21,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { formatMajorMoney } from "@/utils/formatCurrency";
 import { useHome } from "../hooks/use-home";
 import { BannerCarousel } from "./banner-carousel";
-import { ProductCard } from "./product-card";
+import { ProductCard } from "@/components/storefront/product-card";
 import type {
   HomepageCategory,
   HomepageProduct,
