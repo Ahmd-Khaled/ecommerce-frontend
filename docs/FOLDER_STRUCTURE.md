@@ -18,6 +18,8 @@ src/
       layout.tsx              Locale validation, direction, and providers
       products/
         page.tsx              Product catalog route wrapper
+      cart/
+        page.tsx              Customer cart route wrapper
         [slug]/
           page.tsx            Product details route wrapper
     globals.css               Shared design tokens and global styles
@@ -29,6 +31,7 @@ src/
   features/
     home/                     Homepage API, response types, and sections
     products/                 Catalog and product details API, types, and components
+    cart/                     Authenticated cart API, types, query hooks, and components
   i18n/                       Locale routing, navigation, and request config
   lib/                        Shared HTTP client and utilities
   utils/                      Currency formatting and other shared helpers
