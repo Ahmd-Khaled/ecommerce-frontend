@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBag, Zap } from "lucide-react";
+import { ShoppingCart, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ProductCardActionsProps {
@@ -11,7 +11,7 @@ interface ProductCardActionsProps {
 }
 
 const actionButtonClass =
-  "h-8 w-full min-w-0 gap-1 rounded-lg border px-1.5 py-0 text-[9px] font-semibold leading-none tracking-normal sm:h-9 lg:h-8";
+  "h-11 w-full min-w-0 gap-2 rounded-[10px] border px-2.5 py-0 text-xs font-semibold leading-none sm:h-12 sm:gap-2.5 sm:px-3";
 
 export function ProductCardActions({
   locale,
@@ -23,36 +23,36 @@ export function ProductCardActions({
   const buyNowLabel = locale === "ar" ? "اشتر الآن" : "Buy now";
 
   return (
-    <div className="mt-auto grid grid-cols-1 gap-1.5 pt-3 min-[380px]:grid-cols-2 sm:gap-2">
+    <div className="mt-auto grid grid-cols-1 gap-2 pt-3 min-[380px]:grid-cols-2 sm:gap-2.5">
       <Button
         type="button"
-        size="sm"
         onClick={onAddToCart}
         disabled={!isAvailable}
         className={actionButtonClass}
-        style={{ fontSize: "9px" }}
       >
-        <ShoppingBag className="size-3 shrink-0" aria-hidden="true" />
-        <span className="block min-w-0 whitespace-nowrap text-[9px] leading-3">
-          {addToCartLabel}
-        </span>
+        <ShoppingCart
+          className="size-[18px] shrink-0 sm:size-5"
+          strokeWidth={2}
+          aria-hidden="true"
+        />
+        <span className="min-w-0 whitespace-nowrap">{addToCartLabel}</span>
       </Button>
 
       <Button
         type="button"
-        size="sm"
         variant="outline"
         onClick={onBuyNow}
         disabled={!isAvailable}
         aria-label={buyNowLabel}
         title={buyNowLabel}
         className={actionButtonClass}
-        style={{ fontSize: "9px" }}
       >
-        <Zap className="size-3 shrink-0" aria-hidden="true" />
-        <span className="block min-w-0 whitespace-nowrap text-[9px] leading-3">
-          {buyNowLabel}
-        </span>
+        <Zap
+          className="size-[18px] shrink-0 sm:size-5"
+          strokeWidth={2}
+          aria-hidden="true"
+        />
+        <span className="min-w-0 whitespace-nowrap">{buyNowLabel}</span>
       </Button>
     </div>
   );
