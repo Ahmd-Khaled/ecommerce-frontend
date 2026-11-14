@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, UserRound } from "lucide-react";
 
 import { AuthCard } from "@/features/auth/components/auth-card";
+import { PasswordGenerator } from "@/features/auth/components/password-generator";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { apiErrorMessage } from "@/lib/api/axios";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,7 @@ export function RegisterPage() {
         confirmPassword,
       });
       toast.success(t("registrationSuccess"));
-      router.push(`/verify-email?email=${encodeURIComponent(email.trim().toLowerCase())}`);
+      router.push("/verify-email");
     } catch (error) {
       toast.error(apiErrorMessage(error));
     } finally {
@@ -88,6 +89,11 @@ export function RegisterPage() {
             <Input id="register-email" type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={t("emailPlaceholder")} className="h-11 rounded-xl ps-10" />
           </div>
         </div>
+
+        <PasswordGenerator onGenerate={(generated) => {
+          setPassword(generated);
+          setConfirmPassword(generated);
+        }} />
 
         <div className="space-y-2">
           <label htmlFor="register-password" className="text-xs font-semibold">{t("password")}</label>
