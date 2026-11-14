@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ImageWithSkeleton } from "@/components/storefront/image-with-skeleton";
 import { getTranslations } from "next-intl/server";
 import type { HomepageBanner } from "../types/home.types";
 
