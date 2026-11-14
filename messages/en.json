@@ -110,6 +110,8 @@
     "page": "Page",
     "of": "of",
     "productCountLabel": "products",
-    "invalidPriceRange": "The minimum price cannot be greater than the maximum price."
+    "invalidPriceRange": "The minimum price cannot be greater than the maximum price.",
+    "filters": "Filters",
+    "closeFilters": "Close filters"
   }
 }
