@@ -76,6 +76,7 @@
     "nextSlide": "Next slide",
     "slideNavigation": "Slide navigation",
     "goToSlide": "Go to slide {number}",
-    "slideStatus": "Slide {current} of {total}"
+    "slideStatus": "Slide {current} of {total}",
+    "shoppingBenefits": "Shopping benefits"
   }
 }
