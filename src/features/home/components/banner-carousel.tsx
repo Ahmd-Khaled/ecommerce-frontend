@@ -50,7 +50,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                 priority={index === 0}
                 unoptimized
                 sizes="100vw"
-                className={\`object-cover transition-transform duration-[7000ms] ease-out \${isActive ? "scale-105" : "scale-100"}\`}
+                className={`object-cover transition-transform duration-[7000ms] ease-out ${isActive ? "scale-105" : "scale-100"}`}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/55 to-slate-950/5" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-slate-950/10" />
@@ -82,7 +82,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
             <div
               key={banner._id}
               aria-hidden={!isActive}
-              className={\`absolute inset-0 transition-opacity duration-700 \${isActive ? "z-10 opacity-100" : "z-0 pointer-events-none opacity-0"}\`}
+              className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "z-10 opacity-100" : "z-0 pointer-events-none opacity-0"}`}
             >
               {slide}
             </div>
@@ -101,7 +101,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                   aria-label={t("goToSlide", { number: index + 1 })}
                   aria-current={activeIndex === index}
                   onClick={() => setActiveIndex(index)}
-                  className={\`h-1.5 rounded-full transition-all \${activeIndex === index ? "w-8 bg-white" : "w-3 bg-white/45 hover:bg-white/75"}\`}
+                  className={`h-1.5 rounded-full transition-all ${activeIndex === index ? "w-8 bg-white" : "w-3 bg-white/45 hover:bg-white/75"}`}
                 />
               ))}
             </div>
