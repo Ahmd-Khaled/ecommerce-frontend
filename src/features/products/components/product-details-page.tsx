@@ -114,11 +114,8 @@ export default async function ProductDetailsPage({
               current: "{current}",
               total: "{total}",
             }),
-            zoom: t("zoom"),
-            closeZoom: t("closeZoom"),
-            zoomIn: t("zoomIn"),
-            zoomOut: t("zoomOut"),
-            resetZoom: t("resetZoom"),
+            fullscreen: t("fullscreen"),
+            closeFullscreen: t("closeFullscreen"),
             thumbnails: t("thumbnails"),
           }}
         />
