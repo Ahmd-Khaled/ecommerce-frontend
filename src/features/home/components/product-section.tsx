@@ -72,7 +72,7 @@ export function ProductSection({
       </div>
 
       {products.length > 3 ? (
-        <div className="flex justify-end gap-2">
+        <div className="hidden justify-end gap-2 sm:flex">
           <Button
             type="button"
             variant="outline"
