@@ -11,7 +11,7 @@ interface ProductCardActionsProps {
 }
 
 const actionButtonClass =
-  "h-11 w-full min-w-0 gap-2 rounded-[10px] border px-2.5 py-0 text-xs font-semibold leading-none sm:h-12 sm:gap-2.5 sm:px-3";
+  "h-11 w-full min-w-0 gap-1.5 rounded-[10px] border px-2 py-0 text-[10px] font-semibold leading-none sm:h-12 sm:gap-2 sm:px-2.5";
 
 export function ProductCardActions({
   locale,
@@ -31,11 +31,11 @@ export function ProductCardActions({
         className={actionButtonClass}
       >
         <ShoppingCart
-          className="size-[18px] shrink-0 sm:size-5"
+          className="size-3.5 shrink-0 sm:size-4"
           strokeWidth={2}
           aria-hidden="true"
         />
-        <span className="min-w-0 whitespace-nowrap">{addToCartLabel}</span>
+        <span className="min-w-0 whitespace-nowrap text-[10px]">{addToCartLabel}</span>
       </Button>
 
       <Button
@@ -52,7 +52,7 @@ export function ProductCardActions({
           strokeWidth={2}
           aria-hidden="true"
         />
-        <span className="min-w-0 whitespace-nowrap">{buyNowLabel}</span>
+        <span className="min-w-0 whitespace-nowrap text-[10px]">{buyNowLabel}</span>
       </Button>
     </div>
   );
