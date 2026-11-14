@@ -108,3 +108,4 @@ For UI changes, also manually inspect both `/en` and `/ar` at mobile, tablet, an
 - [Product catalog page guide](pages/PRODUCT_CATALOG.md)
 - [Product details page guide](pages/PRODUCT_DETAILS.md)
 - [Customer authentication guide](pages/AUTHENTICATION.md)
+- [Customer cart guide](pages/CART.md)
