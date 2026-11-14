@@ -163,8 +163,8 @@ export function StorefrontHeader() {
               size="icon"
               onClick={openAccount}
               disabled={status === "loading"}
-              aria-label={t("account")}
-              title={t("account")}
+              aria-label={isAuthenticated ? t("account") : t("login")}
+              title={isAuthenticated ? t("account") : t("login")}
               className="hidden size-10 rounded-xl sm:inline-flex"
             >
               {isAuthenticated ? <UserRound className="size-[18px]" /> : <LogIn className="size-[18px]" />}
