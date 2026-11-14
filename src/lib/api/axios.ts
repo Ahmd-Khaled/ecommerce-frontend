@@ -56,6 +56,11 @@ export async function refreshAccessToken(): Promise<string | null> {
       })
       .catch(() => {
         setAccessToken(null);
+
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new Event("storefront:session-expired"));
+        }
+
         return null;
       })
       .finally(() => {
