@@ -9,7 +9,8 @@ export function ProductsPageSkeleton() {
         <div className="image-skeleton-shimmer mt-3 h-4 w-80 max-w-full rounded-md" />
       </div>
       <div className="grid min-w-0 grid-cols-1 items-start gap-5 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-7">
-        <div className="space-y-4 rounded-2xl border border-border/80 p-5">
+        <div className="image-skeleton-shimmer h-10 w-32 rounded-xl lg:hidden" />
+        <div className="hidden space-y-4 rounded-2xl border border-border/80 p-5 lg:block">
           <div className="image-skeleton-shimmer h-5 w-28 rounded-md" />
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="space-y-2">
