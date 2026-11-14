@@ -8,7 +8,8 @@ This folder is the maintained technical guide for the public customer-facing sto
 - **Styling:** Tailwind CSS v4 and shared CSS design tokens in `src/app/globals.css`.
 - **Localization:** next-intl with English (`en`) and Arabic (`ar`); locale routing is always prefixed and Arabic pages render RTL.
 - **Data fetching:** server-side `fetch` in feature-specific `*.server.ts` modules for SEO-friendly initial page content.
-- **Client interactions:** focused client components for carousels, galleries, filters, and other interactive controls.
+- **Client interactions:** focused client components for carousels, galleries, filters, authentication, and other interactive controls.
+- **Customer authentication:** feature-scoped auth API and context; access tokens stay in memory and refresh tokens remain in backend-managed HttpOnly cookies.
 - **Shared UI:** reusable components under `src/components`; feature-specific UI belongs under `src/features/<feature>`.
 
 ## Routes and page guides
@@ -18,6 +19,10 @@ This folder is the maintained technical guide for the public customer-facing sto
 | `/[locale]` | Store homepage | [Homepage](pages/HOME.md) |
 | `/[locale]/products` | Product catalog, filters, and pagination | [Product catalog](pages/PRODUCT_CATALOG.md) |
 | `/[locale]/products/[slug]` | Product details, gallery, related products, and purchase controls | [Product details](pages/PRODUCT_DETAILS.md) |
+| `/[locale]/login` and `/register` | Customer sign-in and account registration | [Authentication](pages/AUTHENTICATION.md) |
+| `/[locale]/verify-email` | Email OTP verification and resend | [Authentication](pages/AUTHENTICATION.md) |
+| `/[locale]/forgot-password` and `/reset-password` | Password recovery | [Authentication](pages/AUTHENTICATION.md) |
+| `/[locale]/account` | Customer session and sign-out actions | [Authentication](pages/AUTHENTICATION.md) |
 
 The route `page.tsx` files should remain thin: import and export the feature page component. Put page composition and data orchestration in the matching feature folder.
 
@@ -61,7 +66,7 @@ Then open `http://localhost:3000/en` or `http://localhost:3000/ar`.
 | Product by slug | `GET /products/slug/:slug` |
 | Currency metadata | Read from `GET /home?view=desktop&limit=1` |
 
-All requests are relative to `NEXT_PUBLIC_API_URL`. See [API fetching reference](API_FETCHING.md) for request and response details.
+Public server requests are relative to `NEXT_PUBLIC_API_URL`. Browser API calls use the `/api/v1` Next.js rewrite and the shared Axios client. See [API fetching reference](API_FETCHING.md) for request and response details.
 
 ## Currency and localization
 
@@ -100,3 +105,4 @@ For UI changes, also manually inspect both `/en` and `/ar` at mobile, tablet, an
 - [Homepage page guide](pages/HOME.md)
 - [Product catalog page guide](pages/PRODUCT_CATALOG.md)
 - [Product details page guide](pages/PRODUCT_DETAILS.md)
+- [Customer authentication guide](pages/AUTHENTICATION.md)
