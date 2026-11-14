@@ -82,7 +82,15 @@ GET /products/slug/:slug
 GET /home?view=desktop&limit=1
 ```
 
-The product endpoint is expected to return the product under `data.product`. The product type is shared from `src/features/products/types/product.types.ts`. The details page uses:
+The product endpoint is expected to return the product under `data.product`. The product type is shared from `src/features/products/types/product.types.ts`. After the product is loaded, the page requests related items from its category when a category ID is available:
+
+```http
+GET /products/category/:categoryId?page=1&limit=8&sortBy=createdAt&sortOrder=desc
+```
+
+The page removes the current product from the result and displays up to four related products. If the product has no usable category ID or the related-products request fails, the related section is omitted without affecting the product details page.
+
+The details page uses:
 
 - `name`, `slug`, `description`
 - `sku`, `price`, `compareAtPrice`, `stock`
