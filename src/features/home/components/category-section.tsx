@@ -40,7 +40,7 @@ export async function CategorySection({
       </div>
 
       <div className="home-category-rail flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:gap-6">
-        {categories.map((category, index) => (
+        {categories.map((category) => (
           <Link
             key={category._id}
             href={`/categories/${category.slug}`}
