@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import { ProductCard } from "@/components/storefront/product-card";
 import { Button } from "@/components/ui/button";
 import { getProductCatalogPageData } from "@/features/products/api/catalog.server";
@@ -52,23 +53,22 @@ export default async function ProductsPage({
 
   const data = await getProductCatalogPageData(locale, currentSearchParams);
   const isArabic = locale === "ar";
+  const t = await getTranslations({ locale, namespace: "Catalog" });
 
   if (!data) {
     return (
       <section className="mx-auto flex min-h-[55vh] max-w-7xl flex-col items-center justify-center px-4 py-16 text-center">
         <span className="mb-3 rounded-full bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive">
-          {isArabic ? "تعذر الاتصال بالمتجر" : "Store connection issue"}
+          {t("connectionIssue")}
         </span>
         <h1 className="text-2xl font-bold tracking-tight">
-          {isArabic ? "تعذر تحميل المنتجات" : "We couldn't load products"}
+          {t("loadError")}
         </h1>
         <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-          {isArabic
-            ? "يرجى المحاولة مرة أخرى بعد قليل."
-            : "Please try again in a moment."}
+          {t("loadErrorDescription")}
         </p>
         <Button asChild className="mt-6 rounded-xl">
-          <Link href="/">{isArabic ? "العودة للرئيسية" : "Back to home"}</Link>
+          <Link href="/">{t("backHome")}</Link>
         </Button>
       </section>
     );
@@ -85,31 +85,29 @@ export default async function ProductsPage({
     <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <header className="mb-8 space-y-3">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-primary">
-          {isArabic ? "اكتشف مجموعتنا" : "Explore our collection"}
+          {t("eyebrow")}
         </p>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              {isArabic ? "جميع المنتجات" : "All products"}
+              {t("title")}
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-              {isArabic
-                ? "تصفح مجموعتنا الكاملة وابحث عن المنتجات المناسبة لك."
-                : "Browse the full collection and find the products that are right for you."}
+              {t("description")}
             </p>
           </div>
           <p className="text-sm text-muted-foreground">
             <span className="font-semibold text-foreground">
               {pagination.total}
             </span>{" "}
-            {isArabic ? "منتج" : "products"}
+            {t("productCountLabel")}
           </p>
         </div>
       </header>
 
       {categories.length > 0 ? (
         <nav
-          aria-label={isArabic ? "تصفح التصنيفات" : "Browse categories"}
+          aria-label={t("browseCategories")}
           className="mb-7 flex gap-2 overflow-x-auto pb-2"
         >
           {categories.map((category) => (
@@ -130,21 +128,21 @@ export default async function ProductsPage({
       >
         <label className="col-span-2 flex flex-col gap-1.5 sm:col-span-2">
           <span className="text-xs font-semibold">
-            {isArabic ? "ابحث عن منتج" : "Search products"}
+            {t("searchLabel")}
           </span>
           <input
             type="search"
             name="search"
             defaultValue={search}
             maxLength={150}
-            placeholder={isArabic ? "اسم المنتج..." : "Product name..."}
+            placeholder={t("searchPlaceholder")}
             className="h-10 min-w-0 rounded-xl border border-input bg-background px-3 text-sm outline-none transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30"
           />
         </label>
 
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold">
-            {isArabic ? "أقل سعر" : "Min price"}
+            {t("minPrice")}
           </span>
           <input
             type="number"
@@ -159,7 +157,7 @@ export default async function ProductsPage({
 
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold">
-            {isArabic ? "أعلى سعر" : "Max price"}
+            {t("maxPrice")}
           </span>
           <input
             type="number"
@@ -174,7 +172,7 @@ export default async function ProductsPage({
 
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold">
-            {isArabic ? "ترتيب حسب" : "Sort by"}
+            {t("sortBy")}
           </span>
           <select
             name="sortBy"
@@ -182,33 +180,33 @@ export default async function ProductsPage({
             className="h-10 min-w-0 rounded-xl border border-input bg-background px-3 text-sm outline-none transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30"
           >
             <option value="createdAt">
-              {isArabic ? "الأحدث" : "Newest"}
+              {t("newest")}
             </option>
-            <option value="price">{isArabic ? "السعر" : "Price"}</option>
-            <option value="name">{isArabic ? "الاسم" : "Name"}</option>
+            <option value="price">{t("price")}</option>
+            <option value="name">{t("name")}</option>
           </select>
         </label>
 
         <div className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold">
-            {isArabic ? "الاتجاه" : "Order"}
+            {t("order")}
           </span>
           <select
             name="sortOrder"
             defaultValue={sortOrder}
             className="h-10 min-w-0 rounded-xl border border-input bg-background px-3 text-sm outline-none transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30"
           >
-            <option value="desc">{isArabic ? "تنازلي" : "Descending"}</option>
-            <option value="asc">{isArabic ? "تصاعدي" : "Ascending"}</option>
+            <option value="desc">{t("descending")}</option>
+            <option value="asc">{t("ascending")}</option>
           </select>
         </div>
 
         <div className="col-span-2 flex flex-wrap items-center gap-2 sm:col-span-6">
           <Button type="submit" className="h-10 rounded-xl px-6">
-            {isArabic ? "تطبيق الفلاتر" : "Apply filters"}
+            {t("applyFilters")}
           </Button>
           <Button asChild type="button" variant="outline" className="h-10 rounded-xl">
-            <Link href="/products">{isArabic ? "إعادة ضبط" : "Reset"}</Link>
+            <Link href="/products">{t("reset")}</Link>
           </Button>
         </div>
       </form>
@@ -229,15 +227,13 @@ export default async function ProductsPage({
       ) : (
         <section className="flex min-h-72 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-muted/20 px-5 py-12 text-center">
           <h2 className="text-lg font-bold">
-            {isArabic ? "لا توجد منتجات مطابقة" : "No products found"}
+            {t("noProducts")}
           </h2>
           <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-            {isArabic
-              ? "جرّب تغيير كلمات البحث أو تعديل نطاق السعر."
-              : "Try changing your search terms or adjusting the price range."}
+            {t("noProductsDescription")}
           </p>
           <Button asChild variant="outline" className="mt-5 rounded-xl">
-            <Link href="/products">{isArabic ? "عرض كل المنتجات" : "View all products"}</Link>
+            <Link href="/products">{t("viewAllProducts")}</Link>
           </Button>
         </section>
       )}
@@ -250,7 +246,7 @@ export default async function ProductsPage({
           {pagination.hasPreviousPage ? (
             <Button asChild variant="outline" className="rounded-xl">
               <Link href={buildPageHref(currentSearchParams, pagination.page - 1)}>
-                {isArabic ? "السابق" : "Previous"}
+                {t("previous")}
               </Link>
             </Button>
           ) : (
@@ -259,14 +255,14 @@ export default async function ProductsPage({
             </Button>
           )}
           <span className="min-w-24 text-center text-sm text-muted-foreground">
-            {isArabic ? "صفحة" : "Page"}{" "}
+            {t("page")}{" "}
             <strong className="text-foreground">{pagination.page}</strong>{" "}
-            {isArabic ? "من" : "of"} {pagination.totalPages}
+            {t("of")} {pagination.totalPages}
           </span>
           {pagination.hasNextPage ? (
             <Button asChild className="rounded-xl">
               <Link href={buildPageHref(currentSearchParams, pagination.page + 1)}>
-                {isArabic ? "التالي" : "Next"}
+                {t("next")}
               </Link>
             </Button>
           ) : (
