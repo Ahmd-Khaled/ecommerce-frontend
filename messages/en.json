@@ -109,6 +109,7 @@
     "next": "Next",
     "page": "Page",
     "of": "of",
-    "productCountLabel": "products"
+    "productCountLabel": "products",
+    "invalidPriceRange": "The minimum price cannot be greater than the maximum price."
   }
 }
