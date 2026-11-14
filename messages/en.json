@@ -113,5 +113,27 @@
     "invalidPriceRange": "The minimum price cannot be greater than the maximum price.",
     "filters": "Filters",
     "closeFilters": "Close filters"
+  },
+  "ProductDetails": {
+    "breadcrumbLabel": "Breadcrumb",
+    "home": "Home",
+    "allProducts": "All products",
+    "productImages": "Product images",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "imageNumber": "Image {current} of {total}",
+    "discount": "Save {percentage}%",
+    "sku": "SKU",
+    "availability": "Availability",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "description": "Product description",
+    "quantity": "Quantity",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "cartComingSoon": "Shopping cart is coming soon",
+    "checkoutComingSoon": "Quick checkout is coming soon"
   }
 }
