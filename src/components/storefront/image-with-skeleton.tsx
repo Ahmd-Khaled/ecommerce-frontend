@@ -15,8 +15,6 @@ type ImageWithSkeletonProps = {
 };
 
 export function ImageWithSkeleton(props: ImageWithSkeletonProps) {
-  // A keyed child resets its loading state when the source changes,
-  // without a synchronous setState call inside an effect.
   const sourceKey =
     typeof props.src === "string"
       ? props.src
@@ -36,11 +34,11 @@ function ImageWithSkeletonContent({
   unoptimized = false,
   className = "object-cover",
 }: ImageWithSkeletonProps) {
-  const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
+  const [hasError, setHasError] = useState(false);
 
   return (
     <span className="absolute inset-0 block overflow-hidden">
-      {status !== "error" ? (
+      {!hasError ? (
         <Image
           src={src}
           alt={alt}
@@ -49,18 +47,15 @@ function ImageWithSkeletonContent({
           priority={priority}
           unoptimized={unoptimized}
           sizes={sizes}
-          onLoad={() => setStatus("loaded")}
-          onError={() => setStatus("error")}
-          className={`transition-opacity duration-500 ${status === "loaded" ? "opacity-100" : "opacity-0"} ${className}`}
+          onError={() => setHasError(true)}
+          className={`relative z-10 opacity-100 ${className}`}
         />
       ) : null}
 
-      {status !== "loaded" ? (
-        <span
-          aria-hidden="true"
-          className="image-skeleton-shimmer absolute inset-0 z-10 block"
-        />
-      ) : null}
+      <span
+        aria-hidden="true"
+        className="image-skeleton-shimmer absolute inset-0 z-0 block"
+      />
     </span>
   );
 }
