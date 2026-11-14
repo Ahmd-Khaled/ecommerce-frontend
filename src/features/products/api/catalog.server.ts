@@ -1,6 +1,5 @@
 import "server-only";
 
-import type { Category } from "@/features/categories/types/category.types";
 import type {
   Product,
   ProductFilters,
@@ -23,7 +22,6 @@ type HomepageCurrency = {
 export type ProductCatalogPageData = {
   products: Product[];
   pagination: ProductListResponse["pagination"];
-  categories: Category[];
   currency: string;
   currencyExponent: number;
 };
@@ -130,12 +128,8 @@ export async function getProductCatalogPageData(
     if (value !== undefined) query.set(key, String(value));
   });
 
-  const [productData, categoryData, currencyData] = await Promise.all([
+  const [productData, currencyData] = await Promise.all([
     request<ProductListResponse>(`/products/list?${query.toString()}`, locale),
-    request<{ categories: Category[] }>(
-      "/categories/list?page=1&limit=100&sortBy=sortOrder&sortOrder=asc",
-      locale,
-    ),
     request<HomepageCurrency>("/home?view=desktop&limit=1", locale),
   ]);
 
@@ -144,7 +138,6 @@ export async function getProductCatalogPageData(
   return {
     products: productData.products ?? [],
     pagination: productData.pagination,
-    categories: categoryData?.categories ?? [],
     currency: currencyData?.currency ?? "EGP",
     currencyExponent: currencyData?.currencyExponent ?? 2,
   };
