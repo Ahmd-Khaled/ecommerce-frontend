@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ImageWithSkeleton } from "@/components/storefront/image-with-skeleton";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -40,7 +40,7 @@ export async function CategorySection({
       </div>
 
       <div className="home-category-rail flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:gap-6">
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <Link
             key={category._id}
             href={`/categories/${category.slug}`}
