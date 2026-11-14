@@ -209,6 +209,7 @@ export default async function ProductDetailsPage({
         currency={currency}
         currencyExponent={currencyExponent}
         locale={locale}
+        eyebrow={t("relatedProductsEyebrow")}
         title={t("relatedProductsTitle")}
         viewAllLabel={t("viewAllRelatedProducts")}
       />
