@@ -7,6 +7,7 @@ interface RelatedProductsProps {
   currency: string;
   currencyExponent: number;
   locale: string;
+  eyebrow: string;
   title: string;
   viewAllLabel: string;
 }
@@ -16,6 +17,7 @@ export function RelatedProducts({
   currency,
   currencyExponent,
   locale,
+  eyebrow,
   title,
   viewAllLabel,
 }: RelatedProductsProps) {
@@ -26,7 +28,7 @@ export function RelatedProducts({
       <div className="mb-5 flex items-end justify-between gap-4 sm:mb-7">
         <div className="min-w-0">
           <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary sm:text-xs">
-            {locale === "ar" ? "قد يعجبك أيضاً" : "You may also like"}
+            {eyebrow}
           </p>
           <h2 className="mt-1.5 text-lg font-bold tracking-tight text-foreground sm:text-2xl">
             {title}
