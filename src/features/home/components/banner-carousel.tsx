@@ -9,9 +9,28 @@ import type { HomepageBanner } from "../types/home.types";
 
 interface BannerCarouselProps {
   banners: HomepageBanner[];
+  mobileBanners?: HomepageBanner[];
 }
 
-export function BannerCarousel({ banners }: BannerCarouselProps) {
+export function BannerCarousel({
+  banners,
+  mobileBanners = [],
+}: BannerCarouselProps) {
+  const mobileSlides = mobileBanners.length > 0 ? mobileBanners : banners;
+
+  return (
+    <>
+      <div className="hidden sm:block">
+        <BannerCarouselSlider banners={banners} />
+      </div>
+      <div className="sm:hidden">
+        <BannerCarouselSlider banners={mobileSlides} />
+      </div>
+    </>
+  );
+}
+
+function BannerCarouselSlider({ banners }: { banners: HomepageBanner[] }) {
   const locale = useLocale();
   const t = useTranslations("Home");
   const [activeIndex, setActiveIndex] = useState(0);
