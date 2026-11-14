@@ -60,7 +60,7 @@ export function ProductCard({
     <article className="group flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border/80 bg-card shadow-sm shadow-slate-950/[0.025] transition duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-xl hover:shadow-slate-950/[0.08]">
       <div className="relative isolate aspect-[4/4.25] overflow-hidden bg-muted/70">
         <Link
-          href={\`/products/\${product.slug}\`}
+          href={`/products/${product.slug}`}
           className="absolute inset-0 z-0"
           aria-label={product.name}
         >
@@ -103,12 +103,12 @@ export function ProductCard({
               : locale === "ar" ? "إضافة إلى المفضلة" : "Add to favorites"}
             className="pointer-events-auto size-9 rounded-full border border-white/60 bg-background/90 text-foreground shadow-sm backdrop-blur transition hover:bg-background"
           >
-            <Heart className={\`size-4 transition-colors \${isFavorite ? "fill-rose-500 text-rose-500" : ""}\`} />
+            <Heart className={`size-4 transition-colors ${isFavorite ? "fill-rose-500 text-rose-500" : ""}`} />
           </Button>
         </div>
 
         <Link
-          href={\`/products/\${product.slug}\`}
+          href={`/products/${product.slug}`}
           className="absolute inset-x-3 bottom-3 z-10 hidden translate-y-2 items-center justify-center gap-2 rounded-xl bg-background/95 px-3 py-2.5 text-xs font-semibold text-foreground opacity-0 shadow-lg backdrop-blur transition-all duration-300 hover:bg-background group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 sm:flex"
         >
           {locale === "ar" ? "عرض التفاصيل" : "Quick view"}
@@ -117,7 +117,7 @@ export function ProductCard({
 
       <div className="flex flex-1 flex-col p-3 sm:p-4">
         <Link
-          href={\`/products/\${product.slug}\`}
+          href={`/products/${product.slug}`}
           className="line-clamp-2 min-h-10 text-start text-xs font-semibold leading-5 text-card-foreground transition-colors hover:text-primary sm:text-sm"
         >
           {product.name}
