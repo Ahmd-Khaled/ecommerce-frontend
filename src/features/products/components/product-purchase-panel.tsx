@@ -21,7 +21,6 @@ interface ProductPurchasePanelProps {
     increaseQuantity: string;
     addToCart: string;
     buyNow: string;
-    cartComingSoon: string;
     checkoutComingSoon: string;
     unavailable: string;
   };
