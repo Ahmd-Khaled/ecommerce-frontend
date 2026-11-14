@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { type ImageProps } from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ImageWithSkeletonProps = {
   src: ImageProps["src"];
@@ -21,6 +21,10 @@ export function ImageWithSkeleton({
   className = "object-cover",
 }: ImageWithSkeletonProps) {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
+
+  useEffect(() => {
+    setStatus("loading");
+  }, [src]);
 
   return (
     <span className="absolute inset-0 block overflow-hidden">
