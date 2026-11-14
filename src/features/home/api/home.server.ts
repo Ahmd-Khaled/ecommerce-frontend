@@ -10,6 +10,7 @@ type ApiResponse<T> = {
 
 export async function getHomepageData(
   locale: string,
+  view: "desktop" | "mobile" = "desktop",
 ): Promise<HomepageResponse | null> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -18,7 +19,7 @@ export async function getHomepageData(
     return null;
   }
 
-  const endpoint = `${apiBaseUrl.replace(/\/+$/, "")}/home?view=desktop&limit=8`;
+  const endpoint = `${apiBaseUrl.replace(/\/+$/, "")}/home?view=${view}&limit=8`;
 
   try {
     const response = await fetch(endpoint, {
