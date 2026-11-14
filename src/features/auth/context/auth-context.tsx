@@ -54,6 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           throw new Error("No active customer session was found.");
         }
 
+        if (!active) return;
+
         const profileResponse = await authApi.profile();
 
         if (active) {
