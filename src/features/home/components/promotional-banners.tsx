@@ -19,7 +19,7 @@ export async function PromotionalBanners({
       {promotions.map((banner) => {
         const content = (
           <>
-            <Image
+            <ImageWithSkeleton
               src={banner.image}
               alt={banner.altText || banner.title || t("bannerAlt")}
               fill
