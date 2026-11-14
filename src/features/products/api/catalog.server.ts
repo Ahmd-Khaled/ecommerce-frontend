@@ -24,6 +24,7 @@ export type ProductCatalogPageData = {
   pagination: ProductListResponse["pagination"];
   currency: string;
   currencyExponent: number;
+  maxCatalogPrice: number;
 };
 
 export type CatalogSearchParams = Record<
@@ -130,17 +131,31 @@ export async function getProductCatalogPageData(
     if (value !== undefined) query.set(key, String(value));
   });
 
-  const [productData, currencyData] = await Promise.all([
+  const [productData, currencyData, highestPriceData] = await Promise.all([
     request<ProductListResponse>(`/products/list?${query.toString()}`, locale),
     request<HomepageCurrency>("/home?view=desktop&limit=1", locale),
+    request<ProductListResponse>(
+      "/products/list?page=1&limit=1&sortBy=price&sortOrder=desc",
+      locale,
+    ),
   ]);
 
   if (!productData) return null;
+
+  const pageMaxPrice = Math.max(
+    0,
+    ...(productData.products ?? []).map((product) => product.price),
+  );
+  const maxCatalogPrice = Math.max(
+    1,
+    highestPriceData?.products?.[0]?.price ?? pageMaxPrice,
+  );
 
   return {
     products: productData.products ?? [],
     pagination: productData.pagination,
     currency: currencyData?.currency ?? "EGP",
     currencyExponent: currencyData?.currencyExponent ?? 2,
+    maxCatalogPrice,
   };
 }
