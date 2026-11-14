@@ -110,8 +110,10 @@ export default async function ProductDetailsPage({
             imageAlt: t("productImages"),
             previousImage: t("previousImage"),
             nextImage: t("nextImage"),
-            imageNumber: (current, total) =>
-              t("imageNumber", { current, total }),
+            imageNumber: t("imageNumber", {
+              current: "{current}",
+              total: "{total}",
+            }),
             zoom: t("zoom"),
             closeZoom: t("closeZoom"),
             zoomIn: t("zoomIn"),
