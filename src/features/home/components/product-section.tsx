@@ -19,6 +19,7 @@ interface ProductSectionProps {
   viewAllLabel: string;
   previousLabel: string;
   nextLabel: string;
+  prioritizeFirstImage?: boolean;
 }
 
 export function ProductSection({
@@ -33,6 +34,7 @@ export function ProductSection({
   viewAllLabel,
   previousLabel,
   nextLabel,
+  prioritizeFirstImage = false,
 }: ProductSectionProps) {
   const railRef = useRef<HTMLDivElement>(null);
   const isRtl = locale === "ar";
@@ -111,7 +113,7 @@ export function ProductSection({
               currency={currency}
               currencyExponent={currencyExponent}
               locale={locale}
-              priority={index === 0}
+              priority={prioritizeFirstImage && index === 0}
             />
           </div>
         ))}
