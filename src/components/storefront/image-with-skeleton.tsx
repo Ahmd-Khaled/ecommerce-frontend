@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { type ImageProps } from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type ImageWithSkeletonProps = {
   src: ImageProps["src"];
@@ -12,7 +12,20 @@ type ImageWithSkeletonProps = {
   className?: string;
 };
 
-export function ImageWithSkeleton({
+export function ImageWithSkeleton(props: ImageWithSkeletonProps) {
+  // A keyed child resets its loading state when the source changes,
+  // without a synchronous setState call inside an effect.
+  const sourceKey =
+    typeof props.src === "string"
+      ? props.src
+      : "src" in props.src
+        ? props.src.src
+        : String(props.src);
+
+  return <ImageWithSkeletonContent key={sourceKey} {...props} />;
+}
+
+function ImageWithSkeletonContent({
   src,
   alt,
   sizes,
@@ -21,10 +34,6 @@ export function ImageWithSkeleton({
   className = "object-cover",
 }: ImageWithSkeletonProps) {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
-
-  useEffect(() => {
-    setStatus("loading");
-  }, [src]);
 
   return (
     <span className="absolute inset-0 block overflow-hidden">
