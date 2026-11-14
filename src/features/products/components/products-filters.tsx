@@ -64,7 +64,7 @@ function FilterForm({
 }: FilterFormProps) {
   const [minPrice, setMinPrice] = useState(() => parsePrice(values.minPrice, 0));
   const [maxPrice, setMaxPrice] = useState(() =>
-    parsePrice(values.maxPrice, PRICE_FILTER_MAX),
+    parsePrice(values.maxPrice, PRICE_SLIDER_MAX),
   );
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">(
     values.sortOrder === "asc" ? "asc" : "desc",
@@ -194,7 +194,7 @@ function FilterForm({
             aria-label={locale === "ar" ? "نطاق السعر" : "Price range"}
             dir="ltr"
             min={0}
-            max={undefined}
+            max={PRICE_SLIDER_MAX}
             step={1}
             minStepsBetweenThumbs={0}
             value={[sliderMin, sliderMax]}
