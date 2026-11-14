@@ -109,6 +109,7 @@ export function ProductCard({
             variant="secondary"
             size="icon"
             onClick={toggleFavorite}
+            aria-pressed={isFavorite}
             aria-label={isFavorite
               ? locale === "ar" ? "إزالة من المفضلة" : "Remove from favorites"
               : locale === "ar" ? "إضافة إلى المفضلة" : "Add to favorites"}
@@ -174,7 +175,7 @@ export function ProductCard({
         <div className="mt-3 flex items-center gap-1.5 border-t border-border/70 pt-2.5 text-[10px] text-muted-foreground">
           <PackageCheck className="size-3.5 shrink-0" />
           <span>{isAvailable
-            ? locale === "ar" ? "متوفر وجاهز للطلب" : "In stock and ready to ship"
+            ? locale === "ar" ? "متوفر" : "In stock"
             : locale === "ar" ? "غير متوفر حالياً" : "Currently unavailable"}</span>
         </div>
       </div>
