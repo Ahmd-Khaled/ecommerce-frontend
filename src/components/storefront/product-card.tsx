@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ImageWithSkeleton } from "@/components/storefront/image-with-skeleton";
 import { useState } from "react";
 import { Heart, PackageCheck, PackageOpen, ShoppingBag, Zap } from "lucide-react";
 import { toast } from "sonner";
