@@ -76,7 +76,7 @@ export function ProductCard({
           aria-label={product.name}
         >
           {image ? (
-            <Image
+            <ImageWithSkeleton
               src={image}
               alt={product.name}
               fill
