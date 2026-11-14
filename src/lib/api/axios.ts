@@ -88,11 +88,21 @@ api.interceptors.response.use(
 
     const originalRequest = error.config as RetryableRequestConfig | undefined;
 
-    if (
-      !originalRequest ||
-      originalRequest._authRetry ||
-      isPublicAuthEndpoint(originalRequest.url)
-    ) {
+    if (!originalRequest) {
+      return Promise.reject(error);
+    }
+
+    if (originalRequest._authRetry) {
+      setAccessToken(null);
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("storefront:session-expired"));
+      }
+
+      return Promise.reject(error);
+    }
+
+    if (isPublicAuthEndpoint(originalRequest.url)) {
       return Promise.reject(error);
     }
 
