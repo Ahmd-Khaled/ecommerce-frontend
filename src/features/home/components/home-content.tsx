@@ -148,7 +148,7 @@ function ProductSection({
           {products.map((product) => (
             <div
               key={product._id}
-              className="w-[68vw] max-w-[17rem] shrink-0 snap-start sm:w-[42vw] sm:max-w-[18rem] md:w-[29vw] lg:w-[calc((100%-3.75rem)/4)]"
+              className="w-[68vw] max-w-[17rem] shrink-0 snap-start sm:w-[42vw] sm:max-w-[18rem] md:w-[29vw] lg:w-[18rem]"
             >
               <ProductCard
                 product={product}
