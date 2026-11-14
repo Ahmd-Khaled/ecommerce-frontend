@@ -68,11 +68,12 @@ function FilterForm({
   const [maxPrice, setMaxPrice] = useState(() =>
     parsePrice(values.maxPrice, PRICE_FILTER_MAX),
   );
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">(
+    values.sortOrder === "asc" ? "asc" : "desc",
+  );
 
   const normalizedMin = Math.min(minPrice, maxPrice);
   const normalizedMax = Math.max(minPrice, maxPrice);
-  const minPercent = (normalizedMin / PRICE_FILTER_MAX) * 100;
-  const maxPercent = (normalizedMax / PRICE_FILTER_MAX) * 100;
   const numberFormat = new Intl.NumberFormat(locale, {
     maximumFractionDigits: 2,
   });
@@ -240,22 +241,28 @@ function FilterForm({
 
         <fieldset className="space-y-2">
           <legend className="text-xs font-semibold">{labels.order}</legend>
-          <div className="grid grid-cols-2 gap-2 rounded-xl bg-muted/60 p-1">
-            {(["desc", "asc"] as const).map((order) => (
-              <label
-                key={order}
-                className={`flex h-9 cursor-pointer items-center justify-center rounded-lg px-2 text-xs font-medium transition ${values.sortOrder === order ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
-              >
-                <input
-                  type="radio"
-                  name="sortOrder"
-                  value={order}
-                  defaultChecked={values.sortOrder === order}
-                  className="sr-only"
-                />
-                {order === "desc" ? labels.descending : labels.ascending}
-              </label>
-            ))}
+          <input type="hidden" name="sortOrder" value={sortOrder} />
+          <div
+            className="grid grid-cols-2 gap-2 rounded-xl bg-muted/60 p-1"
+            role="group"
+            aria-label={labels.order}
+          >
+            {(["desc", "asc"] as const).map((order) => {
+              const isSelected = sortOrder === order;
+
+              return (
+                <Button
+                  key={order}
+                  type="button"
+                  variant="ghost"
+                  aria-pressed={isSelected}
+                  onClick={() => setSortOrder(order)}
+                  className={`h-9 w-full rounded-lg px-2 text-xs font-medium shadow-none transition-colors hover:bg-background/70 hover:text-foreground ${isSelected ? "bg-background text-foreground shadow-sm hover:bg-background" : "text-muted-foreground"}`}
+                >
+                  {order === "desc" ? labels.descending : labels.ascending}
+                </Button>
+              );
+            })}
           </div>
         </fieldset>
 
