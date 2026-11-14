@@ -10,6 +10,7 @@ This folder is the maintained technical guide for the public customer-facing sto
 - **Data fetching:** server-side `fetch` in feature-specific `*.server.ts` modules for SEO-friendly initial page content.
 - **Client interactions:** focused client components for carousels, galleries, filters, authentication, and other interactive controls.
 - **Customer authentication:** feature-scoped auth API and context; access tokens stay in memory and refresh tokens remain in backend-managed HttpOnly cookies.
+- **Customer cart:** authenticated cart API and customer-scoped TanStack Query cache; no guest cart or localStorage persistence.
 - **Shared UI:** reusable components under `src/components`; feature-specific UI belongs under `src/features/<feature>`.
 
 ## Routes and page guides
@@ -23,6 +24,7 @@ This folder is the maintained technical guide for the public customer-facing sto
 | `/[locale]/verify-email` | Email OTP verification and resend | [Authentication](pages/AUTHENTICATION.md) |
 | `/[locale]/forgot-password` and `/reset-password` | Password recovery | [Authentication](pages/AUTHENTICATION.md) |
 | `/[locale]/account` | Customer session and sign-out actions | [Authentication](pages/AUTHENTICATION.md) |
+| `/[locale]/cart` | Authenticated customer cart and quantity management | [Customer cart](pages/CART.md) |
 
 The route `page.tsx` files should remain thin: import and export the feature page component. Put page composition and data orchestration in the matching feature folder.
 
