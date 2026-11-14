@@ -18,7 +18,7 @@ export async function getHomepageData(
     return null;
   }
 
-  const endpoint = \`\${apiBaseUrl.replace(/\/+$/, "")}/home?view=desktop&limit=8\`;
+  const endpoint = `${apiBaseUrl.replace(/\/+$/, "")}/home?view=desktop&limit=8`;
 
   try {
     const response = await fetch(endpoint, {
@@ -32,7 +32,7 @@ export async function getHomepageData(
 
     if (!response.ok) {
       console.error(
-        \`Homepage API request failed: \${response.status} \${response.statusText}\`,
+        `Homepage API request failed: ${response.status} ${response.statusText}`,
       );
       return null;
     }
