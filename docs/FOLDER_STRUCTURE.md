@@ -9,6 +9,7 @@ docs/
     HOME.md                   Homepage sections and data flow
     PRODUCT_CATALOG.md        Catalog filters, grid, pagination, and API
     PRODUCT_DETAILS.md        Product gallery, zoom, responsive layout, and API
+    CART.md                   Authenticated cart page, API and quantity management
 messages/                     English and Arabic website translations
 public/                       Website static assets
 src/
@@ -18,10 +19,10 @@ src/
       layout.tsx              Locale validation, direction, and providers
       products/
         page.tsx              Product catalog route wrapper
-      cart/
-        page.tsx              Customer cart route wrapper
         [slug]/
           page.tsx            Product details route wrapper
+      cart/
+        page.tsx              Customer cart route wrapper
     globals.css               Shared design tokens and global styles
     providers.tsx             Theme, query, and toast providers
   components/
