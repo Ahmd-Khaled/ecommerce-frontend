@@ -376,7 +376,7 @@ export function HomeContent() {
           />
           <div
             dir={locale}
-            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:gap-6"
+            className="home-category-rail flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:gap-6"
           >
             {data.categories.map((category) => (
               <div key={category._id} className="snap-start">
