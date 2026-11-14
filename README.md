@@ -18,7 +18,11 @@ A customer-facing bilingual ecommerce storefront built with Next.js 16, React 19
 
 - `/[locale]` — homepage with banners, categories, featured deal, and product collections.
 - `/[locale]/products` — searchable/filterable product catalog with sorting and pagination.
-- `/[locale]/products/[slug]` — product information, responsive image gallery, zoom viewer, stock, and quantity controls.
+- `/[locale]/products/[slug]` — product information, responsive image gallery, related products, stock, and quantity controls.
+- `/[locale]/login` and `/register` — customer login and registration.
+- `/[locale]/verify-email` — email confirmation code verification.
+- `/[locale]/forgot-password` and `/reset-password` — password recovery.
+- `/[locale]/account` — current customer session and sign-out actions.
 
 English and Arabic are supported. Arabic uses RTL document direction.
 
@@ -27,6 +31,7 @@ English and Arabic are supported. Arabic uses RTL document direction.
 - App Router route files are intentionally thin.
 - Page composition and server data orchestration live under `src/features`.
 - Feature API modules use server-side fetch, locale headers, and typed response contracts.
+- Customer authentication uses a feature-scoped API/context, in-memory access tokens, and the backend's HttpOnly refresh cookie.
 - Shared UI and storefront primitives live under `src/components`.
 - Locale messages live in `messages/en.json` and `messages/ar.json`.
 
@@ -38,6 +43,7 @@ Start with the [project guide](docs/README.md). It covers architecture, route ma
 - [Homepage guide](docs/pages/HOME.md)
 - [Product catalog guide](docs/pages/PRODUCT_CATALOG.md)
 - [Product details guide](docs/pages/PRODUCT_DETAILS.md)
+- [Customer authentication guide](docs/pages/AUTHENTICATION.md)
 - [Folder structure](docs/FOLDER_STRUCTURE.md)
 
 **Documentation rule:** whenever a page is updated, update its matching page guide in `docs/pages/` in the same change. Update the API reference whenever endpoint contracts or fetching behavior changes.
