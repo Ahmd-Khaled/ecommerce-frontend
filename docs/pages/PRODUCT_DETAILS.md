@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Presents one product with a full image gallery, image zoom viewer, product information, availability, quantity selection, and purchase actions.
+Presents one product with a responsive image gallery, an optional full-screen image viewer, product information, availability, quantity selection, and purchase actions.
 
 ## Page composition
 
@@ -16,17 +16,13 @@ Sections:
    - Desktop: vertical thumbnail rail beside the main image.
    - Mobile/tablet: horizontal thumbnail strip beneath the main image.
    - Previous/next buttons appear when there is more than one image.
-   - Active thumbnail has a visible border and focus state.
-3. **Image zoom viewer** — opens from the zoom control on the main image.
-   - Full-screen responsive overlay.
-   - Zoom out/in controls in 50% steps, from 100% to 400%.
-   - Reset zoom and close controls.
-   - Scroll the zoomed image area horizontally/vertically to inspect other parts of the image.
-   - Escape closes the viewer; body scrolling is locked while it is open.
-4. **Product summary** — category label (when populated), discount badge, product name, current price, and compare-at price.
-5. **Product facts** — SKU and stock availability.
-6. **Description** — optional product description.
-7. **Purchase panel** — quantity decrement/increment, stock count, add-to-cart, and buy-now actions.
+   - The main image has its own positioned stacking context so navigation and full-screen controls do not cover or displace the image.
+   - The shared `ImageWithSkeleton` keeps the image visible while the shimmer is rendered behind it; an image load event is not required to reveal the image.
+3. **Full-screen image viewer** — opens from the expand icon on the main image.
+   - Displays the selected image fitted inside the available viewport; it does not magnify, zoom, or create a scrollable oversized image.
+   - Previous/next controls remain available for products with multiple images.
+   - Close button, backdrop click, and Escape key close the viewer.
+   - Body scrolling is locked while it is open.
 
 The details layout uses a single column on smaller screens and a two-column gallery/summary layout on large screens. Width constraints, wrapping, and compact mobile spacing prevent the product title, SKU, prices, and action buttons from forcing horizontal overflow.
 
@@ -73,7 +69,7 @@ The quantity selector is interactive and prevents selecting less than 1 or more 
 - Labels are in the `ProductDetails` namespace in both locale message files.
 - Dynamic image count labels are translated on the server with marker values: `t("imageNumber", { current: "{current}", total: "{total}" })`. The resulting string is serializable across the server/client boundary; the client gallery replaces the markers with the active image numbers.
 - Gallery controls have accessible labels and keyboard focus styles.
-- The zoom viewer has dialog semantics, an accessible close button, Escape handling, and live zoom percentage.
+- The full-screen viewer has dialog semantics, an accessible close button, Escape handling, and keyboard previous/next navigation.
 - Arabic uses the document RTL direction from the locale layout; gallery direction remains intentional for thumbnail flow and image controls.
 
 ## Main files
@@ -86,8 +82,9 @@ The quantity selector is interactive and prevents selecting less than 1 or more 
 - `src/features/products/components/product-details-skeleton.tsx`
 - `src/features/products/api/product-details.server.ts`
 - `src/features/products/types/product.types.ts`
+- `src/components/storefront/image-with-skeleton.tsx`
 - `messages/en.json`, `messages/ar.json`
 
 ## Maintenance notes
 
-Update this guide whenever the gallery, zoom behavior, product information, purchase controls, responsive layout, metadata, or product API contract changes. Update `docs/API_FETCHING.md` too when the endpoint or response shape changes.
+Update this guide whenever the gallery, full-screen viewer behavior, product information, purchase controls, responsive layout, metadata, or product API contract changes. Update `docs/API_FETCHING.md` too when the endpoint or response shape changes.
