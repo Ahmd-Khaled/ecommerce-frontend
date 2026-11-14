@@ -138,7 +138,7 @@ The backend expects `Authorization: user <accessToken>`. The refresh token is ne
 
 The auth provider restores a session by refreshing the access token and then loading `/auth/profile`. A shared refresh promise prevents duplicate refresh-token rotation. Protected API calls that receive a 401 may refresh once and retry once; public auth endpoints and the refresh endpoint are excluded.
 
-The active locale is sent through `Accept-Language`. See [Customer authentication](pages/AUTHENTICATION.md) for the UI routes, context API and session lifecycle.
+The active locale is sent through `Accept-Language`. The registration redirect to `/verify-email` intentionally does not include the email address in its query string; customers enter it on the verification screen. The email verification and password-reset screens collect a six-digit OTP. See [Customer authentication](pages/AUTHENTICATION.md) for the UI routes, context API and session lifecycle.
 
 ## Adding a new endpoint
 
