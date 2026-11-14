@@ -81,10 +81,10 @@ export default async function ProductDetailsPage({
   const isAvailable = product.stock > 0;
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+    <main className="mx-auto w-full max-w-[1440px] overflow-x-clip px-3 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <nav
         aria-label={t("breadcrumbLabel")}
-        className="mb-6 flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
+        className="mb-5 flex min-w-0 flex-wrap items-center gap-2 text-[11px] text-muted-foreground sm:mb-7 sm:text-xs"
       >
         <Link href="/" className="transition-colors hover:text-foreground">
           {t("home")}
@@ -97,12 +97,12 @@ export default async function ProductDetailsPage({
           {t("allProducts")}
         </Link>
         <span aria-hidden="true">/</span>
-        <span className="max-w-[55vw] truncate font-medium text-foreground">
+        <span className="min-w-0 max-w-[55vw] truncate font-medium text-foreground sm:max-w-[45vw]">
           {product.name}
         </span>
       </nav>
 
-      <div className="grid min-w-0 items-start gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="grid min-w-0 grid-cols-1 items-start gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-10 xl:gap-14">
         <ProductGallery
           images={product.images ?? []}
           productName={product.name}
@@ -110,11 +110,18 @@ export default async function ProductDetailsPage({
             imageAlt: t("productImages"),
             previousImage: t("previousImage"),
             nextImage: t("nextImage"),
-            imageNumber: t("imageNumber"),
+            imageNumber: (current, total) =>
+              t("imageNumber", { current, total }),
+            zoom: t("zoom"),
+            closeZoom: t("closeZoom"),
+            zoomIn: t("zoomIn"),
+            zoomOut: t("zoomOut"),
+            resetZoom: t("resetZoom"),
+            thumbnails: t("thumbnails"),
           }}
         />
 
-        <section className="min-w-0 lg:py-2">
+        <section className="min-w-0 rounded-2xl border border-border/60 bg-card/40 p-4 sm:p-6 lg:border-0 lg:bg-transparent lg:p-0 lg:py-2">
           <div className="flex flex-wrap items-center gap-2">
             {categoryName ? (
               <span className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary">
@@ -128,11 +135,11 @@ export default async function ProductDetailsPage({
             ) : null}
           </div>
 
-          <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+          <h1 className="mt-3 break-words text-xl font-bold leading-tight tracking-tight text-foreground sm:mt-4 sm:text-3xl lg:text-4xl">
             {product.name}
           </h1>
 
-          <div className="mt-5 flex flex-wrap items-baseline gap-3">
+          <div className="mt-4 flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1.5 sm:mt-5">
             <span className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               {price}
             </span>
@@ -143,7 +150,7 @@ export default async function ProductDetailsPage({
             ) : null}
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-border/70 bg-card p-4">
+          <div className="mt-5 grid min-w-0 grid-cols-1 gap-3 rounded-2xl border border-border/70 bg-card p-3.5 sm:grid-cols-2 sm:p-4">
             <div className="min-w-0">
               <span className="block text-[10px] font-medium text-muted-foreground">
                 {t("sku")}
@@ -170,7 +177,7 @@ export default async function ProductDetailsPage({
           </div>
 
           {product.description ? (
-            <div className="mt-7">
+            <div className="mt-6 sm:mt-7">
               <h2 className="text-sm font-bold">{t("description")}</h2>
               <p className="mt-2 whitespace-pre-line text-sm leading-7 text-muted-foreground">
                 {product.description}
