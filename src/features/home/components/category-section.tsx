@@ -43,7 +43,7 @@ export async function CategorySection({
         {categories.map((category) => (
           <Link
             key={category._id}
-            href={\`/categories/\${category.slug}\`}
+            href={`/categories/${category.slug}`}
             className="group flex w-[6.7rem] shrink-0 snap-start flex-col items-center gap-3 text-center sm:w-32"
           >
             <span className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[1.6rem] border border-border/70 bg-card shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:shadow-lg">
