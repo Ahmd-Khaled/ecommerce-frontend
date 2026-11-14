@@ -40,7 +40,7 @@ export function ProductCard({ product, currency, currencyExponent, locale, prior
       : locale === "ar" ? "أُزيل من المفضلة" : "Removed from favorites");
   }
 
-  const actionButtonClass = "h-9 w-full min-w-0 gap-1 rounded-lg px-1 text-[10px] font-semibold leading-none sm:h-10 sm:gap-1.5 sm:px-2 sm:text-[11px] lg:h-9 lg:gap-1 lg:px-1.5 lg:text-[10px] xl:text-[11px]";
+  const actionButtonClass = "h-9 w-full min-w-0 gap-1 rounded-lg px-1 text-[10px] font-semibold leading-none sm:h-10 sm:gap-1.5 sm:px-2 sm:text-[11px] lg:h-9 lg:gap-1 lg:px-1.5 lg:text-[10px]";
 
   return (
     <article className="group flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-border/80 bg-card shadow-sm shadow-slate-950/[0.025] transition duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-xl hover:shadow-slate-950/[0.08]">
