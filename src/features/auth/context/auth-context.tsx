@@ -117,23 +117,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    try {
-      await authApi.logout();
-    } finally {
-      setAccessToken(null);
-      setUser(null);
-      setStatus("unauthenticated");
-    }
+    await authApi.logout();
+    setAccessToken(null);
+    setUser(null);
+    setStatus("unauthenticated");
   }, []);
 
   const logoutAll = useCallback(async () => {
-    try {
-      await authApi.logoutAll();
-    } finally {
-      setAccessToken(null);
-      setUser(null);
-      setStatus("unauthenticated");
-    }
+    await authApi.logoutAll();
+    setAccessToken(null);
+    setUser(null);
+    setStatus("unauthenticated");
   }, []);
 
   const value = useMemo<AuthContextValue>(
