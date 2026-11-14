@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { usePathname, useRouter, Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/context/auth-context";
+import { useCart } from "@/features/cart/hooks/use-cart";
 
 export function StorefrontHeader() {
   const locale = useLocale();
@@ -27,6 +28,7 @@ export function StorefrontHeader() {
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const { isAuthenticated, status } = useAuth();
+  const { cart } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const isArabic = locale === "ar";
@@ -53,8 +55,10 @@ export function StorefrontHeader() {
     setMobileMenuOpen(false);
   }
 
-  function showComingSoon(feature: string) {
-    toast.info(feature);
+  function openCart() {
+    if (!isAuthenticated) return;
+    router.push("/cart");
+    setMobileMenuOpen(false);
   }
 
   const navigation = [
@@ -173,12 +177,17 @@ export function StorefrontHeader() {
               type="button"
               variant="ghost"
               size="icon"
-              onClick={() => showComingSoon(t("cartComingSoon"))}
+              onClick={openCart}
               aria-label={t("cart")}
               title={t("cart")}
               className="relative size-10 rounded-xl"
             >
               <ShoppingBag className="size-[18px]" />
+              {cart?.totalItems ? (
+                <span className="absolute -end-0.5 -top-0.5 flex min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold leading-4 text-primary-foreground">
+                  {cart.totalItems > 99 ? "99+" : cart.totalItems}
+                </span>
+              ) : null}
             </Button> : null}
             <span className="mx-1 hidden h-6 w-px bg-border sm:block" />
             <Button
