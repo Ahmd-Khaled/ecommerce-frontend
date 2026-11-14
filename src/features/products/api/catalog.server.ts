@@ -92,7 +92,7 @@ async function request<T>(path: string, locale: string): Promise<T | null> {
 
   try {
     const response = await fetch(
-      `${apiBaseUrl.replace(/\\/+$/, "")}${path}`,
+      `${apiBaseUrl.replace(/\/+$/, "")}${path}`,
       {
         method: "GET",
         headers: {
