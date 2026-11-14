@@ -40,7 +40,7 @@ function isPublicAuthEndpoint(url?: string) {
   return AUTH_PUBLIC_ENDPOINTS.some((endpoint) => url?.includes(endpoint));
 }
 
-async function refreshAccessToken(): Promise<string | null> {
+export async function refreshAccessToken(): Promise<string | null> {
   if (!refreshPromise) {
     refreshPromise = api
       .post("/auth/refresh-token")
