@@ -32,6 +32,8 @@ export function ProductPurchasePanel({ locale, productId, slug, stock, labels }:
   const isAvailable = stock > 0;
   const { status, isAuthenticated } = useAuth();
   const { addItem } = useCart();
+  const addToCart = addItem.mutateAsync;
+  const isAddingToCart = addItem.isPending;
   const router = useRouter();
   const t = useTranslations("Cart");
   const handledIntent = useRef(false);
@@ -66,12 +68,12 @@ export function ProductPurchasePanel({ locale, productId, slug, stock, labels }:
       return;
     }
 
-    void addItem.mutateAsync({ productId, quantity: requestedQuantity })
+    void addToCart({ productId, quantity: requestedQuantity })
       .then(() => {
         toast.success(t("added"));
       })
       .catch((error: unknown) => toast.error(apiErrorMessage(error)));
-  }, [status, productId, stock, addItem, t]);
+  }, [status, productId, stock, addToCart, t, labels.unavailable]);
 
   return (
     <div className="space-y-4 border-t border-border/70 pt-5">
@@ -85,8 +87,8 @@ export function ProductPurchasePanel({ locale, productId, slug, stock, labels }:
       </div>
       {isAvailable ? <p className="text-xs text-muted-foreground">{locale === "ar" ? "متاح " + stock + " قطعة في المخزون" : stock + " available in stock"}</p> : <p className="text-xs font-medium text-destructive">{labels.unavailable}</p>}
       <div className="grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2">
-        <Button type="button" onClick={() => void submitAddToCart(quantity)} disabled={!isAvailable || addItem.isPending || status === "loading"} className="h-12 rounded-xl text-xs font-semibold">
-          {addItem.isPending ? <LoaderCircle className="size-4 animate-spin" /> : <ShoppingCart className="size-4" strokeWidth={2} />}{labels.addToCart}
+        <Button type="button" onClick={() => void submitAddToCart(quantity)} disabled={!isAvailable || isAddingToCart || status === "loading"} className="h-12 rounded-xl text-xs font-semibold">
+          {isAddingToCart ? <LoaderCircle className="size-4 animate-spin" /> : <ShoppingCart className="size-4" strokeWidth={2} />}{labels.addToCart}
         </Button>
         <Button type="button" variant="outline" onClick={() => toast.info(labels.checkoutComingSoon)} disabled={!isAvailable} className="h-12 rounded-xl text-xs font-semibold"><Zap className="size-4" strokeWidth={2} />{labels.buyNow}</Button>
       </div>
