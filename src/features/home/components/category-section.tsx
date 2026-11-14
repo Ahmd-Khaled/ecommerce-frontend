@@ -48,7 +48,7 @@ export async function CategorySection({
           >
             <span className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[1.6rem] border border-border/70 bg-card shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:shadow-lg">
               {category.image ? (
-                <Image
+                <ImageWithSkeleton
                   src={category.image}
                   alt={category.name}
                   fill
