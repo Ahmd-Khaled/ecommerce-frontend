@@ -17,6 +17,7 @@ import {
 import { toast } from "sonner";
 import { usePathname, useRouter, Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth/context/auth-context";
 
 export function StorefrontHeader() {
   const locale = useLocale();
@@ -24,6 +25,7 @@ export function StorefrontHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
+  const { isAuthenticated, status } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const isArabic = locale === "ar";
@@ -41,6 +43,12 @@ export function StorefrontHeader() {
     event.preventDefault();
     if (!searchValue.trim()) return;
     toast.info(t("searchComingSoon"));
+    setMobileMenuOpen(false);
+  }
+
+  function openAccount() {
+    if (status === "loading") return;
+    router.push(isAuthenticated ? "/account" : "/login");
     setMobileMenuOpen(false);
   }
 
@@ -152,7 +160,8 @@ export function StorefrontHeader() {
               type="button"
               variant="ghost"
               size="icon"
-              onClick={() => showComingSoon(t("accountComingSoon"))}
+              onClick={openAccount}
+              disabled={status === "loading"}
               aria-label={t("account")}
               title={t("account")}
               className="hidden size-10 rounded-xl sm:inline-flex"
@@ -241,7 +250,8 @@ export function StorefrontHeader() {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => showComingSoon(t("accountComingSoon"))}
+                onClick={openAccount}
+                disabled={status === "loading"}
                 className="rounded-xl"
               >
                 <UserRound /> {t("account")}
