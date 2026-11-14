@@ -73,7 +73,10 @@ export function ProductGallery({
     if (!isZoomOpen) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") closeZoom();
+      if (event.key === "Escape") {
+        setIsZoomOpen(false);
+        setZoom(MIN_ZOOM);
+      }
       if (event.key === "+" || event.key === "=") {
         setZoom((current) => Math.min(MAX_ZOOM, current + ZOOM_STEP));
       }
@@ -82,12 +85,13 @@ export function ProductGallery({
       }
     }
 
+    const previousOverflow = document.body.style.overflow;
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
     };
   }, [isZoomOpen]);
 
