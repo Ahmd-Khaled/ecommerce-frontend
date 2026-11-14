@@ -1,11 +1,12 @@
 "use client";
 
-import { ShoppingCart, Zap } from "lucide-react";
+import { LoaderCircle, ShoppingCart, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ProductCardActionsProps {
   locale: string;
   isAvailable: boolean;
+  isAddingToCart?: boolean;
   onAddToCart: () => void;
   onBuyNow: () => void;
 }
@@ -16,6 +17,7 @@ const actionButtonClass =
 export function ProductCardActions({
   locale,
   isAvailable,
+  isAddingToCart = false,
   onAddToCart,
   onBuyNow,
 }: ProductCardActionsProps) {
@@ -24,34 +26,12 @@ export function ProductCardActions({
 
   return (
     <div className="mt-auto grid grid-cols-1 gap-2 pt-3 min-[380px]:grid-cols-2 sm:gap-2.5">
-      <Button
-        type="button"
-        onClick={onAddToCart}
-        disabled={!isAvailable}
-        className={actionButtonClass}
-      >
-        <ShoppingCart
-          className="size-3.5 shrink-0 sm:size-4"
-          strokeWidth={2}
-          aria-hidden="true"
-        />
+      <Button type="button" onClick={onAddToCart} disabled={!isAvailable || isAddingToCart} className={actionButtonClass}>
+        {isAddingToCart ? <LoaderCircle className="size-3.5 shrink-0 animate-spin sm:size-4" /> : <ShoppingCart className="size-3.5 shrink-0 sm:size-4" strokeWidth={2} aria-hidden="true" />}
         <span className="min-w-0 whitespace-nowrap text-[10px]">{addToCartLabel}</span>
       </Button>
-
-      <Button
-        type="button"
-        variant="outline"
-        onClick={onBuyNow}
-        disabled={!isAvailable}
-        aria-label={buyNowLabel}
-        title={buyNowLabel}
-        className={actionButtonClass}
-      >
-        <Zap
-          className="size-[18px] shrink-0 sm:size-5"
-          strokeWidth={2}
-          aria-hidden="true"
-        />
+      <Button type="button" variant="outline" onClick={onBuyNow} disabled={!isAvailable} aria-label={buyNowLabel} title={buyNowLabel} className={actionButtonClass}>
+        <Zap className="size-[18px] shrink-0 sm:size-5" strokeWidth={2} aria-hidden="true" />
         <span className="min-w-0 whitespace-nowrap text-[10px]">{buyNowLabel}</span>
       </Button>
     </div>
