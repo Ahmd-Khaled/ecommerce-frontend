@@ -12,7 +12,7 @@ Presents one product with a responsive image gallery, an optional full-screen im
 Sections:
 
 1. **Breadcrumbs** — links to the homepage and catalog, followed by the current product name.
-2. **Product gallery** — main square product image and every valid product image as a selectable thumbnail.
+2. **Product gallery** — main square product image and every valid product image as a selectable thumbnail. With exactly one image, the thumbnail rail is omitted and the main image spans the full gallery width. With no valid images, a centered image placeholder is shown in the full-width gallery area.
    - Desktop: vertical thumbnail rail beside the main image.
    - Mobile/tablet: horizontal thumbnail strip beneath the main image.
    - Previous/next buttons appear when there is more than one image.
