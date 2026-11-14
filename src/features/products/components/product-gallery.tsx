@@ -83,7 +83,13 @@ export function ProductGallery({
   return (
     <>
       <section className="min-w-0" aria-label={labels.imageAlt}>
-        <div className="grid min-w-0 gap-3 sm:gap-4 lg:grid-cols-[76px_minmax(0,1fr)]">
+        <div
+          className={`grid min-w-0 gap-3 sm:gap-4 ${
+            galleryImages.length > 1
+              ? "lg:grid-cols-[76px_minmax(0,1fr)]"
+              : "grid-cols-1"
+          }`}
+        >
           {galleryImages.length > 1 ? (
             <div
               aria-label={labels.thumbnails}
@@ -116,7 +122,11 @@ export function ProductGallery({
             </div>
           ) : null}
 
-          <div className="order-1 min-w-0 lg:order-2">
+          <div
+            className={`order-1 min-w-0 ${
+              galleryImages.length > 1 ? "lg:order-2" : ""
+            }`}
+          >
             <div className="group relative isolate aspect-square w-full overflow-hidden rounded-2xl border border-border/70 bg-muted/30 sm:rounded-3xl">
               {activeImage ? (
                 <ImageWithSkeleton
