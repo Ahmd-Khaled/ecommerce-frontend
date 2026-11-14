@@ -30,7 +30,7 @@ import type {
 function CategoryTile({ category }: { category: HomepageCategory }) {
   return (
     <Link
-      href={\`/categories/\${category.slug}\`}
+      href={`/categories/${category.slug}`}
       className="group flex w-[6.7rem] shrink-0 flex-col items-center gap-3 text-center sm:w-32"
     >
       <span className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[1.6rem] border border-border/70 bg-card shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:shadow-lg">
@@ -262,7 +262,7 @@ function BestDeal({
           ) : null}
         </div>
         <Link
-          href={\`/products/\${product.slug}\`}
+          href={`/products/${product.slug}`}
           className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-bold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:shadow-xl sm:text-sm"
         >
           {t("shopDeal")}
