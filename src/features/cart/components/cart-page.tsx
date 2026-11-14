@@ -1,6 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useAuth } from "@/features/auth/context/auth-context";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, ArrowRight, LoaderCircle, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -14,6 +17,8 @@ export function CartPage() {
   const locale = useLocale();
   const t = useTranslations("Cart");
   const isArabic = locale === "ar";
+  const router = useRouter();
+  const { status, isAuthenticated } = useAuth();
   const {
     cart,
     isLoading,
@@ -24,6 +29,12 @@ export function CartPage() {
     clearCart,
     isMutating,
   } = useCart();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/login?redirect=%2Fcart");
+    }
+  }, [status, router]);
 
   const currency = cart?.currency ?? "EGP";
   const currencyExponent = cart?.currencyExponent ?? 2;
@@ -59,7 +70,7 @@ export function CartPage() {
     }
   }
 
-  if (isLoading) {
+  if (status !== "authenticated" || !isAuthenticated || isLoading) {
     return (
       <main className="mx-auto min-h-[55vh] max-w-[1100px] px-4 py-12 sm:px-6">
         <div className="flex min-h-64 items-center justify-center gap-3 text-sm text-muted-foreground">
