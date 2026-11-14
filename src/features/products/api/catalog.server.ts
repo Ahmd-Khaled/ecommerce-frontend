@@ -32,7 +32,6 @@ export type CatalogSearchParams = Record<
 >;
 
 const DEFAULT_PAGE_SIZE = 12;
-const MAX_PRICE_FILTER = 250_000;
 
 function firstValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
@@ -49,9 +48,7 @@ function parseNonNegativeNumber(value: string | undefined) {
 
   const parsed = Number(value);
 
-  return Number.isFinite(parsed) && parsed >= 0
-    ? Math.min(parsed, MAX_PRICE_FILTER)
-    : undefined;
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : undefined;
 }
 
 function buildFilters(params: CatalogSearchParams): ProductFilters {
