@@ -407,7 +407,8 @@
     "paymentStatusLabels": {
       "paid": "مدفوع",
       "pending": "قيد الانتظار",
-      "expired": "منتهي الصلاحية"
+      "expired": "منتهي الصلاحية",
+      "unpaid": "غير مدفوع"
     }
   },
   "Payment": {
@@ -431,7 +432,8 @@
     "status": {
       "paid": "مدفوع",
       "pending": "قيد الانتظار",
-      "expired": "منتهي الصلاحية"
+      "expired": "منتهي الصلاحية",
+      "unpaid": "غير مدفوع"
     },
     "continuePayment": "متابعة الدفع",
     "retryPayment": "إعادة تجهيز الدفع",
