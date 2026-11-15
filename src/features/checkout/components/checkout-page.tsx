@@ -104,19 +104,15 @@ export function CheckoutPage() {
       ),
     });
 
-    if (idempotencyRef.current?.fingerprint !== fingerprint) {
-      idempotencyRef.current = {
-        fingerprint,
-        key: crypto.randomUUID().replaceAll("-", ""),
-      };
-    }
+    const idempotencyKey =
+      idempotencyRef.current?.fingerprint === fingerprint
+        ? idempotencyRef.current.key
+        : crypto.randomUUID().replaceAll("-", "");
+    idempotencyRef.current = { fingerprint, key: idempotencyKey };
 
     setIsSubmitting(true);
     try {
-      const result = await checkoutApi.placeOrder(
-        payload,
-        idempotencyRef.current.key,
-      );
+      const result = await checkoutApi.placeOrder(payload, idempotencyKey);
       setPlacedOrder(result.data);
       idempotencyRef.current = null;
       void refetchCart();
