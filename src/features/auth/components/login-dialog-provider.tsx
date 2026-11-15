@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type FormEvent,
@@ -56,7 +55,15 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const isProtectedPath = protectedPaths.includes(pathname);
+  const isProtectedPath = protectedPaths.some(
+    (path) => pathname === path || pathname.startsWith(path + "/"),
+  );
+  const protectedRequest: LoginDialogRequest | null =
+    status === "unauthenticated" && isProtectedPath
+      ? { reason: "protected" }
+      : null;
+  const activeRequest =
+    status === "authenticated" ? null : protectedRequest ?? request;
 
   const requestLogin = useCallback(
     (
@@ -71,16 +78,6 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  useEffect(() => {
-    if (status === "unauthenticated" && isProtectedPath) {
-      requestLogin("protected");
-    }
-
-    if (status === "authenticated") {
-      setRequest(null);
-    }
-  }, [status, isProtectedPath, pathname, requestLogin]);
-
   async function handleQuickLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (isSubmitting) return;
@@ -92,7 +89,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
       toast.success(t("loginSuccess"));
 
       try {
-        await request?.onAuthenticated?.();
+        await activeRequest?.onAuthenticated?.();
       } catch (actionError) {
         toast.error(apiErrorMessage(actionError));
       }
@@ -109,7 +106,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
   const value = useMemo(() => ({ requestLogin }), [requestLogin]);
 
   const title =
-    request?.reason === "protected"
+    activeRequest?.reason === "protected"
       ? t("protectedLoginTitle")
       : t("cartLoginTitle");
   const description =
@@ -122,7 +119,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
       {children}
 
       <Dialog
-        open={request !== null}
+        open={activeRequest !== null}
         onOpenChange={(open) => {
           if (!open && !isProtectedPath) {
             setRequest(null);
