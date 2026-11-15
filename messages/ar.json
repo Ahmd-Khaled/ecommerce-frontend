@@ -210,7 +210,16 @@
     "passwordCopied": "تم نسخ كلمة المرور.",
     "copyPasswordFailed": "تعذر نسخ كلمة المرور. يرجى نسخها يدوياً.",
     "passwordGeneratorHint": "أنشئ كلمة مرور قوية وفريدة وسيتم وضعها في حقلي كلمة المرور والتأكيد.",
-    "resendCountdown": "إعادة إرسال الرمز بعد {seconds} ثانية"
+    "resendCountdown": "إعادة إرسال الرمز بعد {seconds} ثانية",
+    "cartLoginTitle": "سجّل الدخول لإضافة المنتج",
+    "cartLoginDescription": "يجب تسجيل الدخول إلى حسابك قبل إضافة المنتجات إلى سلة التسوق.",
+    "protectedLoginTitle": "تسجيل الدخول مطلوب",
+    "protectedLoginDescription": "غير مصرح لك بزيارة هذه الصفحة. يرجى تسجيل الدخول إلى حسابك للمتابعة.",
+    "continueToLogin": "تسجيل الدخول",
+    "quickLoginTitle": "تسجيل دخول سريع",
+    "quickLoginDescription": "أدخل بيانات حسابك أدناه. بعد تسجيل الدخول سنعيدك إلى هذه الصفحة.",
+    "backToMessage": "رجوع",
+    "cancel": "إلغاء"
   },
   "Cart": {
     "eyebrow": "سلة مشترياتك",
