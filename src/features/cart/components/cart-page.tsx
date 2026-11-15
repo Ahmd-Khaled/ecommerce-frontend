@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { ArrowLeft, ArrowRight, LoaderCircle, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -16,7 +15,6 @@ export function CartPage() {
   const locale = useLocale();
   const t = useTranslations("Cart");
   const isArabic = locale === "ar";
-  const router = useRouter();
   const { status, isAuthenticated } = useAuth();
   const {
     cart,
@@ -28,12 +26,6 @@ export function CartPage() {
     clearCart,
     isMutating,
   } = useCart();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/login?redirect=%2Fcart");
-    }
-  }, [status, router]);
 
   const currency = cart?.currency ?? "EGP";
   const currencyExponent = cart?.currencyExponent ?? 2;
