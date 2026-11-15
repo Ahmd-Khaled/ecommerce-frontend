@@ -189,7 +189,6 @@ export default async function ProductDetailsPage({
             <ProductPurchasePanel
               locale={locale}
               productId={product._id}
-              slug={product.slug}
               stock={product.stock}
               labels={{
                 quantity: t("quantity"),
