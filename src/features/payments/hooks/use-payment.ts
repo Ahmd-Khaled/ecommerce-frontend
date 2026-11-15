@@ -17,7 +17,7 @@ export function useOrderPayment(orderId: string) {
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: (query) =>
-      query.state.data?.status === "pending" ? 2500 : false,
+      query.state.data?.status === "pending" ? 30_000 : false,
   });
 }
 
