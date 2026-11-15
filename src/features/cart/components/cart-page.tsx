@@ -179,7 +179,7 @@ export function CartPage() {
             <span className="font-bold tabular-nums">{subtotal}</span>
           </div>
           <p className="mt-3 text-[11px] leading-5 text-muted-foreground">{t("shippingNote")}</p>
-          <Button type="button" disabled className="mt-5 h-11 w-full rounded-xl">{t("checkoutComingSoon")}</Button>
+          <Button asChild disabled={cart.items.some((item) => !item.available || !Number.isSafeInteger(item.unitPriceMinor))} className="mt-5 h-11 w-full rounded-xl"><Link href="/checkout">{t("checkout")}</Link></Button>
         </aside>
       </div>
     </main>
