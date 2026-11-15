@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { LoaderCircle, LogOut, MapPin, ShieldCheck, UserRound } from "lucide-react";
+import { ClipboardList, LoaderCircle, LogOut, MapPin, ShieldCheck, UserRound } from "lucide-react";
 
 import { AuthCard } from "@/features/auth/components/auth-card";
 import { useAuth } from "@/features/auth/context/auth-context";
@@ -94,7 +94,14 @@ export function AccountPage() {
         </div>
       </div>
 
-      <Button asChild type="button" variant="outline" className="mt-5 h-10 w-full rounded-xl">
+      <Button asChild type="button" className="mt-5 h-10 w-full rounded-xl">
+        <Link href="/orders">
+          <ClipboardList className="size-4" />
+          {t("myOrders")}
+        </Link>
+      </Button>
+
+      <Button asChild type="button" variant="outline" className="mt-2 h-10 w-full rounded-xl">
         <Link href="/addresses">
           <MapPin className="size-4" />
           {t("manageAddresses")}
