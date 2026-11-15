@@ -106,7 +106,7 @@ export function CheckoutPage() {
     });
 
     const idempotencyKey =
-      pendingCheckout?.fingerprint === fingerprint
+      pendingCheckout && pendingCheckout.fingerprint === fingerprint
         ? pendingCheckout.key
         : crypto.randomUUID().replaceAll("-", "");
     setPendingCheckout({ payload, fingerprint, key: idempotencyKey });
