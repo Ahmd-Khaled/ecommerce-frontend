@@ -17,7 +17,7 @@ export const checkoutApi = {
     );
 
     if (!data?.success || !data.data?._id) {
-      throw new Error(data?.message || "The checkout response is invalid.");
+      throw new Error("The checkout response is invalid.");
     }
 
     return data;
