@@ -110,13 +110,15 @@ export function PaymentReturnPage({ outcome }: PaymentReturnPageProps) {
   const paid = payment?.status === "paid";
   const expired = payment?.status === "expired";
   const pending = payment?.status === "pending";
-  const paymentStatusLabel = payment?.status === "paid"
-    ? t("status.paid")
-    : payment?.status === "pending"
-      ? t("status.pending")
-      : payment?.status === "expired"
-        ? t("status.expired")
-        : payment?.status ?? "";
+  const paymentStatusLabel = payment?.status === "unpaid"
+    ? t("status.unpaid")
+    : payment?.status === "paid"
+      ? t("status.paid")
+      : payment?.status === "pending"
+        ? t("status.pending")
+        : payment?.status === "expired"
+          ? t("status.expired")
+          : payment?.status ?? "";
   const title = paid
     ? t("paidTitle")
     : expired
