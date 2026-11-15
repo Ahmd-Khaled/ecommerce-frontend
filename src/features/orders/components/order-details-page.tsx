@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, ClipboardList, LoaderCircle, MapPin, Package, RefreshCw, XCircle } from "lucide-react";
+import { ArrowLeft, ClipboardList, CreditCard, LoaderCircle, MapPin, Package, RefreshCw, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
