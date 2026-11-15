@@ -87,6 +87,7 @@ export async function HomeContent() {
           viewAllLabel={t("viewAll")}
           previousLabel={t("previousProducts")}
           nextLabel={t("nextProducts")}
+          prioritizeFirstImage
         />
 
         <ProductSection

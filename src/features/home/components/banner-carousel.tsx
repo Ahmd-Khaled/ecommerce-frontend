@@ -67,6 +67,7 @@ function BannerCarouselSlider({ banners }: { banners: HomepageBanner[] }) {
                 alt={banner.altText || banner.title || t("bannerAlt")}
                 fill
                 priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
                 unoptimized
                 sizes="100vw"
                 className={`object-cover transition-transform duration-[7000ms] ease-out ${isActive ? "scale-105" : "scale-100"}`}

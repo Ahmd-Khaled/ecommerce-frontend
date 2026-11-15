@@ -1,6 +1,8 @@
 "use client";
 
 import { QueryProvider } from "@/components/providers/query-provider";
+import { AuthProvider } from "@/features/auth/context/auth-context";
+import { LoginDialogProvider } from "@/features/auth/components/login-dialog-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { useLocale } from "next-intl";
 import { useTheme } from "next-themes";
@@ -17,8 +19,12 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <ThemeProvider>
       <QueryProvider>
-        {children}
-        <StorefrontToaster locale={locale} />
+        <AuthProvider>
+          <LoginDialogProvider>
+            {children}
+            <StorefrontToaster locale={locale} />
+          </LoginDialogProvider>
+        </AuthProvider>
       </QueryProvider>
     </ThemeProvider>
   );

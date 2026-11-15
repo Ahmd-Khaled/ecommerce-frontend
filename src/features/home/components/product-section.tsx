@@ -19,6 +19,7 @@ interface ProductSectionProps {
   viewAllLabel: string;
   previousLabel: string;
   nextLabel: string;
+  prioritizeFirstImage?: boolean;
 }
 
 export function ProductSection({
@@ -33,6 +34,7 @@ export function ProductSection({
   viewAllLabel,
   previousLabel,
   nextLabel,
+  prioritizeFirstImage = false,
 }: ProductSectionProps) {
   const railRef = useRef<HTMLDivElement>(null);
   const isRtl = locale === "ar";
@@ -101,7 +103,7 @@ export function ProductSection({
         dir={locale}
         className="home-product-rail flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-3 sm:gap-4 lg:gap-5"
       >
-        {products.map((product) => (
+        {products.map((product, index) => (
           <div
             key={product._id}
             className="w-[68vw] max-w-[17rem] shrink-0 snap-start sm:w-[42vw] sm:max-w-[18rem] md:w-[29vw] lg:w-[18rem]"
@@ -111,6 +113,7 @@ export function ProductSection({
               currency={currency}
               currencyExponent={currencyExponent}
               locale={locale}
+              priority={prioritizeFirstImage && index === 0}
             />
           </div>
         ))}
