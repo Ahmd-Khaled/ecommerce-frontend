@@ -5,11 +5,15 @@ import type {
 } from "@/features/payments/types/payment.types";
 
 export const paymentsApi = {
-  async createCheckout(orderId: string, idempotencyKey: string): Promise<OrderPayment> {
+  async createCheckout(orderId: string, idempotencyKey?: string): Promise<OrderPayment> {
     const { data } = await api.post<PaymentEnvelope>(
       "/payments/checkout",
       { orderId },
-      { headers: { "Idempotency-Key": idempotencyKey } },
+      {
+        headers: idempotencyKey
+          ? { "Idempotency-Key": idempotencyKey }
+          : undefined,
+      },
     );
 
     if (!data?.success || !data.data?.orderId || !data.data.status) {
