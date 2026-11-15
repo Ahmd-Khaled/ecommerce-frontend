@@ -43,7 +43,7 @@ export function CheckoutPage() {
   const [isSavingAddress, setIsSavingAddress] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [placedOrder, setPlacedOrder] = useState<PlacedOrder | null>(null);
-  const idempotencyRef = useRef<{ fingerprint: string; key: string } | null>(null);
+  const pendingCheckoutRef = useRef<{ payload: CheckoutPayload; fingerprint: string; key: string } | null>(null);
 
   const selectedAddress =
     addresses.find((address) => address._id === selectedAddressId) ??
@@ -105,18 +105,37 @@ export function CheckoutPage() {
     });
 
     const idempotencyKey =
-      idempotencyRef.current?.fingerprint === fingerprint
-        ? idempotencyRef.current.key
+      pendingCheckoutRef.current?.fingerprint === fingerprint
+        ? pendingCheckoutRef.current.key
         : crypto.randomUUID().replaceAll("-", "");
-    idempotencyRef.current = { fingerprint, key: idempotencyKey };
+    pendingCheckoutRef.current = { payload, fingerprint, key: idempotencyKey };
 
     setIsSubmitting(true);
     try {
       const result = await checkoutApi.placeOrder(payload, idempotencyKey);
       setPlacedOrder(result.data);
-      idempotencyRef.current = null;
+      pendingCheckoutRef.current = null;
       void refetchCart();
       toast.success(result.replayed ? t("orderRecovered") : t("orderPlaced"));
+    } catch (error) {
+      toast.error(apiErrorMessage(error));
+      void refetchCart();
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function retryPreviousCheckout() {
+    const pending = pendingCheckoutRef.current;
+    if (!pending || isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      const result = await checkoutApi.placeOrder(pending.payload, pending.key);
+      pendingCheckoutRef.current = null;
+      setPlacedOrder(result.data);
+      void refetchCart();
+      toast.success(t("orderRecovered"));
     } catch (error) {
       toast.error(apiErrorMessage(error));
       void refetchCart();
@@ -142,6 +161,25 @@ export function CheckoutPage() {
         fallbackCurrency={currency}
         fallbackExponent={currencyExponent}
       />
+    );
+  }
+
+  if ((!cart || cart.items.length === 0) && pendingCheckoutRef.current) {
+    return (
+      <main className="mx-auto flex min-h-[55vh] max-w-[760px] flex-col items-center justify-center px-4 py-12 text-center">
+        <PackageCheck className="size-10 text-primary" />
+        <h1 className="mt-4 text-xl font-bold">{t("recoveryTitle")}</h1>
+        <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">{t("recoveryDescription")}</p>
+        <Button
+          type="button"
+          onClick={() => void retryPreviousCheckout()}
+          disabled={isSubmitting}
+          className="mt-5 rounded-xl"
+        >
+          {isSubmitting ? <LoaderCircle className="size-4 animate-spin" /> : null}
+          {isSubmitting ? t("placingOrder") : t("retryPreviousCheckout")}
+        </Button>
+      </main>
     );
   }
 
