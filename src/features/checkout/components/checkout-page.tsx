@@ -82,10 +82,10 @@ export function CheckoutPage() {
     setIsSavingAddress(true);
     try {
       const address = await addressApi.create(values);
-      await refetchAddresses();
       setSelectedAddressId(address._id);
       setAddressDialogOpen(false);
       toast.success(t("addressSaved"));
+      void refetchAddresses();
     } catch (error) {
       toast.error(apiErrorMessage(error));
     } finally {
