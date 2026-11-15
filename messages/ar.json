@@ -439,6 +439,7 @@
     "retryPayment": "إعادة تجهيز الدفع",
     "retryVerification": "إعادة التحقق",
     "automaticVerification": "يتم التحقق من حالة الدفع تلقائياً أثناء انتظار التأكيد.",
-    "viewOrders": "عرض طلباتي"
+    "viewOrders": "عرض طلباتي",
+    "statusLabel": "حالة الدفع"
   }
 }
