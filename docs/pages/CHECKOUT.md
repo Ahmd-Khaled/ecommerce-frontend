@@ -65,7 +65,7 @@ The payment API is implemented in `src/features/payments/`:
 - The browser redirects only to the `checkoutUrl` returned by the backend. Never construct a Stripe URL or send client-calculated amounts.
 - The payment idempotency key and order ID are retained in `sessionStorage` so a retry and the Stripe return route can recover the same payment attempt in the same browser tab.
 - `/[locale]/payment/success` and `/[locale]/payment/cancelled` both query the backend for the payment state. A success redirect is not proof of payment; the page reports success only after the backend returns `paid` following verified webhook processing.
-- Pending status is polled every 2.5 seconds. A cancelled Stripe redirect does not cancel or expire the Checkout session; the customer can continue using its existing URL.
+- Pending status is polled every 30 seconds. A cancelled Stripe redirect does not cancel or expire the Checkout session; the customer can continue using its existing URL.
 - An expired session cannot be restarted for the same order. The backend requires a new order after the expired order is handled.
 
 The configured backend return URLs must point to the storefront routes, for example:
