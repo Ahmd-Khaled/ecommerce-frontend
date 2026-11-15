@@ -217,7 +217,7 @@ The response envelope is `{ success, data }`; payment data contains `orderId`, `
 
 The Stripe webhook is backend-to-backend at `POST /payments/webhook`; it must never be called by the browser. Payment confirmation is trusted only after the backend verifies the webhook and returns `status: paid` from the customer payment-details endpoint. A browser return URL alone is not proof of payment.
 
-The storefront stores the payment idempotency key and order reference in tab-scoped session storage to retry an uncertain session creation with the original key and identify the order after Stripe redirects back. Pending payment status is polled every 2.5 seconds. The backend supports EGP, USD, EUR, GBP, AED, and SAR for online Checkout and allows one Checkout session per order.
+The storefront stores the payment idempotency key and order reference in tab-scoped session storage to retry an uncertain session creation with the original key and identify the order after Stripe redirects back. Pending payment status is polled every 30 seconds. The backend supports EGP, USD, EUR, GBP, AED, and SAR for online Checkout and allows one Checkout session per order.
 
 See [Payment integration](pages/PAYMENTS.md) for the redirect and return-page lifecycle.
 
