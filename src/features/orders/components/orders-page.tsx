@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowLeft, ArrowRight, ClipboardList, LoaderCircle, PackageSearch, RefreshCw } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/features/auth/context/auth-context";
@@ -12,6 +13,13 @@ import { OrderStatusBadge } from "@/features/orders/components/order-status-badg
 import { formatMinorMoney } from "@/utils/formatCurrency";
 
 const PAGE_SIZE = 10;
+
+const paymentStatusVariants: Record<string, string> = {
+  paid: "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
+  pending: "border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-400",
+  unpaid: "border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-400",
+  expired: "border-muted-foreground/20 bg-muted text-muted-foreground",
+};
 
 export function OrdersPage() {
   const t = useTranslations("Orders");
@@ -31,6 +39,17 @@ export function OrdersPage() {
       currency,
       currencyExponent: exponent ?? 2,
     });
+  }
+
+  function paymentStatusLabel(status?: string) {
+    if (!status) return t("notAvailable");
+    const labels: Record<string, string> = {
+      paid: t("paymentStatusLabels.paid"),
+      pending: t("paymentStatusLabels.pending"),
+      expired: t("paymentStatusLabels.expired"),
+      unpaid: t("paymentStatusLabels.unpaid"),
+    };
+    return labels[status.toLowerCase()] ?? status;
   }
 
   if (status === "loading" || (status === "authenticated" && query.isLoading)) {
@@ -94,6 +113,7 @@ export function OrdersPage() {
               const statusKey = order.status.toLowerCase();
               const statusLabels: Record<string, string> = { pending: t("status.pending"), confirmed: t("status.confirmed"), processing: t("status.processing"), shipped: t("status.shipped"), delivered: t("status.delivered"), cancelled: t("status.cancelled"), refunded: t("status.refunded") };
               const statusLabel = statusLabels[statusKey] ?? order.status;
+              const paymentStatus = order.paymentStatus?.toLowerCase();
               return (
                 <article key={order._id} className="rounded-2xl border border-border/80 bg-card p-4 shadow-sm sm:p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
@@ -101,7 +121,17 @@ export function OrdersPage() {
                       <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("orderNumber")}</p>
                       <p className="mt-1 break-all text-sm font-bold">#{order._id}</p>
                     </div>
-                    <OrderStatusBadge status={order.status} label={statusLabel} />
+                    <div className="flex flex-wrap items-center gap-2">
+                      <OrderStatusBadge status={order.status} label={statusLabel} />
+                      {paymentStatus ? (
+                        <Badge
+                          variant="outline"
+                          className={`rounded-full px-3 py-1 text-[11px] font-semibold ${paymentStatusVariants[paymentStatus] ?? "border-border bg-muted text-muted-foreground"}`}
+                        >
+                          {t("paymentStatus")}: {paymentStatusLabel(paymentStatus)}
+                        </Badge>
+                      ) : null}
+                    </div>
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-4 border-t border-border/70 pt-4 sm:grid-cols-3">
                     <div>
