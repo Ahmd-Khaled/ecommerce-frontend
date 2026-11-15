@@ -27,6 +27,8 @@ This folder is the maintained technical guide for the public customer-facing sto
 | `/[locale]/cart` | Authenticated customer cart and quantity management | [Customer cart](pages/CART.md) |
 | `/[locale]/addresses` | Saved customer delivery addresses | [Saved addresses](pages/ADDRESSES.md) |
 | `/[locale]/checkout` | Address selection, price review, and order placement | [Checkout review](pages/CHECKOUT.md) |
+| `/[locale]/orders` | Customer order history and pagination | [Customer orders](pages/ORDERS.md) |
+| `/[locale]/orders/[orderId]` | Order items, delivery snapshot, totals, and cancellation request | [Customer orders](pages/ORDERS.md) |
 
 The route `page.tsx` files should remain thin: import and export the feature page component. Put page composition and data orchestration in the matching feature folder.
 
@@ -113,3 +115,4 @@ For UI changes, also manually inspect both `/en` and `/ar` at mobile, tablet, an
 - [Customer cart guide](pages/CART.md)
 - [Saved addresses guide](pages/ADDRESSES.md)
 - [Checkout review guide](pages/CHECKOUT.md)
+- [Customer orders guide](pages/ORDERS.md)
