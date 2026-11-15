@@ -15,7 +15,7 @@ The storefront uses the backend's Stripe-hosted Checkout integration. The browse
 5. The backend derives the amount and currency from the immutable order, creates or retrieves the Stripe Checkout session, and returns `checkoutUrl`.
 6. The browser redirects to that exact backend-provided URL.
 7. Stripe returns the customer to the configured success or cancellation route. Both routes recover the order ID from the same-tab payment session and call `GET /payments/orders/:orderId`.
-8. The return page polls every 30 seconds while payment is pending. It reports payment as successful only when the backend reports `paid`.
+8. The return page polls every 45 seconds while payment is pending. It reports payment as successful only when the backend reports `paid`.
 
 ## API contracts
 
