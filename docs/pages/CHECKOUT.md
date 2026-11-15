@@ -2,7 +2,7 @@
 
 **Route:** `/[locale]/checkout`
 
-This page is the customer-facing review step before order placement. It does not collect payment details or charge a payment provider.
+This page is the customer-facing review step and order-placement entry point. After the backend creates the order, the storefront creates a Stripe-hosted Checkout session and redirects the customer to Stripe. Card details never pass through the storefront or backend.
 
 ## Feature modules
 
@@ -18,9 +18,9 @@ This page is the customer-facing review step before order placement. It does not
 2. Select a saved delivery address or create one inline.
 3. Review every cart product, quantity, line total, subtotal, shipping, discount, and total.
 4. Confirm the order. Unavailable products or lines without `unitPriceMinor` block submission.
-5. Display the created order reference and confirmed total after success.
+5. Create a Stripe Checkout session for the created order using a separate payment idempotency key.\n6. Redirect to the backend-provided `checkoutUrl`; if session creation fails, keep the order reference visible and allow retry with the same payment key.
 
-The current backend policy sets shipping, discount, and tax to zero for this milestone. The page states this explicitly. No payment is collected.
+The current backend policy sets shipping, discount, and tax to zero for this milestone. The page states this explicitly. Online payment currently supports EGP, USD, EUR, GBP, AED, and SAR only.
 
 ## Checkout request
 
@@ -54,3 +54,24 @@ The `Idempotency-Key` header contains a UUID-derived opaque key. Quantities are 
 ## Verification
 
 Test empty carts, missing addresses, changing selected addresses, stale cart versions, price changes, unavailable items, insufficient stock, double-click submission, network retries using the same idempotency key, successful cart clearing, and Arabic RTL layout. Run the backend replica-set integration tests for transactional rollback and idempotency races.
+
+## Stripe payment handoff
+
+The payment API is implemented in `src/features/payments/`:
+
+- `POST /payments/checkout` with `{ orderId }` and a required `Idempotency-Key` header creates or retrieves the order's Stripe Checkout session.
+- `GET /payments/orders/:orderId` retrieves the authenticated customer's payment status.
+- The browser redirects only to the `checkoutUrl` returned by the backend. Never construct a Stripe URL or send client-calculated amounts.
+- The payment idempotency key and order ID are retained in `sessionStorage` so a retry and the Stripe return route can recover the same payment attempt in the same browser tab.
+- `/[locale]/payment/success` and `/[locale]/payment/cancelled` both query the backend for the payment state. A success redirect is not proof of payment; the page reports success only after the backend returns `paid` following verified webhook processing.
+- Pending status is polled every 2.5 seconds. A cancelled Stripe redirect does not cancel or expire the Checkout session; the customer can continue using its existing URL.
+- An expired session cannot be restarted for the same order. The backend requires a new order after the expired order is handled.
+
+The configured backend return URLs must point to the storefront routes, for example:
+
+```env
+PAYMENT_SUCCESS_URL=http://localhost:3000/en/payment/success?session_id={CHECKOUT_SESSION_ID}
+PAYMENT_CANCEL_URL=http://localhost:3000/en/payment/cancelled
+```
+
+Use HTTPS outside local development. The current backend uses a fixed configured locale in these URLs; configure the desired storefront locale for each deployment.
