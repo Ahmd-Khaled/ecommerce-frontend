@@ -136,7 +136,7 @@ export function AddressFormDialog({
                   id={`address-${field.key}`}
                   type={field.type ?? "text"}
                   required={field.required}
-                  maxLength={field.key === "street" ? 300 : 100}
+                  maxLength={field.key === "street" ? 300 : field.key === "label" ? 50 : 100}
                   value={values[field.key]}
                   onChange={(event) =>
                     update(field.key, event.target.value)
