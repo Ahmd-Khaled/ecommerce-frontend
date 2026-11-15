@@ -10,6 +10,8 @@ docs/
     PRODUCT_CATALOG.md        Catalog filters, grid, pagination, and API
     PRODUCT_DETAILS.md        Product gallery, zoom, responsive layout, and API
     CART.md                   Authenticated cart page, API and quantity management
+    ADDRESSES.md              Saved customer address management
+    CHECKOUT.md               Checkout review, minor-unit confirmation, and idempotency
 messages/                     English and Arabic website translations
 public/                       Website static assets
 src/
@@ -23,6 +25,10 @@ src/
           page.tsx            Product details route wrapper
       cart/
         page.tsx              Customer cart route wrapper
+      addresses/
+        page.tsx              Saved customer addresses route wrapper
+      checkout/
+        page.tsx              Checkout review route wrapper
     globals.css               Shared design tokens and global styles
     providers.tsx             Theme, query, and toast providers
   components/
@@ -33,6 +39,8 @@ src/
     home/                     Homepage API, response types, and sections
     products/                 Catalog and product details API, types, and components
     cart/                     Authenticated cart API, types, query hooks, and components
+    addresses/                Saved customer address API, types, query hooks, and UI
+    checkout/                 Checkout API, request/order types, and review UI
   i18n/                       Locale routing, navigation, and request config
   lib/                        Shared HTTP client and utilities
   utils/                      Currency formatting and other shared helpers
