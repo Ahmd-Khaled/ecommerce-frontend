@@ -402,6 +402,12 @@
       "delivered": "تم التوصيل",
       "cancelled": "ملغي",
       "refunded": "تم رد المبلغ"
+    },
+    "continuePayment": "متابعة الدفع",
+    "paymentStatusLabels": {
+      "paid": "مدفوع",
+      "pending": "قيد الانتظار",
+      "expired": "منتهي الصلاحية"
     }
   },
   "Payment": {
