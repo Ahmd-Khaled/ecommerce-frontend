@@ -407,7 +407,8 @@
     "paymentStatusLabels": {
       "paid": "Paid",
       "pending": "Pending",
-      "expired": "Expired"
+      "expired": "Expired",
+      "unpaid": "Not paid"
     }
   },
   "Payment": {
@@ -431,7 +432,8 @@
     "status": {
       "paid": "Paid",
       "pending": "Pending",
-      "expired": "Expired"
+      "expired": "Expired",
+      "unpaid": "Not paid"
     },
     "continuePayment": "Continue payment",
     "retryPayment": "Retry payment setup",
