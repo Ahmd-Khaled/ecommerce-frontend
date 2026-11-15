@@ -204,13 +204,15 @@ export function AddressesPage() {
         </div>
       )}
 
-      <AddressFormDialog
-        open={dialogOpen}
-        address={editing}
-        isSaving={create.isPending || update.isPending}
-        onOpenChange={setDialogOpen}
-        onSubmit={saveAddress}
-      />
+      {dialogOpen ? (
+        <AddressFormDialog
+          open={dialogOpen}
+          address={editing}
+          isSaving={create.isPending || update.isPending}
+          onOpenChange={setDialogOpen}
+          onSubmit={saveAddress}
+        />
+      ) : null}
     </main>
   );
 }
