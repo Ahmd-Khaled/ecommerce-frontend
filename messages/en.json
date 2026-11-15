@@ -402,6 +402,12 @@
       "delivered": "Delivered",
       "cancelled": "Cancelled",
       "refunded": "Refunded"
+    },
+    "continuePayment": "Continue payment",
+    "paymentStatusLabels": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "expired": "Expired"
     }
   },
   "Payment": {
