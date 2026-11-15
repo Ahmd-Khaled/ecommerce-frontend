@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
+import { useState } from "react";
+import { useLoginDialog } from "@/features/auth/components/login-dialog-provider";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { useCart } from "@/features/cart/hooks/use-cart";
 import { apiErrorMessage } from "@/lib/api/axios";
@@ -31,17 +31,17 @@ export function ProductPurchasePanel({ locale, productId, slug, stock, labels }:
   const isAvailable = stock > 0;
   const { status, isAuthenticated } = useAuth();
   const { addItem } = useCart();
-  const addToCart = addItem.mutateAsync;
   const isAddingToCart = addItem.isPending;
-  const router = useRouter();
+  const { requestLogin } = useLoginDialog();
   const t = useTranslations("Cart");
-  const handledIntent = useRef(false);
 
   async function submitAddToCart(nextQuantity: number) {
     if (status === "loading" || addItem.isPending) return;
     if (!isAuthenticated) {
-      const returnTo = "/products/" + slug + "?cartAction=add&productId=" + encodeURIComponent(productId) + "&quantity=" + nextQuantity;
-      router.push("/login?redirect=" + encodeURIComponent(returnTo));
+      requestLogin("cart", async () => {
+        await addItem.mutateAsync({ productId, quantity: nextQuantity });
+        toast.success(t("added"));
+      });
       return;
     }
     try {
@@ -51,28 +51,6 @@ export function ProductPurchasePanel({ locale, productId, slug, stock, labels }:
       toast.error(apiErrorMessage(error));
     }
   }
-
-  useEffect(() => {
-    if (status !== "authenticated" || handledIntent.current) return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("cartAction") !== "add" || params.get("productId") !== productId) return;
-    const requestedQuantity = Number(params.get("quantity") ?? "1");
-    if (!Number.isSafeInteger(requestedQuantity) || requestedQuantity < 1) return;
-
-    handledIntent.current = true;
-    window.history.replaceState(window.history.state, "", window.location.pathname);
-
-    if (stock < 1) {
-      toast.error(labels.unavailable);
-      return;
-    }
-
-    void addToCart({ productId, quantity: requestedQuantity })
-      .then(() => {
-        toast.success(t("added"));
-      })
-      .catch((error: unknown) => toast.error(apiErrorMessage(error)));
-  }, [status, productId, stock, addToCart, t, labels.unavailable]);
 
   return (
     <div className="space-y-4 border-t border-border/70 pt-5">
