@@ -49,7 +49,9 @@ A shared `LoginDialogProvider` is mounted inside `AuthProvider` and exposes `use
 
 - Adding a product while signed out opens a localized dialog explaining that sign-in is required. The customer can dismiss it or switch to a quick-login form without leaving the current page.
 - The quick-login form uses the same `useAuth().login()` action and backend endpoint as the full login page. On successful login, the pending add-to-cart callback is completed, then the current page is reloaded so the refreshed session and cart state are restored.
-- Visiting a protected route while signed out opens the same dialog with an access-required message. The dialog cannot be dismissed on a protected route; the customer must sign in.
+- Visiting a protected route while signed out opens the same dialog with an access-required message. The dialog cannot be dismissed on a protected route; the customer must sign in or choose the registration link.
+- Protected route content is withheld while the auth provider restores the session and whenever the customer is unauthenticated. This prevents a brief content flash during session restoration and prevents closing the dialog from exposing the page.
+- The quick-login form includes a link to the localized registration page. Selecting it closes the dialog and navigates to registration, which is a public route.
 - Current protected routes are `/account` and `/cart`. Add future customer-only routes to the `protectedPaths` list in `login-dialog-provider.tsx`.
 - The protected route stays in the URL while the dialog is open. Successful login reloads that route rather than navigating to a separate login page.
 
