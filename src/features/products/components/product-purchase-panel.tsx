@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 interface ProductPurchasePanelProps {
   locale: string;
   productId: string;
-  slug: string;
   stock: number;
   labels: {
     quantity: string;
@@ -26,7 +25,7 @@ interface ProductPurchasePanelProps {
   };
 }
 
-export function ProductPurchasePanel({ locale, productId, slug, stock, labels }: ProductPurchasePanelProps) {
+export function ProductPurchasePanel({ locale, productId, stock, labels }: ProductPurchasePanelProps) {
   const [quantity, setQuantity] = useState(1);
   const isAvailable = stock > 0;
   const { status, isAuthenticated } = useAuth();
