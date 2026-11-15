@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Pick<CategoryDetailPageProps,
     title: category.name,
     description: category.description || (locale === "ar"
       ? `تسوق منتجات ${category.name} واكتشف المجموعة المتاحة.`
-      : `Shop ${data.category.name} products and explore the available collection.`),
+      : `Shop ${category.name} products and explore the available collection.`),
   };
 }
 
