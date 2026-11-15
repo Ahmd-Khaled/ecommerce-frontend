@@ -75,6 +75,11 @@ async function request<T>(path: string, locale: string): Promise<T | null> {
   }
 }
 
+export async function getCategoryBySlugData(slug: string, locale: string): Promise<Category | null> {
+  const data = await request<{ category: Category }>(`/categories/slug/${encodeURIComponent(slug)}`, locale);
+  return data?.category ?? null;
+}
+
 export async function getCategoriesPageData(locale: string): Promise<CategoriesPageData | null> {
   const data = await request<{ categories: Category[] }>("/categories/tree", locale);
   return data ? { categories: data.categories ?? [] } : null;
@@ -89,22 +94,20 @@ export async function getCategoryDetailPageData(
   const query = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => query.set(key, String(value)));
 
-  const [categoryData, productData, currencyData] = await Promise.all([
-    request<{ category: Category }>(`/categories/slug/${encodeURIComponent(slug)}`, locale),
-    request<ProductListResponse>(`/category-products-placeholder`, locale),
+  const [category, currencyData] = await Promise.all([
+    getCategoryBySlugData(slug, locale),
     request<CurrencyData>("/home?view=desktop&limit=1", locale),
   ]);
+  if (!category) return null;
 
-  // Category products are fetched after the category ID is resolved below.
-  if (!categoryData?.category) return null;
   const categoryProducts = await request<ProductListResponse>(
-    `/products/category/${encodeURIComponent(categoryData.category._id)}?${query.toString()}`,
+    `/products/category/${encodeURIComponent(category._id)}?${query.toString()}`,
     locale,
   );
   if (!categoryProducts) return null;
 
   return {
-    category: categoryData.category,
+    category,
     products: categoryProducts.products ?? [],
     pagination: categoryProducts.pagination,
     currency: currencyData?.currency ?? "EGP",
