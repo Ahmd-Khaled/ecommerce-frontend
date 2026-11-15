@@ -184,6 +184,24 @@ Checkout uses `POST /orders/checkout` and requires an `Idempotency-Key` header. 
 
 The response contains `replayed` and the created order under `data`. New orders return HTTP 201; an idempotent replay returns HTTP 200. The backend validates cart version, exact product set, current price and stock, then atomically deducts inventory, creates the order snapshots, and clears the cart. The frontend reuses the same key for retries of an unchanged request and generates a new key when the request changes. See [Checkout review](pages/CHECKOUT.md).
 
+## Customer orders
+
+**Feature:** `src/features/orders/`
+
+All customer order routes require the authenticated customer USER token. Customer ownership is derived by the backend; the frontend does not send a customer ID.
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/orders?page=1&limit=10` | Paginated order history |
+| GET | `/orders/:orderId` | Read one customer-owned order |
+| PATCH | `/orders/:orderId/cancel` | Request cancellation with optional `{ reason }` (1–500 characters) |
+
+The backend documents the list and detail responses as `{ success, data }`; the list data contains `orders` and `pagination`, and detail data contains one order. The order contains server-calculated line items, minor-unit monetary totals, a delivery-address snapshot, status, and timestamps. The storefront formats amounts using the returned `currency` and `currencyExponent`; never treat minor-unit amounts as major units.
+
+The TanStack Query cache is scoped by customer ID. A successful cancellation updates the order detail cache and invalidates that customer's order history. Cancellation eligibility remains authoritative on the backend: the UI submits the request and displays backend validation/conflict errors rather than assuming every order can be cancelled.
+
+The order list and details are available at `/[locale]/orders` and `/[locale]/orders/:orderId`. English and Arabic labels are maintained in `messages/en.json` and `messages/ar.json`.
+
 ## Adding a new endpoint
 
 1. Confirm the endpoint, access rules, query parameters, and response envelope in the backend API documentation or implementation.
