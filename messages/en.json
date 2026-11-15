@@ -326,6 +326,9 @@
     "orderPlaced": "Order placed successfully.",
     "orderRecovered": "Your previous checkout was safely recovered.",
     "addressSaved": "Delivery address saved.",
-    "myAccount": "My account"
+    "myAccount": "My account",
+    "recoveryTitle": "Checking your previous checkout",
+    "recoveryDescription": "The last request may have completed even though the response was interrupted. Retry the exact same request safely using its original idempotency key.",
+    "retryPreviousCheckout": "Check previous checkout"
   }
 }
