@@ -119,7 +119,7 @@ export function CheckoutPage() {
       );
       setPlacedOrder(result.data);
       idempotencyRef.current = null;
-      await refetchCart();
+      void refetchCart();
       toast.success(result.replayed ? t("orderRecovered") : t("orderPlaced"));
     } catch (error) {
       toast.error(apiErrorMessage(error));
