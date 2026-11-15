@@ -312,12 +312,14 @@ export function CheckoutPage() {
         </aside>
       </div>
 
-      <AddressFormDialog
-        open={addressDialogOpen}
-        isSaving={isSavingAddress}
-        onOpenChange={setAddressDialogOpen}
-        onSubmit={saveAddress}
-      />
+      {addressDialogOpen ? (
+        <AddressFormDialog
+          open={addressDialogOpen}
+          isSaving={isSavingAddress}
+          onOpenChange={setAddressDialogOpen}
+          onSubmit={saveAddress}
+        />
+      ) : null}
     </main>
   );
 }
