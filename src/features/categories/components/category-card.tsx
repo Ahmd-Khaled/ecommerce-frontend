@@ -7,7 +7,7 @@ interface CategoryCardProps {
   labels: { explore: string; products: string; subcategories: string };
 }
 
-export function CategoryCard({ category, locale, labels }: CategoryCardProps) {
+export function CategoryCard({ category, labels }: CategoryCardProps) {
   const count = category.totalProductCount ?? category.productCount ?? 0;
   const children = category.children ?? [];
 
