@@ -441,5 +441,24 @@
     "automaticVerification": "يتم التحقق من حالة الدفع تلقائياً أثناء انتظار التأكيد.",
     "viewOrders": "عرض طلباتي",
     "statusLabel": "حالة الدفع"
+  },
+  "Categories": {
+    "eyebrow": "اكتشف مجموعاتنا",
+    "title": "تسوق حسب الفئة",
+    "description": "تصفح مجموعاتنا واكتشف المنتجات التي تناسب احتياجاتك.",
+    "viewAllProducts": "عرض جميع المنتجات",
+    "explore": "استكشف المجموعة",
+    "products": "منتج",
+    "subcategories": "استكشف التصنيفات الفرعية",
+    "categoryEyebrow": "اكتشف هذه المجموعة",
+    "breadcrumbLabel": "مسار التنقل",
+    "home": "الرئيسية",
+    "emptyTitle": "لا توجد فئات متاحة",
+    "emptyDescription": "لا توجد فئات لعرضها حالياً. يرجى العودة لاحقاً.",
+    "connectionIssue": "مشكلة في الاتصال بالمتجر",
+    "loadError": "تعذر تحميل الفئات",
+    "loadErrorDescription": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
+    "backHome": "العودة للرئيسية",
+    "productPages": "صفحات منتجات الفئة"
   }
 }
