@@ -20,7 +20,7 @@ export function CategoryProductsFilters({ basePath, labels, values }: CategoryPr
         <h2 className="text-base font-bold tracking-tight">{labels.filters}</h2>
         <p className="mt-1 text-xs text-muted-foreground">{labels.search}</p>
       </div>
-      <form method="get" action={basePath} className="space-y-4">
+      <form method="get" className="space-y-4">
         <label className="block space-y-2">
           <span className="text-xs font-semibold">{labels.search}</span>
           <Input name="search" type="search" defaultValue={values.search} maxLength={150} placeholder={labels.searchPlaceholder} className="h-10 rounded-xl" />
