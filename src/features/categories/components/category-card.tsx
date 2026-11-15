@@ -4,7 +4,6 @@ import type { Category } from "@/features/categories/types/category.types";
 
 interface CategoryCardProps {
   category: Category;
-  locale: string;
   labels: { explore: string; products: string; subcategories: string };
 }
 
