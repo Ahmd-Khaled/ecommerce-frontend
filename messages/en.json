@@ -439,6 +439,7 @@
     "retryPayment": "Retry payment setup",
     "retryVerification": "Retry verification",
     "automaticVerification": "Payment status is checked automatically while confirmation is pending.",
-    "viewOrders": "View my orders"
+    "viewOrders": "View my orders",
+    "statusLabel": "Payment status"
   }
 }
