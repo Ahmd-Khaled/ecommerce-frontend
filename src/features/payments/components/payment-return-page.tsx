@@ -31,8 +31,12 @@ export function PaymentReturnPage({ outcome }: PaymentReturnPageProps) {
   const createCheckout = useCreatePaymentCheckout();
 
   useEffect(() => {
-    setSession(readPaymentSession());
-    setSessionLoaded(true);
+    const frame = window.requestAnimationFrame(() => {
+      setSession(readPaymentSession());
+      setSessionLoaded(true);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   const payment = paymentQuery.data;
