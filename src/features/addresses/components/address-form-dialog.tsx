@@ -90,7 +90,11 @@ export function AddressFormDialog({
       street: values.street.trim(),
       building: values.building.trim(),
       apartment: values.apartment.trim(),
-      isDefault: values.isDefault,
+      ...(address
+        ? { isDefault: values.isDefault }
+        : values.isDefault
+          ? { isDefault: true }
+          : {}),
     });
   }
 
