@@ -96,7 +96,7 @@ export function OrderDetailsPage() {
   const statusLabel = statusLabels[statusKey] ?? order.status;
   const address = order.shippingAddress ?? order.address;
   const paymentStatus = paymentQuery.data?.status ?? order.paymentStatus;
-  const canRequestCancellation = !paymentQuery.isLoading && !["cancelled", "refunded"].includes(statusKey) && !["pending", "paid"].includes(paymentStatus ?? "unpaid");
+  const canRequestCancellation = !paymentQuery.isLoading && !paymentQuery.isError && !["cancelled", "refunded"].includes(statusKey) && !["pending", "paid"].includes(paymentStatus ?? "unpaid");
   const paymentStatusLabel = paymentStatus === "unpaid"
     ? t("paymentStatusLabels.unpaid")
     : paymentStatus === "paid"
