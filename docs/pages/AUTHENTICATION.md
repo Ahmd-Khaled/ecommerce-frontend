@@ -13,6 +13,8 @@ The storefront customer authentication feature is implemented under `src/feature
 | `/[locale]/reset-password` | Verify reset OTP and set a new password |
 | `/[locale]/account` | Current customer session and sign-out actions |
 | `/[locale]/cart` | Protected customer cart |
+| `/[locale]/addresses` | Protected saved customer addresses |
+| `/[locale]/checkout` | Protected checkout review and order placement |
 
 Each `page.tsx` is a small route entry that imports the feature component.
 
@@ -52,7 +54,7 @@ A shared `LoginDialogProvider` is mounted inside `AuthProvider` and exposes `use
 - Visiting a protected route while signed out opens the same dialog with an access-required message. The dialog cannot be dismissed on a protected route; the customer must sign in or choose the registration link.
 - Protected route content is withheld while the auth provider restores the session and whenever the customer is unauthenticated. This prevents a brief content flash during session restoration and prevents closing the dialog from exposing the page.
 - The quick-login form includes a link to the localized registration page. Selecting it closes the dialog and navigates to registration, which is a public route.
-- Current protected routes are `/account` and `/cart`. Add future customer-only routes to the `protectedPaths` list in `login-dialog-provider.tsx`.
+- Current protected routes are `/account`, `/addresses`, `/cart`, and `/checkout`. Add future customer-only routes to the `protectedPaths` list in `login-dialog-provider.tsx`.
 - The protected route stays in the URL while the dialog is open. Successful login reloads that route rather than navigating to a separate login page.
 
 ## Localization
