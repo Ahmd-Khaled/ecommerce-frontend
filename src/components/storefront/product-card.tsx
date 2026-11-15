@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Heart, PackageCheck, PackageOpen } from "lucide-react";
 import { toast } from "sonner";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { ImageWithSkeleton } from "@/components/storefront/image-with-skeleton";
 import { ProductCardActions } from "@/components/storefront/product-card-actions";
@@ -11,6 +11,7 @@ import { formatMajorMoney } from "@/utils/formatCurrency";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { useCart } from "@/features/cart/hooks/use-cart";
 import { apiErrorMessage } from "@/lib/api/axios";
+import { useLoginDialog } from "@/features/auth/components/login-dialog-provider";
 
 export interface StorefrontProductCardItem {
   _id: string;
@@ -35,7 +36,7 @@ export function ProductCard({ product, currency, currencyExponent, locale, prior
   const [isFavorite, setIsFavorite] = useState(false);
   const { status, isAuthenticated } = useAuth();
   const { addItem } = useCart();
-  const router = useRouter();
+  const { requestLogin } = useLoginDialog();
 
   const image = product.images?.[0];
   const isAvailable = product.stock > 0;
@@ -47,8 +48,10 @@ export function ProductCard({ product, currency, currencyExponent, locale, prior
   async function handleCart() {
     if (status === "loading" || addItem.isPending) return;
     if (!isAuthenticated) {
-      const returnTo = "/products/" + product.slug + "?cartAction=add&productId=" + encodeURIComponent(product._id) + "&quantity=1";
-      router.push("/login?redirect=" + encodeURIComponent(returnTo));
+      requestLogin("cart", async () => {
+        await addItem.mutateAsync({ productId: product._id, quantity: 1 });
+        toast.success(locale === "ar" ? "تمت إضافة المنتج إلى السلة" : "Product added to your cart");
+      });
       return;
     }
     try {
