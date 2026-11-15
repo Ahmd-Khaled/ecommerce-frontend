@@ -69,6 +69,7 @@ export function StorefrontHeader() {
     { href: "/", label: t("home") },
     { href: "/categories", label: t("categories") },
     { href: "/products", label: t("products") },
+    ...(isAuthenticated ? [{ href: "/orders" as const, label: t("orders") }] : []),
   ];
 
   return (
