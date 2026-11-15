@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, ArrowRight, ClipboardList, LoaderCircle, MapPin, Package, RefreshCw, XCircle } from "lucide-react";
+import { ArrowLeft, ClipboardList, LoaderCircle, MapPin, Package, RefreshCw, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { OrderStatusBadge } from "@/features/orders/components/order-status-badge";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { useCancelOrder, useOrder } from "@/features/orders/hooks/use-orders";
@@ -30,7 +30,6 @@ export function OrderDetailsPage() {
   const t = useTranslations("Orders");
   const locale = useLocale();
   const params = useParams<{ orderId: string }>();
-  const router = useRouter();
   const { user, status } = useAuth();
   const orderId = params.orderId;
   const query = useOrder(orderId);
@@ -91,9 +90,10 @@ export function OrderDetailsPage() {
   }
 
   const statusKey = order.status.toLowerCase();
-  const statusLabel = t.has(`status.${statusKey}`) ? t(`status.${statusKey}`) : order.status;
+  const statusLabels: Record<string, string> = { pending: t("status.pending"), confirmed: t("status.confirmed"), processing: t("status.processing"), shipped: t("status.shipped"), delivered: t("status.delivered"), cancelled: t("status.cancelled"), refunded: t("status.refunded") };
+  const statusLabel = statusLabels[statusKey] ?? order.status;
   const address = order.shippingAddress ?? order.address;
-  const canRequestCancellation = !["cancelled", "delivered", "refunded"].includes(statusKey);
+  const canRequestCancellation = !["cancelled", "refunded"].includes(statusKey);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
