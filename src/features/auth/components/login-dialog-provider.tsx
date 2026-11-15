@@ -49,7 +49,7 @@ interface LoginDialogContextValue {
 }
 
 const LoginDialogContext = createContext<LoginDialogContextValue | null>(null);
-const protectedPaths = ["/account", "/cart"];
+const protectedPaths = ["/account", "/addresses", "/cart", "/checkout"];
 
 export function LoginDialogProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
