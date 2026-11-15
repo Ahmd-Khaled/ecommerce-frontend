@@ -18,7 +18,8 @@ This page is the customer-facing review step and order-placement entry point. Af
 2. Select a saved delivery address or create one inline.
 3. Review every cart product, quantity, line total, subtotal, shipping, discount, and total.
 4. Confirm the order. Unavailable products or lines without `unitPriceMinor` block submission.
-5. Create a Stripe Checkout session for the created order using a separate payment idempotency key.\n6. Redirect to the backend-provided `checkoutUrl`; if session creation fails, keep the order reference visible and allow retry with the same payment key.
+5. Create a Stripe Checkout session for the created order using a separate payment idempotency key.
+6. Redirect to the backend-provided `checkoutUrl`; if session creation fails, keep the order reference visible and allow retry with the same payment key.
 
 The current backend policy sets shipping, discount, and tax to zero for this milestone. The page states this explicitly. Online payment currently supports EGP, USD, EUR, GBP, AED, and SAR only.
 
