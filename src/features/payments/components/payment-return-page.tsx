@@ -110,6 +110,13 @@ export function PaymentReturnPage({ outcome }: PaymentReturnPageProps) {
   const paid = payment?.status === "paid";
   const expired = payment?.status === "expired";
   const pending = payment?.status === "pending";
+  const paymentStatusLabel = payment?.status === "paid"
+    ? t("status.paid")
+    : payment?.status === "pending"
+      ? t("status.pending")
+      : payment?.status === "expired"
+        ? t("status.expired")
+        : payment?.status ?? "";
   const title = paid
     ? t("paidTitle")
     : expired
@@ -144,7 +151,7 @@ export function PaymentReturnPage({ outcome }: PaymentReturnPageProps) {
             </div>
             <div className="mt-3 flex items-center justify-between gap-3 text-sm">
               <span className="text-muted-foreground">{t("status")}</span>
-              <strong>{t(`status.${payment.status}`, { fallback: payment.status })}</strong>
+              <strong>{paymentStatusLabel}</strong>
             </div>
           </div>
         ) : paymentQuery.isError ? (
