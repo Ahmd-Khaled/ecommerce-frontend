@@ -12,6 +12,7 @@ The storefront customer authentication feature is implemented under `src/feature
 | `/[locale]/forgot-password` | Request a password-reset OTP |
 | `/[locale]/reset-password` | Verify reset OTP and set a new password |
 | `/[locale]/account` | Current customer session and sign-out actions |
+| `/[locale]/cart` | Protected customer cart |
 
 Each `page.tsx` is a small route entry that imports the feature component.
 
@@ -41,6 +42,16 @@ All requests use the shared Axios instance at `src/lib/api/axios.ts`, whose base
 - A shared refresh promise prevents simultaneous 401 responses or React Strict Mode effect replay from rotating the same refresh cookie concurrently.
 - A 401 from a protected request triggers one refresh attempt and retries that request once. Public auth endpoints and the refresh endpoint are excluded from this interceptor.
 - The auth provider exposes `user`, `status`, `login`, `register`, `logout`, `logoutAll`, and `refreshProfile` through `useAuth()`.
+
+## In-place quick login and protected routes
+
+A shared `LoginDialogProvider` is mounted inside `AuthProvider` and exposes `useLoginDialog()` to client features.
+
+- Adding a product while signed out opens a localized dialog explaining that sign-in is required. The customer can dismiss it or switch to a quick-login form without leaving the current page.
+- The quick-login form uses the same `useAuth().login()` action and backend endpoint as the full login page. On successful login, the pending add-to-cart callback is completed, then the current page is reloaded so the refreshed session and cart state are restored.
+- Visiting a protected route while signed out opens the same dialog with an access-required message. The dialog cannot be dismissed on a protected route; the customer must sign in.
+- Current protected routes are `/account` and `/cart`. Add future customer-only routes to the `protectedPaths` list in `login-dialog-provider.tsx`.
+- The protected route stays in the URL while the dialog is open. Successful login reloads that route rather than navigating to a separate login page.
 
 ## Localization
 
