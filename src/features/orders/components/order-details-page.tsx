@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { OrderStatusBadge } from "@/features/orders/components/order-status-badge";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { useCancelOrder, useOrder } from "@/features/orders/hooks/use-orders";
+import { useOrderPayment } from "@/features/payments/hooks/use-payment";
 import { apiErrorMessage } from "@/lib/api/axios";
 import { formatMinorMoney } from "@/utils/formatCurrency";
 import type { OrderAddressSnapshot } from "@/features/orders/types/order.types";
@@ -33,6 +34,7 @@ export function OrderDetailsPage() {
   const { user, status } = useAuth();
   const orderId = params.orderId;
   const query = useOrder(orderId);
+  const paymentQuery = useOrderPayment(orderId);
   const cancelOrder = useCancelOrder();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [reason, setReason] = useState("");
@@ -94,6 +96,14 @@ export function OrderDetailsPage() {
   const statusLabel = statusLabels[statusKey] ?? order.status;
   const address = order.shippingAddress ?? order.address;
   const canRequestCancellation = !["cancelled", "refunded"].includes(statusKey);
+  const paymentStatus = paymentQuery.data?.status ?? order.paymentStatus;
+  const paymentStatusLabel = paymentStatus === "paid"
+    ? t("paymentStatusLabels.paid")
+    : paymentStatus === "pending"
+      ? t("paymentStatusLabels.pending")
+      : paymentStatus === "expired"
+        ? t("paymentStatusLabels.expired")
+        : paymentStatus;
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -109,6 +119,7 @@ export function OrderDetailsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <OrderStatusBadge status={order.status} label={statusLabel} />
+          {paymentQuery.data?.status === "pending" && paymentQuery.data.checkoutUrl ? <Button onClick={() => window.location.assign(paymentQuery.data!.checkoutUrl!)} className="rounded-xl"><CreditCard className="size-4" />{t("continuePayment")}</Button> : null}
           {canRequestCancellation ? <Button variant="outline" onClick={() => setDialogOpen(true)} className="rounded-xl border-destructive/30 text-destructive hover:bg-destructive/5 hover:text-destructive"><XCircle className="size-4" />{t("cancelOrder")}</Button> : null}
         </div>
       </div>
@@ -149,7 +160,7 @@ export function OrderDetailsPage() {
           </dl>
           <div className="mt-5 border-t border-border pt-4 text-xs text-muted-foreground">
             <p>{t("orderDate")}: {new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(order.createdAt))}</p>
-            {order.paymentStatus ? <p className="mt-2">{t("paymentStatus")}: {order.paymentStatus}</p> : null}
+            {paymentStatus ? <p className="mt-2">{t("paymentStatus")}: {paymentStatusLabel}</p> : null}
           </div>
         </aside>
       </div>
