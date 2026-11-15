@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { LoaderCircle } from "lucide-react";
 
@@ -59,26 +59,21 @@ export function AddressFormDialog({
   onSubmit,
 }: AddressFormDialogProps) {
   const t = useTranslations("Addresses");
-  const [values, setValues] = useState<FormValues>(emptyValues);
-
-  useEffect(() => {
-    if (!open) return;
-    setValues(
-      address
-        ? {
-            label: address.label,
-            fullName: address.fullName,
-            phone: address.phone,
-            country: address.country,
-            city: address.city,
-            street: address.street,
-            building: address.building ?? "",
-            apartment: address.apartment ?? "",
-            isDefault: address.isDefault,
-          }
-        : emptyValues,
-    );
-  }, [address, open]);
+  const [values, setValues] = useState<FormValues>(() =>
+    address
+      ? {
+          label: address.label,
+          fullName: address.fullName,
+          phone: address.phone,
+          country: address.country,
+          city: address.city,
+          street: address.street,
+          building: address.building ?? "",
+          apartment: address.apartment ?? "",
+          isDefault: address.isDefault,
+        }
+      : emptyValues,
+  );
 
   function update<K extends keyof FormValues>(key: K, value: FormValues[K]) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -93,8 +88,8 @@ export function AddressFormDialog({
       country: values.country.trim(),
       city: values.city.trim(),
       street: values.street.trim(),
-      ...(values.building.trim() ? { building: values.building.trim() } : {}),
-      ...(values.apartment.trim() ? { apartment: values.apartment.trim() } : {}),
+      building: values.building.trim(),
+      apartment: values.apartment.trim(),
       isDefault: values.isDefault,
     });
   }
