@@ -160,6 +160,30 @@ Cart data is held in TanStack Query under a customer-scoped key. Successful muta
 
 See [Customer cart](pages/CART.md) for page behavior and verification scenarios.
 
+## Saved customer addresses
+
+**Feature:** `src/features/addresses/`
+
+All address endpoints require the authenticated customer USER token. Ownership is derived from the token; the client must not send a user ID.
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/addresses` | List saved addresses |
+| POST | `/addresses` | Create an address |
+| PATCH | `/addresses/:addressId` | Update an address |
+| PATCH | `/addresses/:addressId/default` | Set default address |
+| DELETE | `/addresses/:addressId` | Delete an address |
+
+The response data is an address or an array of addresses with `_id`, `label`, `fullName`, `phone`, `country`, `city`, `street`, optional `building`/`apartment`, and `isDefault`. The addresses are embedded in the authenticated user's record on the backend. See [Saved addresses](pages/ADDRESSES.md).
+
+## Checkout review
+
+**Feature:** `src/features/checkout/`
+
+Checkout uses `POST /orders/checkout` and requires an `Idempotency-Key` header. The body includes the reviewed cart `version`, selected saved `addressId`, and one `{ productId, unitPriceMinor }` confirmation for every cart line. Quantities and totals are intentionally not sent; the backend derives them from the persisted cart and authoritative product records.
+
+The response contains `replayed` and the created order under `data`. New orders return HTTP 201; an idempotent replay returns HTTP 200. The backend validates cart version, exact product set, current price and stock, then atomically deducts inventory, creates the order snapshots, and clears the cart. The frontend reuses the same key for retries of an unchanged request and generates a new key when the request changes. See [Checkout review](pages/CHECKOUT.md).
+
 ## Adding a new endpoint
 
 1. Confirm the endpoint, access rules, query parameters, and response envelope in the backend API documentation or implementation.
