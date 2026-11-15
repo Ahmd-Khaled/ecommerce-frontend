@@ -152,7 +152,7 @@ export function OrderDetailsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <OrderStatusBadge status={order.status} label={statusLabel} />
-          {["pending", "expired"].includes(paymentQuery.data?.status ?? "") ? <Button onClick={() => void continuePayment()} disabled={isResumingPayment || paymentQuery.isLoading} className="rounded-xl">{isResumingPayment ? <LoaderCircle className="size-4 animate-spin" /> : <CreditCard className="size-4" />}{t("continuePayment")}</Button> : null}
+          {(paymentQuery.data?.status === "expired" || (paymentQuery.data?.status === "pending" && Boolean(paymentQuery.data.checkoutUrl))) ? <Button onClick={() => void continuePayment()} disabled={isResumingPayment || paymentQuery.isLoading} className="rounded-xl">{isResumingPayment ? <LoaderCircle className="size-4 animate-spin" /> : <CreditCard className="size-4" />}{t("continuePayment")}</Button> : null}
           {canRequestCancellation ? <Button variant="outline" onClick={() => setDialogOpen(true)} className="rounded-xl border-destructive/30 text-destructive hover:bg-destructive/5 hover:text-destructive"><XCircle className="size-4" />{t("cancelOrder")}</Button> : null}
         </div>
       </div>
