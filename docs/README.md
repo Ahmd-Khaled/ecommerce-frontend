@@ -25,6 +25,8 @@ This folder is the maintained technical guide for the public customer-facing sto
 | `/[locale]/forgot-password` and `/reset-password` | Password recovery | [Authentication](pages/AUTHENTICATION.md) |
 | `/[locale]/account` | Customer session and sign-out actions | [Authentication](pages/AUTHENTICATION.md) |
 | `/[locale]/cart` | Authenticated customer cart and quantity management | [Customer cart](pages/CART.md) |
+| `/[locale]/addresses` | Saved customer delivery addresses | [Saved addresses](pages/ADDRESSES.md) |
+| `/[locale]/checkout` | Address selection, price review, and order placement | [Checkout review](pages/CHECKOUT.md) |
 
 The route `page.tsx` files should remain thin: import and export the feature page component. Put page composition and data orchestration in the matching feature folder.
 
@@ -109,3 +111,5 @@ For UI changes, also manually inspect both `/en` and `/ar` at mobile, tablet, an
 - [Product details page guide](pages/PRODUCT_DETAILS.md)
 - [Customer authentication guide](pages/AUTHENTICATION.md)
 - [Customer cart guide](pages/CART.md)
+- [Saved addresses guide](pages/ADDRESSES.md)
+- [Checkout review guide](pages/CHECKOUT.md)
