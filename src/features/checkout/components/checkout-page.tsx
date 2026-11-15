@@ -43,7 +43,8 @@ export function CheckoutPage() {
   const [isSavingAddress, setIsSavingAddress] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [placedOrder, setPlacedOrder] = useState<PlacedOrder | null>(null);
-  const pendingCheckoutRef = useRef<{ payload: CheckoutPayload; fingerprint: string; key: string } | null>(null);
+  const [pendingCheckout, setPendingCheckout] = useState<{ payload: CheckoutPayload; fingerprint: string; key: string } | null>(null);
+  const submittingRef = useRef(false);
 
   const selectedAddress =
     addresses.find((address) => address._id === selectedAddressId) ??
@@ -94,7 +95,7 @@ export function CheckoutPage() {
   }
 
   async function submitCheckout() {
-    if (!payload || !canSubmit) return;
+    if (!payload || !canSubmit || submittingRef.current) return;
 
     const fingerprint = JSON.stringify({
       version: payload.version,
@@ -105,34 +106,37 @@ export function CheckoutPage() {
     });
 
     const idempotencyKey =
-      pendingCheckoutRef.current?.fingerprint === fingerprint
-        ? pendingCheckoutRef.current.key
+      pendingCheckout?.fingerprint === fingerprint
+        ? pendingCheckout.key
         : crypto.randomUUID().replaceAll("-", "");
-    pendingCheckoutRef.current = { payload, fingerprint, key: idempotencyKey };
+    setPendingCheckout({ payload, fingerprint, key: idempotencyKey });
 
+    submittingRef.current = true;
     setIsSubmitting(true);
     try {
       const result = await checkoutApi.placeOrder(payload, idempotencyKey);
       setPlacedOrder(result.data);
-      pendingCheckoutRef.current = null;
+      setPendingCheckout(null);
       void refetchCart();
       toast.success(result.replayed ? t("orderRecovered") : t("orderPlaced"));
     } catch (error) {
       toast.error(apiErrorMessage(error));
       void refetchCart();
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   }
 
   async function retryPreviousCheckout() {
-    const pending = pendingCheckoutRef.current;
-    if (!pending || isSubmitting) return;
+    const pending = pendingCheckout;
+    if (!pending || submittingRef.current) return;
 
+    submittingRef.current = true;
     setIsSubmitting(true);
     try {
       const result = await checkoutApi.placeOrder(pending.payload, pending.key);
-      pendingCheckoutRef.current = null;
+      setPendingCheckout(null);
       setPlacedOrder(result.data);
       void refetchCart();
       toast.success(t("orderRecovered"));
@@ -140,6 +144,7 @@ export function CheckoutPage() {
       toast.error(apiErrorMessage(error));
       void refetchCart();
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   }
@@ -164,7 +169,7 @@ export function CheckoutPage() {
     );
   }
 
-  if ((!cart || cart.items.length === 0) && pendingCheckoutRef.current) {
+  if ((!cart || cart.items.length === 0) && pendingCheckout) {
     return (
       <main className="mx-auto flex min-h-[55vh] max-w-[760px] flex-col items-center justify-center px-4 py-12 text-center">
         <PackageCheck className="size-10 text-primary" />
