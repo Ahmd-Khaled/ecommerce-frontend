@@ -110,7 +110,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
       ? t("protectedLoginTitle")
       : t("cartLoginTitle");
   const description =
-    request?.reason === "protected"
+    activeRequest?.reason === "protected"
       ? t("protectedLoginDescription")
       : t("cartLoginDescription");
 
