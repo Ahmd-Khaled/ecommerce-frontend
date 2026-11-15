@@ -92,7 +92,8 @@ export function OrdersPage() {
             {orders.map((order) => {
               const createdAt = new Date(order.createdAt);
               const statusKey = order.status.toLowerCase();
-              const statusLabel = t.has(`status.${statusKey}`) ? t(`status.${statusKey}`) : order.status;
+              const statusLabels: Record<string, string> = { pending: t("status.pending"), confirmed: t("status.confirmed"), processing: t("status.processing"), shipped: t("status.shipped"), delivered: t("status.delivered"), cancelled: t("status.cancelled"), refunded: t("status.refunded") };
+              const statusLabel = statusLabels[statusKey] ?? order.status;
               return (
                 <article key={order._id} className="rounded-2xl border border-border/80 bg-card p-4 shadow-sm sm:p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
