@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { ProductsGrid } from "@/features/products/components/products-grid";
 import { CategoryProductsFilters } from "@/features/categories/components/category-products-filters";
-import { getCategoryDetailPageData } from "@/features/categories/api/categories-page.server";
+import { getCategoryBySlugData, getCategoryDetailPageData } from "@/features/categories/api/categories-page.server";
 import type { CatalogSearchParams } from "@/features/products/api/catalog.server";
 
 interface CategoryDetailPageProps {
@@ -19,12 +19,12 @@ function firstValue(value: string | string[] | undefined) {
 
 export async function generateMetadata({ params }: Pick<CategoryDetailPageProps, "params">): Promise<Metadata> {
   const { locale, slug } = await params;
-  const data = await getCategoryDetailPageData(slug, locale, {});
-  if (!data) return { title: locale === "ar" ? "الفئة غير موجودة" : "Category not found" };
+  const category = await getCategoryBySlugData(slug, locale);
+  if (!category) return { title: locale === "ar" ? "الفئة غير موجودة" : "Category not found" };
   return {
-    title: data.category.name,
-    description: data.category.description || (locale === "ar"
-      ? `تسوق منتجات ${data.category.name} واكتشف المجموعة المتاحة.`
+    title: category.name,
+    description: category.description || (locale === "ar"
+      ? `تسوق منتجات ${category.name} واكتشف المجموعة المتاحة.`
       : `Shop ${data.category.name} products and explore the available collection.`),
   };
 }
