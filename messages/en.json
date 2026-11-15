@@ -310,10 +310,10 @@
     "shipping": "Shipping",
     "discount": "Discount",
     "total": "Total",
-    "feesNote": "Shipping, discount and tax are currently set to zero for this checkout release. No payment is collected on this step.",
+    "feesNote": "Your order will be placed first. You’ll then be redirected to Stripe’s secure Checkout to pay by card.",
     "priceConfirmationNote": "Prices are checked again by the server during checkout. If the cart or a product price changes, refresh your cart and review the order again.",
-    "placingOrder": "Placing order...",
-    "confirmOrder": "Confirm order",
+    "placingOrder": "Preparing secure payment...",
+    "confirmOrder": "Place order & pay",
     "selectAddress": "Please select a delivery address.",
     "cartError": "Unable to load your cart",
     "cartErrorDescription": "Refresh your cart and try checkout again.",
@@ -331,7 +331,16 @@
     "myAccount": "My account",
     "recoveryTitle": "Checking your previous checkout",
     "recoveryDescription": "The last request may have completed even though the response was interrupted. Retry the exact same request safely using its original idempotency key.",
-    "retryPreviousCheckout": "Check previous checkout"
+    "retryPreviousCheckout": "Check previous checkout",
+    "paymentCurrencyUnsupported": "Online payment is available only for EGP, USD, EUR, GBP, AED and SAR orders.",
+    "orderCreatedTitle": "Your order is ready for payment",
+    "orderCreatedDescription": "Your order has been created. Continue to Stripe to complete your card payment.",
+    "paymentStartFailed": "We couldn't open secure checkout",
+    "openingSecureCheckout": "Preparing your secure Stripe Checkout session...",
+    "retryPayment": "Retry payment",
+    "paymentExpired": "This payment session has expired. This order cannot start another payment session.",
+    "paymentNotReady": "The payment session is not ready yet. Please retry.",
+    "viewOrders": "View my orders"
   },
   "Orders": {
     "eyebrow": "Your shopping activity",
@@ -394,5 +403,34 @@
       "cancelled": "Cancelled",
       "refunded": "Refunded"
     }
+  },
+  "Payment": {
+    "loading": "Loading payment details...",
+    "checking": "Verifying your payment with the store...",
+    "sessionMissingTitle": "Payment session not found",
+    "sessionMissingDescription": "We couldn't find this payment session in the current browser. Open your order history to review the order status.",
+    "signInTitle": "Sign in to verify your payment",
+    "signInDescription": "Sign in to your customer account to check the latest payment status.",
+    "signIn": "Sign in",
+    "paidTitle": "Payment confirmed",
+    "paidDescription": "Your payment has been confirmed by the payment provider. Your order is now marked as paid.",
+    "expiredTitle": "Payment session expired",
+    "expiredDescription": "This payment session has expired and cannot be restarted. Please review your order history for the next steps.",
+    "cancelledTitle": "Payment was not completed",
+    "cancelledDescription": "Your order is still pending. You can return to the secure checkout session and complete payment.",
+    "pendingTitle": "Payment is being confirmed",
+    "pendingDescription": "We received your return from Stripe. The store is waiting for the verified payment notification. This page will update automatically.",
+    "orderReference": "Order reference",
+    "amount": "Order total",
+    "status": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "expired": "Expired"
+    },
+    "continuePayment": "Continue payment",
+    "retryPayment": "Retry payment setup",
+    "retryVerification": "Retry verification",
+    "automaticVerification": "Payment status is checked automatically while confirmation is pending.",
+    "viewOrders": "View my orders"
   }
 }
