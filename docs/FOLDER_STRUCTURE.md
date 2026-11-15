@@ -29,6 +29,10 @@ src/
         page.tsx              Saved customer addresses route wrapper
       checkout/
         page.tsx              Checkout review route wrapper
+      orders/
+        page.tsx              Customer order history route wrapper
+        [orderId]/
+          page.tsx            Customer order details route wrapper
     globals.css               Shared design tokens and global styles
     providers.tsx             Theme, query, and toast providers
   components/
@@ -41,6 +45,7 @@ src/
     cart/                     Authenticated cart API, types, query hooks, and components
     addresses/                Saved customer address API, types, query hooks, and UI
     checkout/                 Checkout API, request/order types, and review UI
+    orders/                   Customer order API, types, query hooks, and pages
   i18n/                       Locale routing, navigation, and request config
   lib/                        Shared HTTP client and utilities
   utils/                      Currency formatting and other shared helpers
