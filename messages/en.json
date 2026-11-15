@@ -210,7 +210,16 @@
     "passwordCopied": "Password copied to clipboard.",
     "copyPasswordFailed": "Unable to copy the password. Please copy it manually.",
     "passwordGeneratorHint": "Generate a unique, complex password and use it for both password fields.",
-    "resendCountdown": "Resend code in {seconds}s"
+    "resendCountdown": "Resend code in {seconds}s",
+    "cartLoginTitle": "Sign in to add this product",
+    "cartLoginDescription": "You need to sign in to your customer account before adding products to your shopping cart.",
+    "protectedLoginTitle": "Sign in required",
+    "protectedLoginDescription": "You are not authorized to view this page. Please sign in to your customer account to continue.",
+    "continueToLogin": "Sign in",
+    "quickLoginTitle": "Quick sign in",
+    "quickLoginDescription": "Enter your account details below. After signing in, we'll return you to this page.",
+    "backToMessage": "Back",
+    "cancel": "Cancel"
   },
   "Cart": {
     "eyebrow": "Your basket",
