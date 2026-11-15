@@ -7,11 +7,12 @@ import { ArrowLeft, ClipboardList, CreditCard, LoaderCircle, MapPin, Package, Re
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { OrderStatusBadge } from "@/features/orders/components/order-status-badge";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { useCancelOrder, useOrder } from "@/features/orders/hooks/use-orders";
 import { useOrderPayment } from "@/features/payments/hooks/use-payment";
+import { paymentsApi } from "@/features/payments/api/payments.api";
 import { apiErrorMessage } from "@/lib/api/axios";
 import { formatMinorMoney } from "@/utils/formatCurrency";
 import type { OrderAddressSnapshot } from "@/features/orders/types/order.types";
@@ -30,6 +31,7 @@ function AddressDetails({ address, fallback }: { address?: OrderAddressSnapshot;
 export function OrderDetailsPage() {
   const t = useTranslations("Orders");
   const locale = useLocale();
+  const router = useRouter();
   const params = useParams<{ orderId: string }>();
   const { user, status } = useAuth();
   const orderId = params.orderId;
@@ -37,6 +39,7 @@ export function OrderDetailsPage() {
   const paymentQuery = useOrderPayment(orderId);
   const cancelOrder = useCancelOrder();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isResumingPayment, setIsResumingPayment] = useState(false);
   const [reason, setReason] = useState("");
   const [reasonError, setReasonError] = useState("");
 
@@ -47,6 +50,34 @@ export function OrderDetailsPage() {
   function money(amount?: number) {
     if (typeof amount !== "number" || !order?.currency) return t("notAvailable");
     return formatMinorMoney(amount, { locale, currency, currencyExponent: exponent });
+  }
+
+  async function continuePayment() {
+    if (isResumingPayment) return;
+
+    setIsResumingPayment(true);
+    try {
+      // The backend retrieves the stored Stripe session and only creates a new one if it expired.
+      const payment = await paymentsApi.createCheckout(orderId);
+
+      if (payment.status === "pending" && payment.checkoutUrl) {
+        window.location.assign(payment.checkoutUrl);
+        return;
+      }
+
+      await paymentQuery.refetch();
+
+      if (payment.status === "paid") {
+        router.push("/payment/success");
+        return;
+      }
+
+      toast.info(t("paymentStatusLabels.pending"));
+    } catch (error) {
+      toast.error(apiErrorMessage(error));
+    } finally {
+      setIsResumingPayment(false);
+    }
   }
 
   async function submitCancellation() {
@@ -121,7 +152,7 @@ export function OrderDetailsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <OrderStatusBadge status={order.status} label={statusLabel} />
-          {paymentQuery.data?.status === "pending" && paymentQuery.data.checkoutUrl ? <Button onClick={() => window.location.assign(paymentQuery.data!.checkoutUrl!)} className="rounded-xl"><CreditCard className="size-4" />{t("continuePayment")}</Button> : null}
+          {["pending", "expired"].includes(paymentQuery.data?.status ?? "") ? <Button onClick={() => void continuePayment()} disabled={isResumingPayment || paymentQuery.isLoading} className="rounded-xl">{isResumingPayment ? <LoaderCircle className="size-4 animate-spin" /> : <CreditCard className="size-4" />}{t("continuePayment")}</Button> : null}
           {canRequestCancellation ? <Button variant="outline" onClick={() => setDialogOpen(true)} className="rounded-xl border-destructive/30 text-destructive hover:bg-destructive/5 hover:text-destructive"><XCircle className="size-4" />{t("cancelOrder")}</Button> : null}
         </div>
       </div>
