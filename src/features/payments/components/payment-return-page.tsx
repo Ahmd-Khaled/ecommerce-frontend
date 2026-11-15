@@ -156,7 +156,7 @@ export function PaymentReturnPage({ outcome }: PaymentReturnPageProps) {
               <strong>{formatMinorMoney(payment.amountMinor, { locale, currency: payment.currency, currencyExponent: 2 })}</strong>
             </div>
             <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-              <span className="text-muted-foreground">{t("status")}</span>
+              <span className="text-muted-foreground">{t("statusLabel")}</span>
               <strong>{paymentStatusLabel}</strong>
             </div>
           </div>
