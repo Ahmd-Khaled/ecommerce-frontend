@@ -10,7 +10,15 @@ import {
   type ReactNode,
 } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, ShieldCheck, ShoppingCart } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  LoaderCircle,
+  LockKeyhole,
+  Mail,
+  ShieldCheck,
+  ShoppingCart,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -22,7 +30,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { usePathname } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useAuth } from "@/features/auth/context/auth-context";
 import { apiErrorMessage } from "@/lib/api/axios";
 
@@ -64,6 +72,8 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
       : null;
   const activeRequest =
     status === "authenticated" ? null : protectedRequest ?? request;
+  const shouldBlockProtectedContent =
+    isProtectedPath && status !== "authenticated";
 
   const requestLogin = useCallback(
     (
@@ -74,6 +84,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
       setShowQuickLogin(false);
       setEmail("");
       setPassword("");
+      setShowPassword(false);
     },
     [],
   );
@@ -92,6 +103,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
         await activeRequest?.onAuthenticated?.();
       } catch (actionError) {
         toast.error(apiErrorMessage(actionError));
+        return;
       }
 
       setRequest(null);
@@ -116,7 +128,19 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
 
   return (
     <LoginDialogContext.Provider value={value}>
-      {children}
+      {shouldBlockProtectedContent ? (
+        <div
+          className="flex min-h-dvh items-center justify-center bg-background"
+          aria-busy={status === "loading"}
+          aria-hidden="true"
+        >
+          {status === "loading" ? (
+            <LoaderCircle className="size-6 animate-spin text-primary" />
+          ) : null}
+        </div>
+      ) : (
+        children
+      )}
 
       <Dialog
         open={activeRequest !== null}
@@ -124,6 +148,9 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
           if (!open && !isProtectedPath) {
             setRequest(null);
             setShowQuickLogin(false);
+            setEmail("");
+            setPassword("");
+            setShowPassword(false);
           }
         }}
       >
@@ -136,7 +163,7 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
             <>
               <DialogHeader className="items-center text-center">
                 <span className="mb-2 flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  {request?.reason === "protected" ? (
+                  {activeRequest?.reason === "protected" ? (
                     <ShieldCheck className="size-7" />
                   ) : (
                     <ShoppingCart className="size-7" />
@@ -181,9 +208,12 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
                 </DialogDescription>
               </DialogHeader>
 
-              <form onSubmit={handleQuickLogin} className="mt-2 space-y-4">
+              <form onSubmit={handleQuickLogin} className="mt-3 space-y-4">
                 <div className="space-y-2">
-                  <label htmlFor="quick-login-email" className="text-xs font-semibold">
+                  <label
+                    htmlFor="quick-login-email"
+                    className="mb-2 block text-xs font-semibold"
+                  >
                     {t("email")}
                   </label>
                   <div className="relative">
@@ -203,7 +233,10 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="quick-login-password" className="text-xs font-semibold">
+                  <label
+                    htmlFor="quick-login-password"
+                    className="mb-2 block text-xs font-semibold"
+                  >
                     {t("password")}
                   </label>
                   <div className="relative">
@@ -221,32 +254,56 @@ export function LoginDialogProvider({ children }: { children: ReactNode }) {
                     <button
                       type="button"
                       onClick={() => setShowPassword((visible) => !visible)}
-                      aria-label={showPassword ? t("hidePassword") : t("showPassword")}
+                      aria-label={
+                        showPassword ? t("hidePassword") : t("showPassword")
+                      }
                       className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground"
                     >
-                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                      {showPassword ? (
+                        <EyeOff className="size-4" />
+                      ) : (
+                        <Eye className="size-4" />
+                      )}
                     </button>
                   </div>
                 </div>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting || status === "loading"}
-                  className="h-11 w-full rounded-xl font-semibold"
-                >
-                  {isSubmitting ? <LoaderCircle className="size-4 animate-spin" /> : null}
-                  {isSubmitting ? t("signingIn") : t("signIn")}
-                </Button>
+                <div className="space-y-3 pt-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting || status === "loading"}
+                    className="h-11 w-full rounded-xl font-semibold"
+                  >
+                    {isSubmitting ? (
+                      <LoaderCircle className="size-4 animate-spin" />
+                    ) : null}
+                    {isSubmitting ? t("signingIn") : t("signIn")}
+                  </Button>
 
-                <Button
-                  type="button"
-                  variant="ghost"
-                  disabled={isSubmitting}
-                  onClick={() => setShowQuickLogin(false)}
-                  className="h-9 w-full rounded-xl text-xs text-muted-foreground"
-                >
-                  {t("backToMessage")}
-                </Button>
+                  <p className="text-center text-xs leading-5 text-muted-foreground">
+                    {t("noAccount")}{" "}
+                    <Link
+                      href="/register"
+                      onClick={() => {
+                        setRequest(null);
+                        setShowQuickLogin(false);
+                      }}
+                      className="font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      {t("createAccount")}
+                    </Link>
+                  </p>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    disabled={isSubmitting}
+                    onClick={() => setShowQuickLogin(false)}
+                    className="h-9 w-full rounded-xl text-xs text-muted-foreground"
+                  >
+                    {t("backToMessage")}
+                  </Button>
+                </div>
               </form>
             </>
           )}
