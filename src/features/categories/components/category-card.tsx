@@ -5,9 +5,10 @@ import type { Category } from "@/features/categories/types/category.types";
 interface CategoryCardProps {
   category: Category;
   labels: { explore: string; products: string; subcategories: string };
+  priority?: boolean;
 }
 
-export function CategoryCard({ category, labels }: CategoryCardProps) {
+export function CategoryCard({ category, labels, priority = false }: CategoryCardProps) {
   const count = category.totalProductCount ?? category.productCount ?? 0;
   const children = category.children ?? [];
 
@@ -15,7 +16,7 @@ export function CategoryCard({ category, labels }: CategoryCardProps) {
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm shadow-black/[0.025] transition duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
       <Link href={`/categories/${category.slug}`} className="relative block aspect-[5/3] overflow-hidden bg-muted" aria-label={`${labels.explore} ${category.name}`}>
         {category.image ? (
-          <Image src={category.image} alt={category.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" unoptimized />
+          <Image src={category.image} alt={category.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" loading={priority ? "eager" : undefined} unoptimized />
         ) : (
           <div className="grid size-full place-items-center bg-gradient-to-br from-primary/10 via-muted to-primary/5">
             <span className="text-4xl font-bold text-primary/40">{category.name.slice(0, 1)}</span>
