@@ -3,6 +3,7 @@ import "server-only";
 import type { Category } from "@/features/categories/types/category.types";
 import type { Product, ProductFilters, ProductListResponse, ProductSortBy, SortOrder } from "@/features/products/types/product.types";
 import type { CatalogSearchParams } from "@/features/products/api/catalog.server";
+import { unstable_rethrow } from "next/navigation";
 
 type ApiResponse<T> = { success: boolean; message: string; data: T };
 type CurrencyData = { currency: string; currencyExponent: number };
@@ -70,6 +71,8 @@ async function request<T>(path: string, locale: string): Promise<T | null> {
     const result = (await response.json()) as ApiResponse<T>;
     return result.success && result.data ? result.data : null;
   } catch (error) {
+    unstable_rethrow(error);
+
     console.error(`Unable to retrieve category data from ${path}:`, error);
     return null;
   }
