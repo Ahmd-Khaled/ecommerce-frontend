@@ -21,7 +21,7 @@ The backend response supplies products and pagination. The query remains in the 
 ## UX, localization and SEO
 
 - Search form uses a GET request so the query is shareable and browser navigation works.
-- Loading uses server rendering; errors and no-results have distinct localized states.
+- `src/app/[locale]/search/loading.tsx` renders a search-specific skeleton. Errors and no-results have distinct localized states.
 - Product cards reuse the shared product grid.
 - The `Search` namespace is maintained in English and Arabic.
 - Search pages set `noindex, follow` to avoid indexing arbitrary query combinations.
