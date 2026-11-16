@@ -29,7 +29,8 @@ This folder is the maintained technical guide for the public customer-facing sto
 | `/[locale]/account` | Customer session and sign-out actions | [Authentication](pages/AUTHENTICATION.md) |
 | `/[locale]/cart` | Authenticated customer cart and quantity management | [Customer cart](pages/CART.md) |
 | `/[locale]/addresses` | Saved customer delivery addresses | [Saved addresses](pages/ADDRESSES.md) |
-| `/[locale]/checkout` | Address selection, price review, order placement, and Stripe Checkout redirect | [Checkout review](pages/CHECKOUT.md) |\n| `/[locale]/payment/success` and `/payment/cancelled` | Verify payment status after returning from Stripe | [Payment integration](pages/PAYMENTS.md) |
+| `/[locale]/checkout` | Address selection, price review, order placement, and Stripe Checkout redirect | [Checkout review](pages/CHECKOUT.md) |
+| `/[locale]/payment/success` and `/payment/cancelled` | Verify payment status after returning from Stripe | [Payment integration](pages/PAYMENTS.md) |
 | `/[locale]/orders` | Customer order history and pagination | [Customer orders](pages/ORDERS.md) |
 | `/[locale]/orders/[orderId]` | Order items, delivery snapshot, totals, and cancellation request | [Customer orders](pages/ORDERS.md) |
 
