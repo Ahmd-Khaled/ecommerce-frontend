@@ -15,9 +15,9 @@ The route file wraps `HomeContent` in `Suspense` with `HomeLoading` as the fallb
 2. **Trust strip** — shopping confidence / service benefits.
 3. **Category section** — horizontally scrollable category cards.
 4. **Best deal** — featured single product, when provided.
-5. **Latest products** — horizontal product rail.
-6. **Special offers** — horizontal product rail.
-7. **Best sellers** — horizontal product rail.
+5. **Latest products** — horizontal product rail with a view-all link to `/collections/latest`.
+6. **Special offers** — horizontal product rail with a view-all link to `/collections/best-offers`.
+7. **Best sellers** — horizontal product rail with a view-all link to `/collections/best-sellers`.
 8. **Promotional banners** — additional campaign placements.
 
 Sections with no data are omitted. If all store content is empty, an empty-state message is shown. If both homepage requests fail, the page renders a connection error and retry link.
@@ -42,7 +42,7 @@ The homepage response provides banners, categories, latest products, offers, bes
 
 - Hero carousel switches between desktop and mobile banner sets at the small-screen breakpoint.
 - Category and product sections use horizontal snap rails on narrow screens.
-- Product cards share the storefront product-card component.
+- Product cards share the storefront product-card component. Each merchandising section links to its corresponding paginated collection route.
 - The first hero image is eagerly loaded and prioritized; other carousel slides are lazy loaded.
 - The homepage loading skeleton mirrors the major hero, benefit, and product-section shapes.
 
