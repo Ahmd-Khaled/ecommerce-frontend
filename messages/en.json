@@ -441,5 +441,24 @@
     "automaticVerification": "Payment status is checked automatically while confirmation is pending.",
     "viewOrders": "View my orders",
     "statusLabel": "Payment status"
+  },
+  "Categories": {
+    "eyebrow": "Explore our collections",
+    "title": "Shop by category",
+    "description": "Browse our collections and find the products that fit your needs.",
+    "viewAllProducts": "View all products",
+    "explore": "Explore collection",
+    "products": "products",
+    "subcategories": "Explore subcategories",
+    "categoryEyebrow": "Explore this collection",
+    "breadcrumbLabel": "Breadcrumb",
+    "home": "Home",
+    "emptyTitle": "No categories available",
+    "emptyDescription": "There are no categories to display right now. Please check back soon.",
+    "connectionIssue": "Store connection issue",
+    "loadError": "We couldn't load categories",
+    "loadErrorDescription": "Please check your connection and try again.",
+    "backHome": "Back to home",
+    "productPages": "Category product pages"
   }
 }
