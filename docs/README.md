@@ -19,6 +19,9 @@ This folder is the maintained technical guide for the public customer-facing sto
 |---|---|---|
 | `/[locale]` | Store homepage | [Homepage](pages/HOME.md) |
 | `/[locale]/products` | Product catalog, filters, and pagination | [Product catalog](pages/PRODUCT_CATALOG.md) |
+| `/[locale]/search?q=...` | Dedicated product search and paginated results | [Product search](pages/SEARCH.md) |
+| `/[locale]/collections/latest`, `/best-offers`, `/best-sellers` | Paginated merchandising collections | [Collections](pages/COLLECTIONS.md) |
+| `/[locale]/categories` and `/categories/[slug]` | Category hierarchy and category-scoped products | [Categories](pages/CATEGORIES.md) |
 | `/[locale]/products/[slug]` | Product details, gallery, related products, and purchase controls | [Product details](pages/PRODUCT_DETAILS.md) |
 | `/[locale]/login` and `/register` | Customer sign-in and account registration | [Authentication](pages/AUTHENTICATION.md) |
 | `/[locale]/verify-email` | Email OTP verification and resend | [Authentication](pages/AUTHENTICATION.md) |
