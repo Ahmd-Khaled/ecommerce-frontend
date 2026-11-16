@@ -47,7 +47,7 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
         <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">{t("eyebrow")}</p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{t("title")}</h1>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">{t("description")}</p>
-        <form action="/search" method="get" role="search" className="mx-auto mt-6 flex max-w-2xl gap-2">
+        <form action={`/${locale}/search`} method="get" role="search" className="mx-auto mt-6 flex max-w-2xl gap-2">
           <label htmlFor="store-search" className="sr-only">{t("inputLabel")}</label>
           <div className="relative min-w-0 flex-1">
             <Search aria-hidden="true" className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
