@@ -56,8 +56,8 @@ export default async function CategoriesPage({ params }: CategoriesPageProps) {
         </section>
       ) : (
         <section aria-label={t("title")} className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
-          {categories.map((category) => (
-            <CategoryCard key={category._id} category={category}
+          {categories.map((category, index) => (
+            <CategoryCard key={category._id} category={category} priority={index === 0}
               labels={{ explore: t("explore"), products: t("products"), subcategories: t("subcategories") }} />
           ))}
         </section>
