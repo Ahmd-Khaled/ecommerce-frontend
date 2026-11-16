@@ -23,16 +23,6 @@ function isCollectionSection(value: string): value is ProductCollectionSection {
   return COLLECTIONS.includes(value as ProductCollectionSection);
 }
 
-function getCollectionCopy(section: ProductCollectionSection, t: Awaited<ReturnType<typeof getTranslations>>) {
-  if (section === "latest") {
-    return { eyebrow: t("latestEyebrow"), title: t("latestTitle"), description: t("latestDescription") };
-  }
-  if (section === "best-offers") {
-    return { eyebrow: t("offersEyebrow"), title: t("offersTitle"), description: t("offersDescription") };
-  }
-  return { eyebrow: t("sellersEyebrow"), title: t("sellersTitle"), description: t("sellersDescription") };
-}
-
 export async function generateMetadata({ params }: Pick<CollectionPageProps, "params">): Promise<Metadata> {
   const { locale, section } = await params;
   if (!isCollectionSection(section)) return {};
@@ -50,7 +40,11 @@ export default async function CollectionPage({ params, searchParams }: Collectio
     getProductCollectionPageData(locale, section, currentSearchParams),
     getTranslations({ locale, namespace: "Collections" }),
   ]);
-  const copy = getCollectionCopy(section, t);
+  const copy = section === "latest"
+    ? { eyebrow: t("latestEyebrow"), title: t("latestTitle"), description: t("latestDescription") }
+    : section === "best-offers"
+      ? { eyebrow: t("offersEyebrow"), title: t("offersTitle"), description: t("offersDescription") }
+      : { eyebrow: t("sellersEyebrow"), title: t("sellersTitle"), description: t("sellersDescription") };
 
   if (!data) {
     return (
