@@ -100,6 +100,20 @@ GET /home/products?section=best-sellers&page=1&limit=12
 
 The response data contains `products`, `pagination`, `currency`, and `currencyExponent`. The backend defines latest by creation date, offers by actual compare-at discount, and best sellers by paid sales. The storefront does not infer or calculate those rankings. Unknown section names resolve to the localized not-found route.
 
+## Categories
+
+**Feature:** `src/features/categories/`
+
+Public category pages use these endpoints:
+
+| Page data | Request |
+|---|---|
+| Category navigation | `GET /categories/tree` |
+| Category by slug | `GET /categories/slug/:slug` |
+| Products assigned to a category | `GET /products/category/:categoryId?page=1&limit=12` |
+
+Category product queries support the same product filters as the catalog. The category endpoint returns products directly assigned to the selected category; do not assume descendant products are included. Category and product requests include the active `Accept-Language` header.
+
 ## Product details
 
 **Module:** `src/features/products/api/product-details.server.ts`
