@@ -45,7 +45,7 @@ export function StorefrontHeader() {
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!searchValue.trim()) return;
-    toast.info(t("searchComingSoon"));
+    router.push(`/search?q=${encodeURIComponent(searchValue.trim())}`);
     setMobileMenuOpen(false);
   }
 

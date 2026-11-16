@@ -71,6 +71,49 @@ The product-list query can include:
 
 The list response uses `data.products` and `data.pagination`. Currency metadata comes from `data.currency` and `data.currencyExponent` in the homepage response.
 
+## Product search
+
+**Route:** `/[locale]/search?q=...`  
+**Page:** `src/features/products/components/search-page.tsx`
+
+The page reads the URL's `q` parameter, trims it to 150 characters, and maps it to the public product-list API's `search` parameter. Pagination remains on the search route and preserves the original `q` value.
+
+```http
+GET /products/list?page=1&limit=12&search=<query>&sortBy=createdAt&sortOrder=desc
+GET /home?view=desktop&limit=1
+```
+
+An empty query shows the localized search prompt without requesting the full catalog. Search results are not indexed; the route sets `noindex, follow` metadata.
+
+## Merchandising collections
+
+**Module:** `src/features/products/api/catalog.server.ts`  
+**Route:** `/[locale]/collections/[section]`
+
+Supported sections are `latest`, `best-offers`, and `best-sellers`. The page requests one section and its pagination metadata directly from the backend:
+
+```http
+GET /home/products?section=latest&page=1&limit=12
+GET /home/products?section=best-offers&page=1&limit=12
+GET /home/products?section=best-sellers&page=1&limit=12
+```
+
+The response data contains `products`, `pagination`, `currency`, and `currencyExponent`. The backend defines latest by creation date, offers by actual compare-at discount, and best sellers by paid sales. The storefront does not infer or calculate those rankings. Unknown section names resolve to the localized not-found route.
+
+## Categories
+
+**Feature:** `src/features/categories/`
+
+Public category pages use these endpoints:
+
+| Page data | Request |
+|---|---|
+| Category navigation | `GET /categories/tree` |
+| Category by slug | `GET /categories/slug/:slug` |
+| Products assigned to a category | `GET /products/category/:categoryId?page=1&limit=12` |
+
+Category product queries support the same product filters as the catalog. The category endpoint returns products directly assigned to the selected category; do not assume descendant products are included. Category and product requests include the active `Accept-Language` header.
+
 ## Product details
 
 **Module:** `src/features/products/api/product-details.server.ts`

@@ -33,6 +33,8 @@ export type CatalogSearchParams = Record<
 
 const DEFAULT_PAGE_SIZE = 12;
 
+export type ProductCollectionSection = "latest" | "best-offers" | "best-sellers";
+
 function firstValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
@@ -142,5 +144,37 @@ export async function getProductCatalogPageData(
     pagination: productData.pagination,
     currency: currencyData?.currency ?? "EGP",
     currencyExponent: currencyData?.currencyExponent ?? 2,
+  };
+}
+
+
+type ProductCollectionResponse = ProductListResponse & {
+  currency: string;
+  currencyExponent: number;
+};
+
+export async function getProductCollectionPageData(
+  locale: string,
+  section: ProductCollectionSection,
+  searchParams: CatalogSearchParams,
+): Promise<ProductCatalogPageData | null> {
+  const page = parsePositiveInteger(firstValue(searchParams.page), 1);
+  const query = new URLSearchParams({
+    section,
+    page: String(page),
+    limit: String(DEFAULT_PAGE_SIZE),
+  });
+  const collection = await request<ProductCollectionResponse>(
+    `/home/products?${query.toString()}`,
+    locale,
+  );
+
+  if (!collection) return null;
+
+  return {
+    products: collection.products ?? [],
+    pagination: collection.pagination,
+    currency: collection.currency ?? "EGP",
+    currencyExponent: collection.currencyExponent ?? 2,
   };
 }
