@@ -20,11 +20,11 @@ export function useProductReviews(productId: string) {
   });
 }
 
-export function useMyReviews() {
+export function useMyReviews(pageSize = PAGE_SIZE) {
   const { user, status } = useAuth();
   return useInfiniteQuery({
-    queryKey: customerReviewsKey(user?.id),
-    queryFn: ({ pageParam }) => reviewsApi.mine({ limit: PAGE_SIZE, after: pageParam }),
+    queryKey: [...customerReviewsKey(user?.id), pageSize],
+    queryFn: ({ pageParam }) => reviewsApi.mine({ limit: pageSize, after: pageParam }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     enabled: status === "authenticated" && Boolean(user?.id),

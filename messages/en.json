@@ -562,6 +562,7 @@
     "signInTitle": "Sign in to view your reviews",
     "signInDescription": "Your review history is available after you sign in.",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "myReviewsLoadError": "We couldn't check your review history. Please reload the page before submitting."
   }
 }

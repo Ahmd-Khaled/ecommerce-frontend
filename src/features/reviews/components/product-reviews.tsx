@@ -19,7 +19,7 @@ export function ProductReviews({ productId }: { productId: string }) {
   const t = useTranslations("ProductReviews");
   const { status, user } = useAuth();
   const publicQuery = useProductReviews(productId);
-  const mineQuery = useMyReviews();
+  const mineQuery = useMyReviews(100);
   const mutations = useReviewMutations(productId);
   const publicReviews = useMemo(() => publicQuery.data?.pages.flatMap((page) => page.reviews) ?? [], [publicQuery.data]);
   const ownReview = useMemo<CustomerReview | undefined>(() => mineQuery.data?.pages.flatMap((page) => page.reviews).find((review) => review.productId === productId), [mineQuery.data, productId]);
@@ -34,7 +34,7 @@ export function ProductReviews({ productId }: { productId: string }) {
 
   async function submitReview(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const payload = { rating: score, ...(text.trim() ? { text: text.trim() } : {}) };
+    const payload = { rating: score, ...(ownReview ? { text: text.trim() || null } : text.trim() ? { text: text.trim() } : {}) };
     try {
       if (ownReview) {
         await mutations.update.mutateAsync({ reviewId: ownReview.id, payload });
@@ -66,6 +66,7 @@ export function ProductReviews({ productId }: { productId: string }) {
         <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-bold">{ownReview ? t("editReview") : t("writeReview")}</h3><p className="mt-1 text-xs text-muted-foreground">{t("verifiedOnly")}</p></div>{ownReview ? <span className="rounded-full bg-muted px-3 py-1 text-[11px] font-semibold">{t(ownReview.state)}</span> : null}</div>
         {status === "loading" || (status === "authenticated" && mineQuery.isLoading) ? <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><LoaderCircle className="size-4 animate-spin" />{t("loading")}</div>
         : !user ? <Button asChild className="mt-4 rounded-xl"><Link href="/login">{t("signIn")}</Link></Button>
+        : mineQuery.isError ? <p className="mt-4 text-sm text-destructive">{t("myReviewsLoadError")}</p>
         : ownReview?.state === "removed" ? <p className="mt-4 text-sm text-muted-foreground">{t("removedNotice")}</p>
         : <form onSubmit={(event) => void submitReview(event)} className="mt-5 space-y-4"><fieldset disabled={isSaving} className="space-y-4"><legend className="mb-2 text-sm font-semibold">{t("rating")}</legend><div className="flex items-center gap-1" role="radiogroup" aria-label={t("rating")}>{Array.from({ length: 5 }, (_, index) => { const value = index + 1; return <button key={value} type="button" role="radio" aria-checked={score === value} aria-label={String(value)} onClick={() => setScore(value)} className="rounded-md p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><Star className={`size-7 ${value <= score ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"}`} /></button>; })}</div><label className="block text-sm font-semibold" htmlFor={`review-text-${productId}`}>{t("reviewText")}</label><textarea id={`review-text-${productId}`} value={text} onChange={(event) => setText(event.target.value)} maxLength={2000} rows={4} placeholder={t("reviewPlaceholder")} className="w-full resize-y rounded-xl border border-input bg-background px-3 py-2.5 text-sm outline-none transition focus-visible:ring-2 focus-visible:ring-ring" /><p className="text-end text-[11px] text-muted-foreground">{text.length}/2000</p><Button type="submit" disabled={isSaving} className="rounded-xl">{isSaving ? <LoaderCircle className="size-4 animate-spin" /> : null}{ownReview ? t("save") : t("submit")}</Button></fieldset></form>}
         {user ? <Link href="/reviews" className="mt-4 inline-flex text-xs font-semibold text-primary underline-offset-4 hover:underline">{t("historyLink")}</Link> : null}

@@ -11,10 +11,10 @@ import { useMyReviews, useReviewMutations } from "@/features/reviews/hooks/use-r
 import { apiErrorMessage } from "@/lib/api/axios";
 import type { CustomerReview } from "@/features/reviews/types/review.types";
 
-function ReviewEditor({ review, onSave, saving, labels }: { review: CustomerReview; onSave: (payload: { rating: number; text?: string }) => void; saving: boolean; labels: { rating: string; text: string; placeholder: string; save: string } }) {
+function ReviewEditor({ review, onSave, saving, labels }: { review: CustomerReview; onSave: (payload: { rating: number; text?: string | null }) => void; saving: boolean; labels: { rating: string; text: string; placeholder: string; save: string } }) {
   const [rating, setRating] = useState(review.rating);
   const [text, setText] = useState(review.text ?? "");
-  return <form onSubmit={(event) => { event.preventDefault(); onSave({ rating, ...(text.trim() ? { text: text.trim() } : {}) }); }} className="mt-4 space-y-3"><fieldset disabled={saving}><legend className="text-xs font-semibold">{labels.rating}</legend><div className="mt-2 flex gap-1">{[1,2,3,4,5].map((value) => <button key={value} type="button" aria-label={String(value)} aria-pressed={rating === value} onClick={() => setRating(value)} className="rounded p-1"><Star className={`size-5 ${value <= rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"}`} /></button>)}</div><label htmlFor={`edit-review-${review.id}`} className="mt-3 block text-xs font-semibold">{labels.text}</label><textarea id={`edit-review-${review.id}`} rows={3} maxLength={2000} value={text} onChange={(event) => setText(event.target.value)} placeholder={labels.placeholder} className="mt-2 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" /><Button type="submit" disabled={saving} size="sm" className="mt-3 rounded-lg">{saving ? <LoaderCircle className="size-4 animate-spin" /> : null}{labels.save}</Button></fieldset></form>;
+  return <form onSubmit={(event) => { event.preventDefault(); onSave({ rating, text: text.trim() || null }); }} className="mt-4 space-y-3"><fieldset disabled={saving}><legend className="text-xs font-semibold">{labels.rating}</legend><div className="mt-2 flex gap-1">{[1,2,3,4,5].map((value) => <button key={value} type="button" aria-label={String(value)} aria-pressed={rating === value} onClick={() => setRating(value)} className="rounded p-1"><Star className={`size-5 ${value <= rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"}`} /></button>)}</div><label htmlFor={`edit-review-${review.id}`} className="mt-3 block text-xs font-semibold">{labels.text}</label><textarea id={`edit-review-${review.id}`} rows={3} maxLength={2000} value={text} onChange={(event) => setText(event.target.value)} placeholder={labels.placeholder} className="mt-2 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" /><Button type="submit" disabled={saving} size="sm" className="mt-3 rounded-lg">{saving ? <LoaderCircle className="size-4 animate-spin" /> : null}{labels.save}</Button></fieldset></form>;
 }
 
 export function MyReviewsPage() {
@@ -25,7 +25,7 @@ export function MyReviewsPage() {
   const reviews = query.data?.pages.flatMap((page) => page.reviews) ?? [];
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  async function save(reviewId: string, payload: { rating: number; text?: string }) {
+  async function save(reviewId: string, payload: { rating: number; text?: string | null }) {
     try { await mutations.update.mutateAsync({ reviewId, payload }); setEditingId(null); toast.success(t("reviewUpdated")); }
     catch (error) { toast.error(apiErrorMessage(error) || t("editFailed")); }
   }
