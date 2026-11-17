@@ -11,7 +11,7 @@ docs/
     PRODUCT_DETAILS.md        Product gallery, zoom, responsive layout, and API
     CART.md                   Authenticated cart page, API and quantity management
     ADDRESSES.md              Saved customer address management
-    CHECKOUT.md               Checkout review, minor-unit confirmation, and idempotency
+    CHECKOUT.md               Checkout review, minor-unit confirmation, and order idempotency\n    PAYMENTS.md               Stripe Checkout session, redirects, webhook verification, and return flow
 messages/                     English and Arabic website translations
 public/                       Website static assets
 src/
@@ -45,7 +45,7 @@ src/
     cart/                     Authenticated cart API, types, query hooks, and components
     addresses/                Saved customer address API, types, query hooks, and UI
     checkout/                 Checkout API, request/order types, and review UI
-    orders/                   Customer order API, types, query hooks, and pages
+    orders/                   Customer order API, types, query hooks, and pages\n    payments/                 Stripe payment API, types, query hooks, return pages, and session recovery
   i18n/                       Locale routing, navigation, and request config
   lib/                        Shared HTTP client and utilities
   utils/                      Currency formatting and other shared helpers

@@ -84,6 +84,7 @@ export async function HomeContent() {
           currency={data.currency}
           currencyExponent={data.currencyExponent}
           locale={locale}
+          href="/collections/latest"
           viewAllLabel={t("viewAll")}
           previousLabel={t("previousProducts")}
           nextLabel={t("nextProducts")}
@@ -98,6 +99,7 @@ export async function HomeContent() {
           currency={data.currency}
           currencyExponent={data.currencyExponent}
           locale={locale}
+          href="/collections/best-offers"
           viewAllLabel={t("viewAll")}
           previousLabel={t("previousProducts")}
           nextLabel={t("nextProducts")}
@@ -111,6 +113,7 @@ export async function HomeContent() {
           currency={data.currency}
           currencyExponent={data.currencyExponent}
           locale={locale}
+          href="/collections/best-sellers"
           viewAllLabel={t("viewAll")}
           previousLabel={t("previousProducts")}
           nextLabel={t("nextProducts")}

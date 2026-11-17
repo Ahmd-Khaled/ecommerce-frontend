@@ -7,25 +7,26 @@ interface ProductsPaginationProps {
   pagination: ProductListResponse["pagination"];
   searchParams: CatalogSearchParams;
   labels: { previous: string; next: string; page: string; of: string; ariaLabel: string };
+  basePath?: string;
 }
 
-function buildPageHref(searchParams: CatalogSearchParams, page: number) {
+function buildPageHref(searchParams: CatalogSearchParams, page: number, basePath: string) {
   const query = new URLSearchParams();
   Object.entries(searchParams).forEach(([key, value]) => {
     if (key === "page" || value === undefined) return;
     query.set(key, Array.isArray(value) ? value[0] : value);
   });
   query.set("page", String(page));
-  return `/products?${query.toString()}`;
+  return `${basePath}?${query.toString()}`;
 }
 
-export function ProductsPagination({ pagination, searchParams, labels }: ProductsPaginationProps) {
+export function ProductsPagination({ pagination, searchParams, labels, basePath = "/products" }: ProductsPaginationProps) {
   if (pagination.totalPages <= 1) return null;
   return (
     <nav aria-label={labels.ariaLabel} className="mt-10 flex items-center justify-center gap-3">
       {pagination.hasPreviousPage ? (
         <Button asChild variant="outline" className="rounded-xl">
-          <Link href={buildPageHref(searchParams, pagination.page - 1)}>{labels.previous}</Link>
+          <Link href={buildPageHref(searchParams, pagination.page - 1, basePath)}>{labels.previous}</Link>
         </Button>
       ) : <Button variant="outline" className="rounded-xl" disabled>{labels.previous}</Button>}
       <span className="min-w-24 text-center text-sm text-muted-foreground">
@@ -33,7 +34,7 @@ export function ProductsPagination({ pagination, searchParams, labels }: Product
       </span>
       {pagination.hasNextPage ? (
         <Button asChild className="rounded-xl">
-          <Link href={buildPageHref(searchParams, pagination.page + 1)}>{labels.next}</Link>
+          <Link href={buildPageHref(searchParams, pagination.page + 1, basePath)}>{labels.next}</Link>
         </Button>
       ) : <Button className="rounded-xl" disabled>{labels.next}</Button>}
     </nav>
