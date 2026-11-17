@@ -19,6 +19,8 @@ export interface Product {
     name: string;
   };
   isActive: boolean;
+  ratingsAverage?: number;
+  ratingsCount?: number;
   createdBy?: string;
   createdAt?: string;
   updatedAt?: string;

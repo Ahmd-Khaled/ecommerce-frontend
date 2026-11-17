@@ -273,3 +273,26 @@ See [Payment integration](pages/PAYMENTS.md) for the redirect and return-page li
 5. Keep the route component free of low-level fetch details.
 6. Update the matching page guide and this document.
 7. Run lint and build, then manually verify English and Arabic pages.
+
+
+## Product reviews
+
+**Feature:** `src/features/reviews/`  
+**Product details:** `/[locale]/products/[slug]`  
+**Customer history:** `/[locale]/reviews`
+
+All review requests use the shared authenticated Axios client. Public product reviews are anonymous; customer create/history/edit/withdraw calls require a USER session.
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/products/:productId/reviews?limit=10&after=<cursor>` | Published reviews and published-only rating summary |
+| POST | `/products/:productId/reviews` | Submit one review for a delivered-order product |
+| GET | `/products/reviews/me?limit=10&after=<cursor>` | Customer review history across all states |
+| PATCH | `/products/reviews/me/:reviewId` | Edit the caller's non-removed review |
+| DELETE | `/products/reviews/me/:reviewId` | Withdraw the caller's review |
+
+Review lists use opaque cursor pagination (`nextCursor`) and the storefront requests 10 rows per page. Public review responses expose only reviewer first name/avatar, rating, text, and creation date. Customer history includes pending, published, hidden, and removed reviews. The frontend never sends customer IDs, order IDs, review state, or moderation fields.
+
+The backend remains authoritative for delivered-order eligibility, one review per customer/product, rating validation, manual/automatic approval, moderation, cursor validation, and transactional rating counters. The storefront surfaces backend errors rather than inferring eligibility from local order history. Published edits may return to pending under manual approval; hidden reviews remain hidden; removed reviews are immutable.
+
+The product details page shows published reviews and the backend-provided average/count, and lets signed-in customers submit or edit their review. The customer account page links to the paginated `/[locale]/reviews` history, where customers can edit or withdraw non-removed reviews.

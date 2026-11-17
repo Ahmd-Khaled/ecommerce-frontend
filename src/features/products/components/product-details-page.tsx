@@ -6,6 +6,7 @@ import { PackageCheck, PackageX } from "lucide-react";
 import { ProductGallery } from "@/features/products/components/product-gallery";
 import { RelatedProducts } from "@/features/products/components/related-products";
 import { ProductPurchasePanel } from "@/features/products/components/product-purchase-panel";
+import { ProductReviews } from "@/features/reviews/components/product-reviews";
 import {
   getProductBySlug,
   getProductDetailsPageData,
@@ -203,6 +204,8 @@ export default async function ProductDetailsPage({
           </div>
         </section>
       </div>
+
+      <ProductReviews productId={product._id} />
 
       <RelatedProducts
         products={relatedProducts}
